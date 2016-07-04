@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/clouds</color>
+    <color name="colorPrimaryDark">@color/clouds</color>
+    <color name="colorAccent">@color/wet_asphalt</color>
+    <color name="buttonBarColor">#F0F0F0</color>
+    <color name="buttonBarBorderColor">#D6D6D6</color>
+
+    <color name="glass5">#0D212121</color>
+    <color name="glass10">#1A212121</color>
+    <color name="glass20">#33212121</color>
+    <color name="glass25">#40212121</color>
+    <color name="glass50">#80212121</color>
+    <color name="glass75">#BF212121</color>
+
+    <color name="white_glass5">#0DFAFAFA</color>
+    <color name="white_glass10">#1AFAFAFA</color>
+    <color name="white_glass20">#33FAFAFA</color>
+    <color name="white_glass25">#40FAFAFA</color>
+    <color name="white_glass50">#80FAFAFA</color>
+    <color name="white_glass75">#BFFAFAFA</color>
+
+    <color name="wet_asphalt5">#0D34495E</color>
+    <color name="wet_asphalt10">#1A34495E</color>
+    <color name="wet_asphalt20">#3334495E</color>
+    <color name="wet_asphalt25">#4034495E</color>
+    <color name="wet_asphalt50">#8034495E</color>
+    <color name="wet_asphalt75">#BF34495E</color>
+
+    <color name="blue_touch_wiz">#FF51B0D3</color>
+    <color name="blue_touch_wiz_dark">#ff499ebe</color>
+    <color name="blue_ios">#FF0676DC</color>
+    <color name="blue_ios_dark">#FF056ac6</color>
+
+    <color name="background_dark">#ff212121</color>
+    <color name="background_light">#ffFAFAFA</color>
+    <color name="background_light_dark">#ffe1e1e1</color>
+    <color name="ripple_wet_asphalt">#2034495E</color>
+
+    <!-- Flat UI Colors -->
+    <eat-comment />
+    <color name="turquoise">#1ABC9C</color>
+    <color name="emerald">#2ECC71</color>
+    <color name="peter_river">#3498DB</color>
+    <color name="amethyst">#9B59B6</color>
+    <color name="wet_asphalt">#34495E</color>
+    <color name="green_sea">#16A085</color>
+    <color name="nephritis">#27AE60</color>
+    <color name="belize_hole">#2980B9</color>
+    <color name="wisteria">#8E44AD</color>
+    <color name="midnight_blue">#2C3E50</color>
+    <color name="sun_flowers">#F1C40F</color>
+    <color name="carrot">#E67E22</color>
+    <color name="alizarin">#E74C3C</color>
+    <color name="clouds">#ECF0F1</color>
+    <color name="concrete">#95A5A6</color>
+    <color name="orange">#F39C12</color>
+    <color name="pumpkin">#D35400</color>
+    <color name="pomegranate">#C0392B</color>
+    <color name="silver">#BDC3C7</color>
+    <color name="asbestos">#7F8C8D</color>
+</resources>
