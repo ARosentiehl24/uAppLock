@@ -53,8 +53,6 @@ public class IntroActivity extends AppCompatActivity implements IntroActivityVie
     @Bind(R.id.btnNext)
     MaterialIconView btnNext;
 
-    private AppPermissions appPermissions;
-    private ArrayList<Fragment> fragments;
     private ArrayList<Boolean> list;
     private FingerprintManagerCompat fingerprintManagerCompat;
     private IIntroActivityPresenter iIntroActivityPresenter;
@@ -73,10 +71,9 @@ public class IntroActivity extends AppCompatActivity implements IntroActivityVie
 
     @Override
     public void setupViews() {
-        appPermissions = new AppPermissions(this);
         fingerprintManagerCompat = FingerprintManagerCompat.from(this);
 
-        fragments = new ArrayList<>();
+        ArrayList<Fragment> fragments = new ArrayList<>();
         list = new ArrayList<>();
 
         unlockMethod = PreferencesManager.getString(getString(R.string.unlock_method));
