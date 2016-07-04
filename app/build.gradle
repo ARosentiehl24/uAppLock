@@ -42,29 +42,19 @@ dependencies {
     compile 'com.android.support:palette-v7:24.0.0'
     compile 'com.android.support:recyclerview-v7:24.0.0'
     compile 'com.android.support:support-v4:24.0.0'
-
     compile 'com.afollestad.material-dialogs:commons:0.8.6.1'
     compile 'com.afollestad.material-dialogs:core:0.8.6.1'
     compile 'com.andrognito.pinlockview:pinlockview:1.0.1'
-
     compile 'com.dmitrymalkovich.android:material-design-dimens:1.2'
-
     compile 'com.eightbitlab:blurview:1.1.0'
-
     compile 'com.github.2359media:EasyAndroidAnimations:0.8'
     compile 'com.github.badoualy:stepper-indicator:1.0.2'
     compile 'com.github.jaouan:revealator:0.0.1'
-
     compile 'com.jakewharton:butterknife:7.0.1'
-
     compile 'com.mukesh:permissions:1.0.3'
-
     compile 'com.norbsoft.typefacehelper:library:0.9.0'
-
     compile 'com.shawnlin:PreferencesManager:1.0.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
-
     compile 'net.steamcrafted:materialiconlib:1.0.9'
-
     compile 'org.fingerlinks.mobile.android:Navigator:0.1.2'
 }

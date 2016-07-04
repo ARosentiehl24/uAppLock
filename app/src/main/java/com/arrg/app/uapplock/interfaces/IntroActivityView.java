@@ -9,8 +9,7 @@ public interface IntroActivityView {
     void hidePrevious();
     void showNext();
     void showPrevious();
-    void hideAux();
-    void showAux();
     boolean isHardwareDetected();
     boolean hasEnrolledFingerprints();
+    void toast(String message);
 }

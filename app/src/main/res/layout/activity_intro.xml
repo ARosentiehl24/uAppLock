@@ -9,23 +9,7 @@
     android:orientation="vertical"
     tools:context="com.arrg.app.uapplock.view.activity.IntroActivity">
 
-    <com.badoualy.stepperindicator.StepperIndicator
-        android:id="@+id/stepperIndicator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        app:stpi_animDuration="100"
-        app:stpi_circleColor="@color/wet_asphalt"
-        app:stpi_circleStrokeWidth="2.5dp"
-        app:stpi_indicatorColor="@color/wet_asphalt75"
-        app:stpi_indicatorRadius="5dp"
-        app:stpi_lineColor="@color/wet_asphalt50"
-        app:stpi_lineDoneColor="@color/wet_asphalt"
-        app:stpi_lineMargin="2.5dp"
-        app:stpi_lineStrokeWidth="2.5dp"
-        app:stpi_stepCount="5" />
-
-    <android.support.v4.view.ViewPager
+    <com.arrg.app.uapplock.view.ui.LockableViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -33,30 +17,45 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:background="@color/colorPrimaryDark">
 
         <net.steamcrafted.materialiconlib.MaterialIconView
             android:id="@+id/btnPrevious"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:background="@drawable/button_bar_background"
+            android:clickable="true"
             android:scaleType="center"
             app:materialIcon="chevron_left"
             app:materialIconColor="@color/colorAccent"
-            app:materialIconSize="48dp" />
+            app:materialIconSize="24dp" />
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btnAux"
-            style="@style/Widget.AppCompat.Button.Borderless"
+        <com.badoualy.stepperindicator.StepperIndicator
+            android:id="@+id/stepperIndicator"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/button_bar_background"
-            android:textColor="@color/midnight_blue" />
+            app:stpi_animDuration="100"
+            app:stpi_circleColor="@color/wet_asphalt"
+            app:stpi_circleStrokeWidth="2.5dp"
+            app:stpi_indicatorColor="@color/wet_asphalt75"
+            app:stpi_indicatorRadius="5dp"
+            app:stpi_lineColor="@color/wet_asphalt50"
+            app:stpi_lineDoneColor="@color/wet_asphalt"
+            app:stpi_lineMargin="2.5dp"
+            app:stpi_lineStrokeWidth="2.5dp"
+            app:stpi_circleRadius="10dp"
+            app:stpi_stepCount="5" />
 
         <net.steamcrafted.materialiconlib.MaterialIconView
             android:id="@+id/btnNext"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:background="@drawable/button_bar_background"
+            android:clickable="true"
             android:scaleType="center"
             app:materialIcon="chevron_right"
             app:materialIconColor="@color/colorAccent"

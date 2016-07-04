@@ -1,0 +1,49 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.fragment.RequestPatternFragment">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tvMessage"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="@dimen/text_padding_unlock_method_request"
+        android:text="@string/message_to_request_pattern"
+        android:textColor="@color/wet_asphalt75"
+        android:textSize="@dimen/text_size_unlock_method_request" />
+
+    <com.arrg.app.uapplock.view.ui.MaterialLockView
+        android:id="@+id/materialLockView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:correct_color="@color/material_teal_500"
+        app:lock_color="@color/colorAccent"
+        app:wrong_color="@color/material_red_500" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btnResetPattern"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/material_layout_keylines_horizontal_mobile_margin"
+            android:layout_marginStart="@dimen/material_layout_keylines_horizontal_mobile_margin"
+            android:layout_weight="1"
+            android:background="@drawable/button_bar_background"
+            android:gravity="center"
+            android:text="@string/reset_pattern"
+            android:textColor="@color/wet_asphalt75" />
+    </LinearLayout>
+</LinearLayout>

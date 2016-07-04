@@ -1,8 +1,12 @@
 package com.arrg.app.uapplock.presenter;
 
+import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.interfaces.SplashScreenPresenter;
 import com.arrg.app.uapplock.interfaces.SplashScreenView;
-import com.arrg.app.uapplock.view.activity.IntroActivity;
+import com.arrg.app.uapplock.view.activity.AppListActivity;
+
+import static com.arrg.app.uapplock.UAppLock.PATTERN;
+import static com.arrg.app.uapplock.UAppLock.PIN;
 
 public class ISplashScreenPresenter implements SplashScreenPresenter {
 
@@ -20,9 +24,21 @@ public class ISplashScreenPresenter implements SplashScreenPresenter {
     @Override
     public void launch(boolean allSettingsAreComplete) {
         if (allSettingsAreComplete) {
-            splashScreenView.launchActivity(IntroActivity.class, 200);
+            splashScreenView.launchActivity(AppListActivity.class, 200);
         } else {
-            splashScreenView.launchActivity(IntroActivity.class, 2000);
+            splashScreenView.setupViews();
+        }
+    }
+
+    @Override
+    public void onClick(int id) {
+        switch (id) {
+            case R.id.btnSetPattern:
+                splashScreenView.defaultUnlockMethodChosen(PATTERN);
+                break;
+            case R.id.btnSetPin:
+                splashScreenView.defaultUnlockMethodChosen(PIN);
+                break;
         }
     }
 }
