@@ -32,9 +32,16 @@
     <string name="overlay_permission_description">It is necessary to display the lock screen</string>
     <string name="write_settings_permission">Write Settings Permission</string>
     <string name="write_settings_permission_description">It is necessary to setup cool features</string>
-    <string name="title_activity_app_list">Application List</string>
 
+    <string name="title_activity_app_list">Application List</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_search">Search</string>
+    <string name="search_hint">Search…</string>
+    <string name="action_send">Send Report</string>
+    <string name="action_about_me">About Me</string>
+    <string name="applications">Applications</string>
+    <string name="locked_apps">Locked Apps</string>
+    <string name="unlocked_apps">Unlocked Apps</string>
+    <string name="more">Settings &amp; More</string>
 </resources>
