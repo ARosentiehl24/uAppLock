@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
@@ -24,14 +25,16 @@ public class SplashScreenActivity extends AppCompatActivity implements SplashScr
 
     @Bind(R.id.divider)
     View divider;
-    private ISplashScreenPresenter iSplashScreenPresenter;
-
+    @Bind(R.id.view)
+    AppCompatImageView view;
     @Bind(R.id.tvWelcomeMessage)
     AppCompatTextView tvWelcomeMessage;
     @Bind(R.id.btnSetPattern)
     AppCompatButton btnSetPattern;
     @Bind(R.id.btnSetPin)
     AppCompatButton btnSetPin;
+
+    private ISplashScreenPresenter iSplashScreenPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,8 @@ public class SplashScreenActivity extends AppCompatActivity implements SplashScr
 
     @Override
     public void setupViews() {
+        //Glide.with(this).load(R.drawable.ic_launcher_hd).asBitmap().into(view);
+
         btnSetPattern.setVisibility(View.VISIBLE);
         btnSetPin.setVisibility(View.VISIBLE);
         divider.setVisibility(View.VISIBLE);

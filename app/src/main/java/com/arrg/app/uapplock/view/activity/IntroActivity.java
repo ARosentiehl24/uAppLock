@@ -14,16 +14,16 @@ import android.widget.Toast;
 import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.UAppLock;
 import com.arrg.app.uapplock.interfaces.IntroActivityView;
-import com.arrg.app.uapplock.view.adapter.SmartFragmentStatePagerAdapter;
 import com.arrg.app.uapplock.presenter.IIntroActivityPresenter;
 import com.arrg.app.uapplock.util.UsageStatsUtil;
 import com.arrg.app.uapplock.view.adapter.SectionsPagerAdapter;
+import com.arrg.app.uapplock.view.adapter.SmartFragmentStatePagerAdapter;
 import com.arrg.app.uapplock.view.fragment.EnableFingerprintSupportFragment;
 import com.arrg.app.uapplock.view.fragment.RequestPatternFragment;
 import com.arrg.app.uapplock.view.fragment.RequestPermissionsFragment;
 import com.arrg.app.uapplock.view.fragment.RequestPinFragment;
 import com.arrg.app.uapplock.view.ui.LockableViewPager;
-import com.badoualy.stepperindicator.StepperIndicator;
+import com.commit451.inkpageindicator.InkPageIndicator;
 import com.norbsoft.typefacehelper.TypefaceHelper;
 import com.shawnlin.preferencesmanager.PreferencesManager;
 
@@ -45,12 +45,14 @@ public class IntroActivity extends AppCompatActivity implements IntroActivityVie
 
     @Bind(R.id.viewPager)
     LockableViewPager viewPager;
-    @Bind(R.id.stepperIndicator)
-    StepperIndicator stepperIndicator;
+    /*@Bind(R.id.stepperIndicator)
+    StepperIndicator stepperIndicator;*/
     @Bind(R.id.btnPrevious)
     MaterialIconView btnPrevious;
     @Bind(R.id.btnNext)
     MaterialIconView btnNext;
+    @Bind(R.id.inkPageIndicator)
+    InkPageIndicator inkPageIndicator;
 
     private ArrayList<Boolean> list;
     private FingerprintManagerCompat fingerprintManagerCompat;
@@ -102,7 +104,7 @@ public class IntroActivity extends AppCompatActivity implements IntroActivityVie
         viewPager.setAdapter(smartFragmentStatePagerAdapter);
         viewPager.setSwipeable(false);
 
-        stepperIndicator.setViewPager(viewPager);
+        inkPageIndicator.setViewPager(viewPager);
     }
 
     @Override

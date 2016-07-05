@@ -32,7 +32,19 @@
             app:materialIconColor="@color/colorAccent"
             app:materialIconSize="24dp" />
 
-        <com.badoualy.stepperindicator.StepperIndicator
+        <com.commit451.inkpageindicator.InkPageIndicator
+            android:id="@+id/inkPageIndicator"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            app:animationDuration="250"
+            app:currentPageIndicatorColor="@color/wet_asphalt75"
+            app:dotDiameter="10dp"
+            app:dotGap="10dp"
+            app:pageIndicatorColor="@color/wet_asphalt50" />
+
+        <!--<com.badoualy.stepperindicator.StepperIndicator
             android:id="@+id/stepperIndicator"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -47,7 +59,7 @@
             app:stpi_lineMargin="2.5dp"
             app:stpi_lineStrokeWidth="2.5dp"
             app:stpi_circleRadius="10dp"
-            app:stpi_stepCount="5" />
+            app:stpi_stepCount="5" />-->
 
         <net.steamcrafted.materialiconlib.MaterialIconView
             android:id="@+id/btnNext"

@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.arrg.app.uapplock.R;
+import com.bumptech.glide.Glide;
 import com.norbsoft.typefacehelper.TypefaceHelper;
 
 import butterknife.Bind;
@@ -85,7 +86,9 @@ public class RequestPermissionsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         header.setText(resIdHeader);
-        imageView.setImageResource(resIdImage);
+
+        Glide.with(getActivity()).load(resIdImage).asBitmap().into(imageView);
+
         description.setText(resIdDescription);
     }
 
