@@ -14,7 +14,7 @@ public interface AppListView {
     void showSearch();
     void toast(String message);
     void setNewData(ArrayList<App> newData);
-    void setFragment(int index, int title);
+    void setFragment(int index, int title, boolean animate);
     Activity getContext();
     void launchSettingsActivity();
 }

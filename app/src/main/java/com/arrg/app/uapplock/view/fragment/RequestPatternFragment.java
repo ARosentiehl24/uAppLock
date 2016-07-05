@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.view.ui.MaterialLockView;
 import com.easyandroidanimations.library.Animation;
+import com.easyandroidanimations.library.AnimationListener;
 import com.easyandroidanimations.library.ShakeAnimation;
 import com.norbsoft.typefacehelper.TypefaceHelper;
 import com.shawnlin.preferencesmanager.PreferencesManager;
@@ -81,12 +82,16 @@ public class RequestPatternFragment extends Fragment {
 
                         PreferencesManager.putString(getString(R.string.user_pattern), pattern);
                     } else {
-                        new ShakeAnimation(materialLockView).setNumOfShakes(2).setDuration(Animation.DURATION_SHORT).animate();
+                        new ShakeAnimation(materialLockView).setNumOfShakes(2).setDuration(Animation.DURATION_SHORT).setListener(new AnimationListener() {
+                            @Override
+                            public void onAnimationEnd(Animation animation) {
+                                materialLockView.clearPattern();
+                            }
+                        }).animate();
 
                         materialLockView.setDisplayMode(MaterialLockView.DisplayMode.Wrong);
                         vibrator.vibrate(DURATIONS_OF_ANIMATIONS);
 
-                        resetPattern();
                         updateText(R.string.message_to_repeat_pattern);
                     }
                 }

@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,7 @@ import com.arrg.app.uapplock.model.entity.App;
 import com.arrg.app.uapplock.util.SharedPreferencesUtil;
 import com.arrg.app.uapplock.view.adapter.AppAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.kyleduo.switchbutton.SwitchButton;
 import com.turingtechnologies.materialscrollbar.AlphabetIndicator;
 import com.turingtechnologies.materialscrollbar.DragScrollBar;
 
@@ -75,9 +75,11 @@ public class AppListFragment extends Fragment implements BaseQuickAdapter.OnRecy
 
         ArrayList<App> apps = (ArrayList<App>) bundle.getSerializable("apps");
 
+        Boolean animate = bundle.getBoolean("animate", false);
+
         index = bundle.getInt("index", 0);
 
-        setAdapter(apps, index, false);
+        setAdapter(apps, index, animate);
     }
 
     @Override
@@ -141,7 +143,7 @@ public class AppListFragment extends Fragment implements BaseQuickAdapter.OnRecy
 
         app.setChecked(!state);
 
-        SwitchCompat switchCompat = (SwitchCompat) view.findViewById(R.id.switchCompat);
+        SwitchButton switchCompat = (SwitchButton) view.findViewById(R.id.switchCompat);
         switchCompat.setChecked(!state);
 
         preferencesUtil.putValue(lockedAppsPreferences, app.getAppPackage(), !state);

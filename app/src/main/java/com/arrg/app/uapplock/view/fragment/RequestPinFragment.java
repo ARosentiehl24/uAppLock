@@ -17,6 +17,7 @@ import com.andrognito.pinlockview.PinLockListener;
 import com.andrognito.pinlockview.PinLockView;
 import com.arrg.app.uapplock.R;
 import com.easyandroidanimations.library.Animation;
+import com.easyandroidanimations.library.AnimationListener;
 import com.easyandroidanimations.library.ShakeAnimation;
 import com.norbsoft.typefacehelper.TypefaceHelper;
 import com.shawnlin.preferencesmanager.PreferencesManager;
@@ -68,7 +69,7 @@ public class RequestPinFragment extends Fragment {
         pinLockView.setPinLockListener(new PinLockListener() {
             @Override
             public void onComplete(String userPin) {
-                if (pin.length() == 0){
+                if (pin.length() == 0) {
                     pin = userPin;
 
                     resetPin();
@@ -81,11 +82,15 @@ public class RequestPinFragment extends Fragment {
 
                         PreferencesManager.putString(getString(R.string.user_pin), pin);
                     } else {
-                        new ShakeAnimation(indicatorDots).setNumOfShakes(2).setDuration(Animation.DURATION_SHORT).animate();
+                        new ShakeAnimation(indicatorDots).setNumOfShakes(2).setDuration(Animation.DURATION_SHORT).setListener(new AnimationListener() {
+                            @Override
+                            public void onAnimationEnd(Animation animation) {
+                                pinLockView.resetPinLockView();
+                            }
+                        }).animate();
 
                         vibrator.vibrate(DURATIONS_OF_ANIMATIONS);
 
-                        resetPin();
                         updateText(R.string.message_to_repeat_pattern);
                     }
                 }

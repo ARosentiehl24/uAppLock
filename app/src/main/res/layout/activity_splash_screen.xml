@@ -10,29 +10,37 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:background="@color/colorPrimary">
 
         <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/view"
+            android:id="@+id/fingerprint"
             android:layout_width="@dimen/icon_size_splash_screen"
             android:layout_height="@dimen/icon_size_splash_screen"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="25dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/material_layout_keylines_screen_edge_margin"
+            android:layout_marginRight="@dimen/material_layout_keylines_screen_edge_margin"
+            android:visibility="invisible"
             app:srcCompat="@drawable/ic_fingerprint" />
 
         <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/pin"
             android:layout_width="@dimen/secondary_icon_size_splash_screen"
             android:layout_height="@dimen/secondary_icon_size_splash_screen"
-            android:layout_below="@+id/view"
-            android:layout_toStartOf="@+id/view"
+            android:layout_alignBottom="@id/fingerprint"
+            android:layout_margin="@dimen/material_layout_keylines_screen_edge_margin"
+            android:layout_toEndOf="@+id/fingerprint"
+            android:visibility="invisible"
             app:srcCompat="@drawable/ic_pin" />
 
         <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/pattern"
             android:layout_width="@dimen/secondary_icon_size_splash_screen"
             android:layout_height="@dimen/secondary_icon_size_splash_screen"
-            android:layout_below="@+id/view"
-            android:layout_toEndOf="@+id/view"
+            android:layout_alignBottom="@id/fingerprint"
+            android:layout_margin="@dimen/material_layout_keylines_screen_edge_margin"
+            android:layout_toStartOf="@+id/fingerprint"
+            android:visibility="invisible"
             app:srcCompat="@drawable/ic_pattern" />
     </RelativeLayout>
 
@@ -48,10 +56,11 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-
             android:text="@string/app_name"
+
             android:textColor="@color/colorAccent"
-            android:textSize="@dimen/text_size_splash_screen" />
+            android:textSize="@dimen/text_size_splash_screen"
+            android:visibility="invisible" />
 
         <!--android:shadowColor="@color/wet_asphalt25"
         android:shadowDx="5"

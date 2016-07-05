@@ -7,6 +7,7 @@ import com.arrg.app.uapplock.model.entity.App;
 import com.arrg.app.uapplock.util.SharedPreferencesUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.kyleduo.switchbutton.SwitchButton;
 import com.norbsoft.typefacehelper.TypefaceHelper;
 import com.turingtechnologies.materialscrollbar.INameableAdapter;
 
@@ -30,7 +31,11 @@ public class AppAdapter extends BaseQuickAdapter<App> implements INameableAdapte
     protected void convert(BaseViewHolder baseViewHolder, App app) {
         baseViewHolder.setImageDrawable(R.id.appIcon, app.getAppIcon());
         baseViewHolder.setText(R.id.appName, app.getAppName());
-        baseViewHolder.setChecked(R.id.switchCompat, preferencesUtil.getBoolean(lockedAppsPreferences, app.getAppPackage(), false));
+
+        SwitchButton switchButton = baseViewHolder.getView(R.id.switchCompat);
+        switchButton.setCheckedImmediately(preferencesUtil.getBoolean(lockedAppsPreferences, app.getAppPackage(), false));
+
+        //baseViewHolder.setChecked(R.id.switchCompat, preferencesUtil.getBoolean(lockedAppsPreferences, app.getAppPackage(), false));
 
         TypefaceHelper.typeface(baseViewHolder.getView(R.id.appName));
     }

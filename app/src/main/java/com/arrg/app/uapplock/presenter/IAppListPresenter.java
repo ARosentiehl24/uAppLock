@@ -2,6 +2,7 @@ package com.arrg.app.uapplock.presenter;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.os.Handler;
 
 import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.interfaces.AppListPresenter;
@@ -36,22 +37,27 @@ public class IAppListPresenter implements AppListPresenter {
     }
 
     @Override
-    public void onItemClick(int id) {
-        if (id == R.id.nav_apps) {
-            appListView.setFragment(AppListActivity.ALL_APPS, R.string.title_activity_app_list);
-        } else if (id == R.id.nav_locked_apps) {
-            appListView.setFragment(AppListActivity.LOCKED_APPS, R.string.locked_apps);
-        } else if (id == R.id.nav_unlocked_apps) {
-            appListView.setFragment(AppListActivity.UNLOCKED_APPS, R.string.unlocked_apps);
-        } else if (id == R.id.nav_settings) {
-            appListView.launchSettingsActivity();
-        }/* else if (id == R.id.nav_send) {
+    public void onItemClick(final int id) {
+        appListView.closeDrawer();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (id == R.id.nav_apps) {
+                    appListView.setFragment(AppListActivity.ALL_APPS, R.string.title_activity_app_list, false);
+                } else if (id == R.id.nav_locked_apps) {
+                    appListView.setFragment(AppListActivity.LOCKED_APPS, R.string.locked_apps, false);
+                } else if (id == R.id.nav_unlocked_apps) {
+                    appListView.setFragment(AppListActivity.UNLOCKED_APPS, R.string.unlocked_apps, false);
+                } else if (id == R.id.nav_settings) {
+                    appListView.launchSettingsActivity();
+                }/* else if (id == R.id.nav_send) {
 
         } else if (id == R.id.nav_about_me) {
 
         }*/
-
-        appListView.closeDrawer();
+            }
+        }, 250);
     }
 
     @Override

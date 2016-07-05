@@ -71,6 +71,11 @@ public class IntroActivity extends AppCompatActivity implements IntroActivityVie
     }
 
     @Override
+    public void onBackPressed() {
+        Navigator.with(this).utils().finishWithAnimation();
+    }
+
+    @Override
     public void setupViews() {
         fingerprintManagerCompat = FingerprintManagerCompat.from(this);
 
@@ -113,6 +118,8 @@ public class IntroActivity extends AppCompatActivity implements IntroActivityVie
             viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
         } else {
             if (allSettingsAndPermissionsAreReady()) {
+                SplashScreenActivity.splashScreenActivity.finish();
+
                 PreferencesManager.putBoolean(getString(R.string.all_settings_are_complete), true);
 
                 Navigator.with(this).build().goTo(AppListActivity.class).animation().commit();

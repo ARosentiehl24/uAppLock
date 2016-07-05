@@ -9,7 +9,8 @@
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tvMessage"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
         android:gravity="center"
         android:padding="@dimen/text_padding_unlock_method_request"
         android:text="@string/message_to_request_pin"
@@ -19,7 +20,8 @@
     <com.andrognito.pinlockview.IndicatorDots
         android:id="@+id/indicatorDots"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.25"
         android:layout_gravity="center"
         android:layout_margin="20dp"
         android:gravity="center"
@@ -31,7 +33,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1.5">
 
         <com.andrognito.pinlockview.PinLockView
             android:id="@+id/pinLockView"

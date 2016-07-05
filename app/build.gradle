@@ -54,6 +54,7 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v1.8.5'
     compile 'com.github.jaouan:revealator:0.0.1'
+    compile 'com.github.Kennyc1012:BottomSheet:2.2.0'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.kyleduo.switchbutton:library:1.4.1'
     compile 'com.mukesh:permissions:1.0.3'
@@ -62,6 +63,7 @@ dependencies {
     compile 'com.shawnlin:PreferencesManager:1.0.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.turingtechnologies.materialscrollbar:lib:10.0.2'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'net.steamcrafted:materialiconlib:1.0.9'
     compile 'org.fingerlinks.mobile.android:Navigator:0.1.2'
 }

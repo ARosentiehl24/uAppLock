@@ -4,7 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
-    <dimen name="icon_size_splash_screen">192dp</dimen>
+    <dimen name="icon_size_splash_screen">144dp</dimen>
     <dimen name="text_size_splash_screen">50sp</dimen>
     <dimen name="text_size_unlock_method_request">25sp</dimen>
     <dimen name="text_padding_unlock_method_request">25dp</dimen>

@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.arrg.app.uapplock.R;
@@ -26,6 +27,9 @@ import com.arrg.app.uapplock.interfaces.AppListView;
 import com.arrg.app.uapplock.model.entity.App;
 import com.arrg.app.uapplock.presenter.IAppListPresenter;
 import com.arrg.app.uapplock.view.fragment.AppListFragment;
+import com.easyandroidanimations.library.Animation;
+import com.easyandroidanimations.library.AnimationListener;
+import com.easyandroidanimations.library.FadeOutAnimation;
 import com.jaouan.revealator.Revealator;
 import com.norbsoft.typefacehelper.ActionBarHelper;
 import com.norbsoft.typefacehelper.TypefaceHelper;
@@ -61,6 +65,8 @@ public class AppListActivity extends AppCompatActivity implements AppListView, N
     NavigationView navigationView;
     @Bind(R.id.drawerLayout)
     DrawerLayout drawer;
+    @Bind(R.id.progressBar)
+    ProgressBar progressBar;
 
     private ArrayList<App> appsArrayList;
     private Boolean closeSearchWithBackButton = false;
@@ -248,7 +254,7 @@ public class AppListActivity extends AppCompatActivity implements AppListView, N
     }
 
     @Override
-    public void setFragment(int index, int title) {
+    public void setFragment(int index, int title, boolean animate) {
         if (selectedList != index) {
             selectedList = index;
 
@@ -257,6 +263,7 @@ public class AppListActivity extends AppCompatActivity implements AppListView, N
             Bundle bundle = new Bundle();
             bundle.putSerializable("apps", appsArrayList);
             bundle.putInt("index", index);
+            bundle.putBoolean("animate", animate);
 
             Navigator.with(AppListActivity.this)
                     .build()
@@ -295,7 +302,14 @@ public class AppListActivity extends AppCompatActivity implements AppListView, N
             appsArrayList = apps;
             navigationView.getMenu().getItem(0).setChecked(true);
 
-            setFragment(ALL_APPS, R.string.title_activity_app_list);
+            setFragment(ALL_APPS, R.string.title_activity_app_list, true);
+
+            new FadeOutAnimation(progressBar).setDuration(Animation.DURATION_SHORT).setListener(new AnimationListener() {
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    progressBar.setVisibility(View.GONE);
+                }
+            }).animate();
         }
     }
 }
