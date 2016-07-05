@@ -1,4 +1,4 @@
-package com.arrg.app.uapplock.model;
+package com.arrg.app.uapplock.view.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

@@ -3,8 +3,6 @@ package com.arrg.app.uapplock.view.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
-import com.arrg.app.uapplock.model.SmartFragmentStatePagerAdapter;
-
 import java.util.ArrayList;
 
 public class SectionsPagerAdapter extends SmartFragmentStatePagerAdapter {

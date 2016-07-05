@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.UAppLock;
 import com.arrg.app.uapplock.interfaces.IntroActivityView;
-import com.arrg.app.uapplock.model.SmartFragmentStatePagerAdapter;
+import com.arrg.app.uapplock.view.adapter.SmartFragmentStatePagerAdapter;
 import com.arrg.app.uapplock.presenter.IIntroActivityPresenter;
 import com.arrg.app.uapplock.util.UsageStatsUtil;
 import com.arrg.app.uapplock.view.adapter.SectionsPagerAdapter;
@@ -24,7 +24,6 @@ import com.arrg.app.uapplock.view.fragment.RequestPermissionsFragment;
 import com.arrg.app.uapplock.view.fragment.RequestPinFragment;
 import com.arrg.app.uapplock.view.ui.LockableViewPager;
 import com.badoualy.stepperindicator.StepperIndicator;
-import com.mukesh.permissions.AppPermissions;
 import com.norbsoft.typefacehelper.TypefaceHelper;
 import com.shawnlin.preferencesmanager.PreferencesManager;
 
