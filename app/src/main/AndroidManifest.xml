@@ -53,7 +53,16 @@
         <activity
             android:name=".view.activity.AppListActivity"
             android:label="@string/title_activity_app_list"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".view.activity.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".view.activity.AppListActivity"
+            android:theme="@style/SettingsAppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.arrg.app.uapplock.view.activity.AppListActivity" />
+        </activity>
     </application>
 
 </manifest>

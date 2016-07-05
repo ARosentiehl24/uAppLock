@@ -44,4 +44,6 @@
     <string name="locked_apps">Locked Apps</string>
     <string name="unlocked_apps">Unlocked Apps</string>
     <string name="more">Settings &amp; More</string>
+    <string name="uapplock_settings">uAppLock Settings</string>
+    <string name="title_activity_settings">Settings</string>
 </resources>

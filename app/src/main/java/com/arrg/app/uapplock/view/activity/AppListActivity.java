@@ -106,7 +106,6 @@ public class AppListActivity extends AppCompatActivity implements AppListView, N
 
         if (id == R.id.action_search) {
             iAppListPresenter.onMenuItemClick(id);
-
             return true;
         }
 
@@ -241,6 +240,11 @@ public class AppListActivity extends AppCompatActivity implements AppListView, N
     @Override
     public Activity getContext() {
         return this;
+    }
+
+    @Override
+    public void launchSettingsActivity() {
+        Navigator.with(this).build().goTo(SettingsActivity.class).animation().commit();
     }
 
     @Override

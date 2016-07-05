@@ -16,4 +16,5 @@ public interface AppListView {
     void setNewData(ArrayList<App> newData);
     void setFragment(int index, int title);
     Activity getContext();
+    void launchSettingsActivity();
 }

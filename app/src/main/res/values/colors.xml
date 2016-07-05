@@ -6,6 +6,8 @@
     <color name="buttonBarColor">#F0F0F0</color>
     <color name="buttonBarBorderColor">#D6D6D6</color>
 
+    <color name="preference_accent">@color/wet_asphalt</color>
+
     <color name="glass5">#0D212121</color>
     <color name="glass10">#1A212121</color>
     <color name="glass20">#33212121</color>

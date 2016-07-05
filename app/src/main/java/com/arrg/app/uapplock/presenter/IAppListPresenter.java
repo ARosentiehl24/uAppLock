@@ -44,7 +44,7 @@ public class IAppListPresenter implements AppListPresenter {
         } else if (id == R.id.nav_unlocked_apps) {
             appListView.setFragment(AppListActivity.UNLOCKED_APPS, R.string.unlocked_apps);
         } else if (id == R.id.nav_settings) {
-
+            appListView.launchSettingsActivity();
         } else if (id == R.id.nav_send) {
 
         } else if (id == R.id.nav_about_me) {
