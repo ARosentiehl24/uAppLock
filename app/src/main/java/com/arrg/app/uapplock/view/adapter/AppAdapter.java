@@ -7,6 +7,7 @@ import com.arrg.app.uapplock.model.entity.App;
 import com.arrg.app.uapplock.util.SharedPreferencesUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.norbsoft.typefacehelper.TypefaceHelper;
 import com.turingtechnologies.materialscrollbar.INameableAdapter;
 
 import java.util.ArrayList;
@@ -30,6 +31,13 @@ public class AppAdapter extends BaseQuickAdapter<App> implements INameableAdapte
         baseViewHolder.setImageDrawable(R.id.appIcon, app.getAppIcon());
         baseViewHolder.setText(R.id.appName, app.getAppName());
         baseViewHolder.setChecked(R.id.switchCompat, preferencesUtil.getBoolean(lockedAppsPreferences, app.getAppPackage(), false));
+
+        TypefaceHelper.typeface(baseViewHolder.getView(R.id.appName));
+    }
+
+    @Override
+    public App getItem(int position) {
+        return super.getItem(position);
     }
 
     @Override

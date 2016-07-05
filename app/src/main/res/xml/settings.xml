@@ -1,6 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory android:title="@string/uapplock_settings">
+        <Preference
+            android:icon="@drawable/ic_fingerprint"
+            android:key="@string/fingerprint_settings"
+            android:summary="@string/fingerprint_summary_text"
+            android:title="@string/fingerprint_title" />
 
+        <Preference
+            android:icon="@drawable/ic_pattern"
+            android:key="@string/pattern_settings"
+            android:summary="@string/pattern_summary_text"
+            android:title="@string/pattern_title" />
+
+        <Preference
+            android:icon="@drawable/ic_pin"
+            android:key="@string/pin_settings"
+            android:summary="@string/pin_summary_text"
+            android:title="@string/pin_title" />
+
+        <ListPreference
+            android:icon="@drawable/ic_unlock_method"
+            android:key="@string/unlock_method"
+            android:summary="@string/unlock_method_summary"
+            android:title="@string/unlock_method_title"
+            app:entries="@array/unlock_methods"
+            app:entryValues="@array/unlock_methods_values" />
     </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/design_settings">
+        <Preference
+            android:icon="@drawable/ic_font"
+            android:key="@string/font_settings"
+            android:summary="@string/font_summary_text"
+            android:title="@string/font_title" />
+
+        <Preference
+            android:icon="@drawable/ic_face"
+            android:key="@string/face_settings"
+            android:summary="@string/profile_picture_summary_text"
+            android:title="@string/profile_picture_title" />
+
+        <Preference
+            android:icon="@drawable/ic_wallpaper"
+            android:key="@string/wallpaper_settings"
+            android:summary="@string/set_a_wallpaper_summary_text"
+            android:title="@string/set_a_wallpaper_title" />
+
+        <Preference
+            android:icon="@drawable/ic_theme"
+            android:key="@string/theme_settings"
+            android:summary="@string/theme_summary_text"
+            android:title="@string/theme_title" />
+    </PreferenceCategory>
+
+    <!--<PreferenceCategory android:title="@string/other_settings">
+        <Preference
+            android:icon="@drawable/ic_font"
+            android:key="@string/font_settings"
+            android:summary="@string/font_summary_text"
+            android:title="@string/font_title" />
+
+        <Preference
+            android:icon="@drawable/ic_face"
+            android:key="@string/face_settings"
+            android:summary="@string/profile_picture_summary_text"
+            android:title="@string/profile_picture_title" />
+
+        <Preference
+            android:icon="@drawable/ic_wallpaper"
+            android:key="@string/wallpaper_settings"
+            android:summary="@string/set_a_wallpaper_summary_text"
+            android:title="@string/set_a_wallpaper_title" />
+
+        <Preference
+            android:icon="@drawable/ic_theme"
+            android:key="@string/theme_settings"
+            android:summary="@string/theme_summary_text"
+            android:title="@string/theme_title" />
+    </PreferenceCategory>-->
 </PreferenceScreen>

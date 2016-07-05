@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="unlock_methods">
+        <item>Fingerprint</item>
+        <item>Pattern</item>
+        <item>Pin</item>
+    </string-array>
+
+    <string-array name="unlock_methods_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+</resources>

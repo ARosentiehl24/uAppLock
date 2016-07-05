@@ -22,14 +22,14 @@
                 android:id="@+id/nav_settings"
                 android:icon="@drawable/ic_menu_settings"
                 android:title="@string/action_settings" />
-            <item
+            <!--<item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"
                 android:title="@string/action_send" />
             <item
                 android:id="@+id/nav_about_me"
                 android:icon="@drawable/ic_menu_about_me"
-                android:title="@string/action_about_me" />
+                android:title="@string/action_about_me" />-->
         </menu>
     </item>
 

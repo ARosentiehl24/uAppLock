@@ -63,6 +63,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.arrg.app.uapplock.view.activity.AppListActivity" />
         </activity>
+        <activity
+            android:name=".view.activity.FingerprintSettingsActivity"
+            android:label="@string/title_activity_fingerprint_settings"
+            android:parentActivityName=".view.activity.SettingsActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.arrg.app.uapplock.view.activity.SettingsActivity" />
+        </activity>
     </application>
 
 </manifest>
