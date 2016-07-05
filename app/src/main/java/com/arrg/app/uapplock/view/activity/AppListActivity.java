@@ -277,7 +277,7 @@ public class AppListActivity extends AppCompatActivity implements AppListView, N
             Collections.sort(apps, new Comparator<App>() {
                 @Override
                 public int compare(App lhs, App rhs) {
-                    return lhs.getAppName().compareTo(rhs.getAppName());
+                    return lhs.getAppName().compareToIgnoreCase(rhs.getAppName());
                 }
             });
 

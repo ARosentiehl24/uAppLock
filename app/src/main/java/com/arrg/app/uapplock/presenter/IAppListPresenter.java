@@ -70,7 +70,10 @@ public class IAppListPresenter implements AppListPresenter {
                     app.setAppIcon(applicationInfo.loadIcon(getContext().getPackageManager()));
                     app.setAppName(applicationInfo.loadLabel(getContext().getPackageManager()).toString());
                     app.setAppPackage(applicationInfo.packageName);
-                    apps.add(app);
+
+                    if (!app.getAppName().equals(getContext().getString(R.string.app_name))) {
+                        apps.add(app);
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();

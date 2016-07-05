@@ -18,6 +18,8 @@ import com.arrg.app.uapplock.model.entity.App;
 import com.arrg.app.uapplock.util.SharedPreferencesUtil;
 import com.arrg.app.uapplock.view.adapter.AppAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.turingtechnologies.materialscrollbar.AlphabetIndicator;
+import com.turingtechnologies.materialscrollbar.DragScrollBar;
 
 import java.util.ArrayList;
 
@@ -34,6 +36,8 @@ import static com.arrg.app.uapplock.view.activity.AppListActivity.UNLOCKED_APPS;
 
 public class AppListFragment extends Fragment implements BaseQuickAdapter.OnRecyclerViewItemClickListener, BaseQuickAdapter.OnRecyclerViewItemLongClickListener {
 
+    @Bind(R.id.dragScrollBar)
+    DragScrollBar dragScrollBar;
     private AppAdapter appAdapter;
     private ArrayList<App> appArrayList;
     private Integer index;
@@ -125,6 +129,8 @@ public class AppListFragment extends Fragment implements BaseQuickAdapter.OnRecy
 
         appAdapter.setOnRecyclerViewItemClickListener(this);
         appAdapter.setOnRecyclerViewItemLongClickListener(this);
+
+        dragScrollBar.addIndicator(new AlphabetIndicator(getActivity()), true);
     }
 
     @Override
