@@ -1,6 +1,8 @@
 package com.arrg.app.uapplock.view.adapter;
 
 import android.content.SharedPreferences;
+import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.model.entity.App;
@@ -28,14 +30,12 @@ public class AppAdapter extends BaseQuickAdapter<App> implements INameableAdapte
     }
 
     @Override
-    protected void convert(BaseViewHolder baseViewHolder, App app) {
+    protected void convert(BaseViewHolder baseViewHolder, final App app) {
         baseViewHolder.setImageDrawable(R.id.appIcon, app.getAppIcon());
         baseViewHolder.setText(R.id.appName, app.getAppName());
 
         SwitchButton switchButton = baseViewHolder.getView(R.id.switchCompat);
         switchButton.setCheckedImmediately(preferencesUtil.getBoolean(lockedAppsPreferences, app.getAppPackage(), false));
-
-        //baseViewHolder.setChecked(R.id.switchCompat, preferencesUtil.getBoolean(lockedAppsPreferences, app.getAppPackage(), false));
 
         TypefaceHelper.typeface(baseViewHolder.getView(R.id.appName));
     }

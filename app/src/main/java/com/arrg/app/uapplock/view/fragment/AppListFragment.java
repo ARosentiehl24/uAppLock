@@ -139,14 +139,12 @@ public class AppListFragment extends Fragment implements BaseQuickAdapter.OnRecy
     public void onItemClick(View view, int i) {
         App app = appArrayList.get(i);
 
-        boolean state = preferencesUtil.getBoolean(lockedAppsPreferences, app.getAppPackage(), false);
-
-        app.setChecked(!state);
-
         SwitchButton switchCompat = (SwitchButton) view.findViewById(R.id.switchCompat);
-        switchCompat.setChecked(!state);
+        switchCompat.toggle();
 
-        preferencesUtil.putValue(lockedAppsPreferences, app.getAppPackage(), !state);
+        app.setChecked(switchCompat.isChecked());
+
+        preferencesUtil.putValue(lockedAppsPreferences, app.getAppPackage(), switchCompat.isChecked());
 
         if (index != ALL_APPS) {
             appAdapter.remove(i);
