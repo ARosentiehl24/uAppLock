@@ -54,7 +54,7 @@ public class SplashScreenActivity extends AppCompatActivity implements SplashScr
 
     @Override
     public void setupViews() {
-        //Glide.with(this).load(R.drawable.ic_launcher_hd).asBitmap().into(view);
+        //Glide.with(this).load(R.drawable.ic_icon_background).asBitmap().into(view);
 
         btnSetPattern.setVisibility(View.VISIBLE);
         btnSetPin.setVisibility(View.VISIBLE);
