@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -214,6 +215,9 @@ public class AppListActivity extends AppCompatActivity implements AppListView, N
 
         View view = navigationView.getHeaderView(0);
         TypefaceHelper.typeface(view);
+
+        AppCompatTextView appVersion = (AppCompatTextView) view.findViewById(R.id.tvAppVersion);
+        appVersion.setText(String.format(getString(R.string.current_version), "1.0"));
 
         searchInput.addTextChangedListener(new TextWatcher() {
             @Override

@@ -51,7 +51,6 @@ dependencies {
     compile 'com.eightbitlab:blurview:1.1.0'
     compile 'com.github.2359media:EasyAndroidAnimations:0.8'
     /*compile 'com.github.badoualy:stepper-indicator:1.0.2'*/
-
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v1.8.5'
     compile 'com.github.jaouan:revealator:0.0.1'

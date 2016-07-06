@@ -4,10 +4,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.interfaces.SplashScreenView;
@@ -27,24 +27,18 @@ import butterknife.OnClick;
 
 public class SplashScreenActivity extends AppCompatActivity implements SplashScreenView {
 
-    @Bind(R.id.divider)
-    View divider;
-    @Bind(R.id.fingerprint)
-    AppCompatImageView fingerprint;
-    @Bind(R.id.tvWelcomeMessage)
-    AppCompatTextView tvWelcomeMessage;
-    @Bind(R.id.btnSetPattern)
-    AppCompatButton btnSetPattern;
-    @Bind(R.id.btnSetPin)
-    AppCompatButton btnSetPin;
-    @Bind(R.id.pin)
-    AppCompatImageView pin;
-    @Bind(R.id.pattern)
-    AppCompatImageView pattern;
-
-    private static final int SPLASH_SCREEN_ANIMATION = 1000;
+    private static final int SPLASH_SCREEN_ANIMATION = 750;
     public static SplashScreenActivity splashScreenActivity;
     private ISplashScreenPresenter iSplashScreenPresenter;
+
+    @Bind(R.id.icon)
+    RelativeLayout icon;
+    @Bind(R.id.tvWelcomeMessage)
+    AppCompatTextView tvWelcomeMessage;
+    @Bind(R.id.buttonBarContainer)
+    LinearLayout buttonBarContainer;
+    @Bind(R.id.divider)
+    View divider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +54,11 @@ public class SplashScreenActivity extends AppCompatActivity implements SplashScr
     }
 
     @Override
+    public void onBackPressed() {
+        Navigator.with(this).utils().finishWithAnimation();
+    }
+
+    @Override
     public boolean allSettingsAreComplete() {
         return PreferencesManager.getBoolean(getString(R.string.all_settings_are_complete));
     }
@@ -72,34 +71,14 @@ public class SplashScreenActivity extends AppCompatActivity implements SplashScr
             @Override
             public void run() {
                 new ParallelAnimator()
-                        .add(new SlideInAnimation(fingerprint).setDirection(Animation.DIRECTION_UP))
-                        .add(new FadeInAnimation(fingerprint))
-                        .setDuration(SPLASH_SCREEN_ANIMATION)
-                        .animate();
-
-                new ParallelAnimator()
-                        .add(new SlideInAnimation(pattern).setDirection(Animation.DIRECTION_LEFT))
-                        .add(new FadeInAnimation(pattern))
-                        .setDuration(SPLASH_SCREEN_ANIMATION)
-                        .animate();
-
-                new ParallelAnimator()
-                        .add(new SlideInAnimation(pin).setDirection(Animation.DIRECTION_RIGHT))
-                        .add(new FadeInAnimation(pin))
-                        .setDuration(SPLASH_SCREEN_ANIMATION)
-                        .animate();
-
-                new ParallelAnimator()
                         .add(new SlideInAnimation(tvWelcomeMessage).setDirection(Animation.DIRECTION_DOWN))
                         .add(new FadeInAnimation(tvWelcomeMessage))
+                        .add(new SlideInAnimation(icon).setDirection(Animation.DIRECTION_UP))
+                        .add(new FadeInAnimation(icon))
                         .setDuration(SPLASH_SCREEN_ANIMATION)
                         .animate();
 
-                new FadeInAnimation(btnSetPattern)
-                        .setDuration(SPLASH_SCREEN_ANIMATION)
-                        .animate();
-
-                new FadeInAnimation(btnSetPin)
+                new FadeInAnimation(buttonBarContainer)
                         .setDuration(SPLASH_SCREEN_ANIMATION)
                         .animate();
 
@@ -109,16 +88,12 @@ public class SplashScreenActivity extends AppCompatActivity implements SplashScr
             }
         }, 125);
 
-        /**/
-
         tvWelcomeMessage.setText(R.string.welcome_message);
     }
 
     @Override
     public void launchActivity(final Class classDestination, Integer duration) {
-        fingerprint.setVisibility(View.VISIBLE);
-        pattern.setVisibility(View.VISIBLE);
-        pin.setVisibility(View.VISIBLE);
+        icon.setVisibility(View.VISIBLE);
         tvWelcomeMessage.setVisibility(View.VISIBLE);
 
         new Handler().postDelayed(new Runnable() {
@@ -135,7 +110,6 @@ public class SplashScreenActivity extends AppCompatActivity implements SplashScr
         PreferencesManager.putString(getString(R.string.unlock_method), unlockMethod);
 
         Navigator.with(SplashScreenActivity.this).build().goTo(IntroActivity.class).animation().commit();
-        //finish();
     }
 
     @Override

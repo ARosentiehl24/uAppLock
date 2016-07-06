@@ -29,6 +29,7 @@
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/appName"
+                android:textSize="@dimen/md_listitem_textsize"
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

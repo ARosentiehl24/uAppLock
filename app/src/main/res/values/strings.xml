@@ -69,4 +69,10 @@
     <string name="theme_settings">theme_settings</string>
     <string name="title_activity_fingerprint_settings">Fingerprint Settings</string>
     <string name="current_version">Current version: %s</string>
+    <string name="long_click_message">What would you like to do?</string>
+    <string name="open">Open</string>
+    <string name="uninstall">Uninstall</string>
+    <string name="cancel">Cancel</string>
+    <string name="uninstalling_app_message">Uninstalling app</string>
+    <string name="undo">Undo</string>
 </resources>

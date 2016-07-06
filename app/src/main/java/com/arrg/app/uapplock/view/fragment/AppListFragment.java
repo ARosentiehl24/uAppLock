@@ -2,16 +2,26 @@ package com.arrg.app.uapplock.view.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.model.entity.App;
 import com.arrg.app.uapplock.util.SharedPreferencesUtil;
@@ -153,6 +163,51 @@ public class AppListFragment extends Fragment implements BaseQuickAdapter.OnRecy
 
     @Override
     public boolean onItemLongClick(View view, int i) {
+        final App app = appArrayList.get(i);
+
+        Drawable drawable = app.getAppIcon();
+
+        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+
+        drawable = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 96, 96, true));
+
+        new MaterialDialog.Builder(getActivity())
+                .title(app.getAppName())
+                .icon(drawable)
+                .content(getString(R.string.long_click_message))
+                .positiveText(getString(R.string.open))
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        Intent intent = getActivity().getPackageManager().getLaunchIntentForPackage(app.getAppPackage());
+                        startActivity(intent);
+                        getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+                    }
+                })
+                .negativeText(getString(R.string.uninstall))
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        Snackbar.make(getView(), R.string.uninstalling_app_message, Snackbar.LENGTH_LONG)
+                                .setActionTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary))
+                                .setAction(R.string.undo, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+
+                                    }
+                                })
+                                .setCallback(new Snackbar.Callback() {
+                                    @Override
+                                    public void onDismissed(Snackbar snackbar, int event) {
+                                        super.onDismissed(snackbar, event);
+                                        Log.e("Values", "Dismissed");
+                                    }
+                                }).show();
+                    }
+                })
+                .build()
+                .show();
+
         return false;
     }
 }

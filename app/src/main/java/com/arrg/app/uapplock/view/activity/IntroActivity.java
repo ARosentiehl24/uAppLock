@@ -57,6 +57,7 @@ public class IntroActivity extends AppCompatActivity implements IntroActivityVie
     private ArrayList<Boolean> list;
     private FingerprintManagerCompat fingerprintManagerCompat;
     private IIntroActivityPresenter iIntroActivityPresenter;
+    private SmartFragmentStatePagerAdapter smartFragmentStatePagerAdapter;
     private String unlockMethod;
 
     @Override
@@ -104,7 +105,7 @@ public class IntroActivity extends AppCompatActivity implements IntroActivityVie
             }
         }
 
-        SmartFragmentStatePagerAdapter smartFragmentStatePagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), fragments);
+        smartFragmentStatePagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.addOnPageChangeListener(this);
         viewPager.setAdapter(smartFragmentStatePagerAdapter);
         viewPager.setSwipeable(false);
@@ -114,9 +115,7 @@ public class IntroActivity extends AppCompatActivity implements IntroActivityVie
 
     @Override
     public void next() {
-        if (viewPager.getCurrentItem() <= viewPager.getChildCount()) {
-            viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-        } else {
+        if (viewPager.getCurrentItem() == smartFragmentStatePagerAdapter.getCount() - 1) {
             if (allSettingsAndPermissionsAreReady()) {
                 SplashScreenActivity.splashScreenActivity.finish();
 
@@ -155,6 +154,8 @@ public class IntroActivity extends AppCompatActivity implements IntroActivityVie
                     }
                 }
             }
+        } else {
+            viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
         }
     }
 
@@ -225,27 +226,32 @@ public class IntroActivity extends AppCompatActivity implements IntroActivityVie
 
         if (unlockMethod.equals(UAppLock.PATTERN)) {
             list.add(patternWasConfigured());
+            Log.e("Values", "patternWasConfigured: " + patternWasConfigured());
         } else {
             list.add(pinWasConfigured());
+            Log.e("Values", "pinWasConfigured: " + pinWasConfigured());
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (isHardwareDetected() && !hasEnrolledFingerprints()) {
                 list.add(hasEnrolledFingerprints());
+                Log.e("Values", "hasEnrolledFingerprints: " + hasEnrolledFingerprints());
             }
             list.add(usageStatsIsNotEmpty());
+            Log.e("Values", "usageStatsIsNotEmpty: " + usageStatsIsNotEmpty());
+
             list.add(overlayPermissionGranted());
+            Log.e("Values", "overlayPermissionGranted: " + overlayPermissionGranted());
+
             list.add(writeSettingsPermissionGranted());
+            Log.e("Values", "writeSettingsPermissionGranted: " + writeSettingsPermissionGranted());
         } else {
             if (fingerprintManagerCompat.isHardwareDetected()) {
                 if (!hasEnrolledFingerprints()) {
                     list.add(hasEnrolledFingerprints());
+                    Log.e("Values", "hasEnrolledFingerprints: " + hasEnrolledFingerprints());
                 }
             }
-        }
-
-        for (Boolean aBoolean : list) {
-            Log.e("Values", "Value: " + aBoolean.toString());
         }
     }
 

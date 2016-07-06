@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorAccent</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:navigationBarColor">@color/colorAccent</item>
         <item name="android:windowBackground">@color/colorPrimary</item>
@@ -12,7 +12,7 @@
 
     <style name="SettingsAppTheme" parent="PreferenceFixTheme.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorAccent</item>
         <item name="colorAccent">@color/preference_accent</item>
         <item name="android:navigationBarColor">@color/colorAccent</item>
         <item name="android:windowBackground">@color/colorPrimary</item>

@@ -13,35 +13,21 @@
         android:layout_weight="1"
         android:background="@color/colorPrimary">
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/fingerprint"
+        <RelativeLayout
+            android:id="@+id/icon"
             android:layout_width="@dimen/icon_size_splash_screen"
             android:layout_height="@dimen/icon_size_splash_screen"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="@dimen/material_layout_keylines_screen_edge_margin"
-            android:layout_marginRight="@dimen/material_layout_keylines_screen_edge_margin"
-            android:visibility="invisible"
-            app:srcCompat="@drawable/ic_fingerprint" />
-
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/pin"
-            android:layout_width="@dimen/secondary_icon_size_splash_screen"
-            android:layout_height="@dimen/secondary_icon_size_splash_screen"
-            android:layout_alignBottom="@id/fingerprint"
             android:layout_margin="@dimen/material_layout_keylines_screen_edge_margin"
-            android:layout_toEndOf="@+id/fingerprint"
-            android:visibility="invisible"
-            app:srcCompat="@drawable/ic_pin" />
+            android:background="@drawable/ic_launcher_background"
+            android:visibility="invisible">
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/pattern"
-            android:layout_width="@dimen/secondary_icon_size_splash_screen"
-            android:layout_height="@dimen/secondary_icon_size_splash_screen"
-            android:layout_alignBottom="@id/fingerprint"
-            android:layout_margin="@dimen/material_layout_keylines_screen_edge_margin"
-            android:layout_toStartOf="@+id/fingerprint"
-            android:visibility="invisible"
-            app:srcCompat="@drawable/ic_pattern" />
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="@dimen/secondary_icon_size_splash_screen"
+                android:layout_height="@dimen/secondary_icon_size_splash_screen"
+                android:layout_centerInParent="true"
+                app:srcCompat="@drawable/ic_fingerprint_white" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
@@ -72,7 +58,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/colorPrimaryDark">
+            android:background="@color/colorPrimaryDark"
+            android:visibility="invisible">
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/btnSetPattern"
@@ -82,8 +69,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/button_bar_background"
                 android:text="@string/set_pattern"
-                android:textColor="@color/colorAccent"
-                android:visibility="invisible" />
+                android:textColor="@color/colorAccent" />
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/btnSetPin"
@@ -93,8 +79,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/button_bar_background"
                 android:text="@string/set_pin"
-                android:textColor="@color/colorAccent"
-                android:visibility="invisible" />
+                android:textColor="@color/colorAccent" />
         </LinearLayout>
 
         <View
