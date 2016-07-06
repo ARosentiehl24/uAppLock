@@ -68,4 +68,5 @@
     <string name="set_a_wallpaper_summary_text">Add / Change the wallpaper header navigation view and also the lock screen</string>
     <string name="theme_settings">theme_settings</string>
     <string name="title_activity_fingerprint_settings">Fingerprint Settings</string>
+    <string name="current_version">Current version: %s</string>
 </resources>

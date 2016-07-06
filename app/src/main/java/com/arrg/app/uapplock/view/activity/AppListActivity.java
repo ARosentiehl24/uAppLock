@@ -95,7 +95,7 @@ public class AppListActivity extends AppCompatActivity implements AppListView, N
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
             } else {
-                super.onBackPressed();
+                Navigator.with(this).utils().finishWithAnimation();
             }
         }
     }

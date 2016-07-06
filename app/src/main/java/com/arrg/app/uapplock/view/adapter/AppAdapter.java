@@ -2,7 +2,6 @@ package com.arrg.app.uapplock.view.adapter;
 
 import android.content.SharedPreferences;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 
 import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.model.entity.App;
@@ -36,7 +35,14 @@ public class AppAdapter extends BaseQuickAdapter<App> implements INameableAdapte
 
         SwitchButton switchButton = baseViewHolder.getView(R.id.switchCompat);
         switchButton.setCheckedImmediately(preferencesUtil.getBoolean(lockedAppsPreferences, app.getAppPackage(), false));
+        switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                boolean isLocked = preferencesUtil.getBoolean(lockedAppsPreferences, app.getAppPackage(), false);
 
+                preferencesUtil.putValue(lockedAppsPreferences, app.getAppPackage(), !isLocked);
+            }
+        });
         TypefaceHelper.typeface(baseViewHolder.getView(R.id.appName));
     }
 
