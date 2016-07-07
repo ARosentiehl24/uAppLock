@@ -1,32 +1,30 @@
 package com.arrg.app.uapplock.view.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.arrg.app.uapplock.R;
+import com.arrg.app.uapplock.util.Util;
+import com.arrg.app.uapplock.view.fragment.FingerprintSettingsFragment;
 
-public class FingerprintSettingsActivity extends AppCompatActivity {
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+public class FingerprintSettingsActivity extends UAppLockActivity {
+
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fingerprint_settings);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
+        Util.modifyToolbar(this, R.string.title_activity_fingerprint_settings);
 
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, new FingerprintSettingsFragment()).commit();
+    }
 }

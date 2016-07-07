@@ -45,34 +45,50 @@
     <string name="unlocked_apps">Unlocked Apps</string>
     <string name="more">More</string>
 
-    <string name="uapplock_settings">uAppLock Settings</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="uapplock_settings">uAppLock Settings</string>
     <string name="design_settings">Design Settings</string>
 
-    <string name="fingerprint_summary_text">Enable / Disable unlocking fingerprint and configure other related settings</string>
     <string name="fingerprint_title">Fingerprint Settings</string>
+    <string name="fingerprint_summary_text">Enable / Disable unlocking fingerprint and configure other related settings</string>
+
     <string name="unlock_method_title">Unlock Method</string>
     <string name="unlock_method_summary">Choose a default unlock method</string>
-    <string name="pattern_summary_text">Changes the settings related to the pattern</string>
-    <string name="pin_summary_text">Changes the settings related to the pin</string>
-    <string name="other_settings">Other</string>
+
     <string name="pattern_title">Pattern Settings</string>
+    <string name="pattern_summary_text">Changes the settings related to the pattern</string>
+
     <string name="pin_title">Pin Settings</string>
+    <string name="pin_summary_text">Changes the settings related to the pin</string>
+
+    <string name="other_settings">Other</string>
+
     <string name="profile_picture_title">Profile Picture</string>
-    <string name="font_title">Font</string>
-    <string name="theme_title">Theme</string>
-    <string name="set_a_wallpaper_title">Set A Wallpaper</string>
     <string name="profile_picture_summary_text">Add a profile photo to header of navigation view</string>
+
+    <string name="font_title">Font</string>
     <string name="font_summary_text">Change the font style of the application</string>
+
+    <string name="theme_title">Theme</string>
     <string name="theme_summary_text">Create a theme by changing the main colors</string>
+
+    <string name="set_a_wallpaper_title">Set A Wallpaper</string>
     <string name="set_a_wallpaper_summary_text">Add / Change the wallpaper header navigation view and also the lock screen</string>
-    <string name="theme_settings">theme_settings</string>
+
     <string name="title_activity_fingerprint_settings">Fingerprint Settings</string>
+
     <string name="current_version">Current version: %s</string>
     <string name="long_click_message">What would you like to do?</string>
     <string name="open">Open</string>
     <string name="uninstall">Uninstall</string>
     <string name="cancel">Cancel</string>
-    <string name="uninstalling_app_message">Uninstalling app</string>
     <string name="undo">Undo</string>
+
+    <string name="uninstall_app_message">Preparing to uninstall app</string>
+    <string name="uninstall_error_message">An error occurred while trying to uninstall the application</string>
+
+    <string name="enable_fingerprint_title">Enable Fingerprint</string>
+    <string name="enable_fingerprint_summary">Enable / Disable fingerprint security on uAppLock screen</string>
+    <string name="security_settings_title">Security Settings</string>
+    <string name="security_settings_summary">Open the security settings to configure aspects related to fingerprints, such as, add new fingerprint or delete one, among other things</string>
 </resources>

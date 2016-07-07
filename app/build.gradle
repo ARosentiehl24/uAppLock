@@ -64,7 +64,9 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.turingtechnologies.materialscrollbar:lib:10.0.2'
     compile 'de.hdodenhof:circleimageview:2.1.0'
-    compile 'me.a7madev.androidglobalutils:library:1.0.12'
+    /*compile 'me.a7madev.androidglobalutils:library:1.0.12'*/
     compile 'net.steamcrafted:materialiconlib:1.0.9'
     compile 'org.fingerlinks.mobile.android:Navigator:0.1.2'
+
+    compile 'com.github.siyamed:android-shape-imageview:0.9.3@aar'
 }

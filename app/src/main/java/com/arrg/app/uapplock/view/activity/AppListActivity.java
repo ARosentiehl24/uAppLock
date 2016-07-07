@@ -278,6 +278,11 @@ public class AppListActivity extends AppCompatActivity implements AppListView, N
         }
     }
 
+    @Override
+    public Boolean isSearchInputOpen() {
+        return isSearchInputOpen;
+    }
+
     public class LoadApplications extends AsyncTask<Void, Void, ArrayList<App>> {
 
         @Override

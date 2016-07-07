@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.Typeface;
 
+import com.arrg.app.uapplock.util.kisstools.KissTools;
 import com.norbsoft.typefacehelper.TypefaceCollection;
 import com.norbsoft.typefacehelper.TypefaceHelper;
 import com.shawnlin.preferencesmanager.PreferencesManager;
@@ -49,6 +50,8 @@ public class UAppLock extends Application {
         int fontPosition = PreferencesManager.getInt(getString(R.string.font_position), 0);
 
         initTypeFace(getTypeface(fontPosition));
+
+        KissTools.setContext(getApplicationContext());
     }
 
     public void setPreferencesManager(String name) {

@@ -6,7 +6,6 @@ import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -37,7 +36,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class IntroActivity extends AppCompatActivity implements IntroActivityView, ViewPager.OnPageChangeListener {
+public class IntroActivity extends UAppLockActivity implements IntroActivityView, ViewPager.OnPageChangeListener {
 
     public static final int USAGE_STATS_RC = 100;
     public static final int OVERLAY_PERMISSION_RC = 101;
@@ -45,8 +44,6 @@ public class IntroActivity extends AppCompatActivity implements IntroActivityVie
 
     @Bind(R.id.viewPager)
     LockableViewPager viewPager;
-    /*@Bind(R.id.stepperIndicator)
-    StepperIndicator stepperIndicator;*/
     @Bind(R.id.btnPrevious)
     MaterialIconView btnPrevious;
     @Bind(R.id.btnNext)

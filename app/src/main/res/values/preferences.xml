@@ -12,5 +12,8 @@
     <string name="pin_settings">pin_settings</string>
     <string name="font_settings">font_settings</string>
     <string name="face_settings">face_settings</string>
+    <string name="theme_settings">theme_settings</string>
     <string name="wallpaper_settings">wallpaper_settings</string>
+    <string name="enable_fingerprint">enable_fingerprint</string>
+    <string name="security_settings">security_settings</string>
 </resources>

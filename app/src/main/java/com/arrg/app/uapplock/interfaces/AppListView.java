@@ -17,4 +17,5 @@ public interface AppListView {
     void setFragment(int index, int title, boolean animate);
     Activity getContext();
     void launchSettingsActivity();
+    Boolean isSearchInputOpen();
 }

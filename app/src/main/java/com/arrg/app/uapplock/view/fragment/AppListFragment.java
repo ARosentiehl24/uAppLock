@@ -4,18 +4,13 @@ package com.arrg.app.uapplock.view.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +18,18 @@ import android.view.ViewGroup;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.arrg.app.uapplock.R;
+import com.arrg.app.uapplock.interfaces.AppListFragmentView;
 import com.arrg.app.uapplock.model.entity.App;
+import com.arrg.app.uapplock.presenter.IAppListFragmentPresenter;
 import com.arrg.app.uapplock.util.SharedPreferencesUtil;
+import com.arrg.app.uapplock.util.kisstools.utils.PackageUtil;
+import com.arrg.app.uapplock.util.kisstools.utils.ResourceUtil;
+import com.arrg.app.uapplock.util.kisstools.utils.SystemUtil;
+import com.arrg.app.uapplock.util.kisstools.utils.ToastUtil;
 import com.arrg.app.uapplock.view.adapter.AppAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kyleduo.switchbutton.SwitchButton;
+import com.norbsoft.typefacehelper.TypefaceHelper;
 import com.turingtechnologies.materialscrollbar.AlphabetIndicator;
 import com.turingtechnologies.materialscrollbar.DragScrollBar;
 
@@ -41,72 +43,73 @@ import static com.arrg.app.uapplock.view.activity.AppListActivity.ALL_APPS;
 import static com.arrg.app.uapplock.view.activity.AppListActivity.LOCKED_APPS;
 import static com.arrg.app.uapplock.view.activity.AppListActivity.UNLOCKED_APPS;
 
-;
-;
+public class AppListFragment extends Fragment implements AppListFragmentView, BaseQuickAdapter.OnRecyclerViewItemClickListener, BaseQuickAdapter.OnRecyclerViewItemLongClickListener {
 
-public class AppListFragment extends Fragment implements BaseQuickAdapter.OnRecyclerViewItemClickListener, BaseQuickAdapter.OnRecyclerViewItemLongClickListener {
+    private App app;
+    private AppAdapter appAdapter;
+    private ArrayList<App> appArrayList;
+    private IAppListFragmentPresenter iAppListFragmentPresenter;
+    private Integer selectedIndex;
+    private SharedPreferences lockedAppsPreferences;
+    private SharedPreferencesUtil preferencesUtil;
+    private Snackbar snackbar;
 
     @Bind(R.id.dragScrollBar)
     DragScrollBar dragScrollBar;
-    private AppAdapter appAdapter;
-    private ArrayList<App> appArrayList;
-    private Integer index;
-    private SharedPreferences lockedAppsPreferences;
-    private SharedPreferencesUtil preferencesUtil;
-
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
 
     public AppListFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        preferencesUtil = new SharedPreferencesUtil(getActivity());
-        lockedAppsPreferences = getActivity().getSharedPreferences(LOCKED_APPS_PREFERENCES, Context.MODE_PRIVATE);
+        iAppListFragmentPresenter = new IAppListFragmentPresenter(this);
+        iAppListFragmentPresenter.onCreate();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_app_list, container, false);
         ButterKnife.bind(this, view);
+        TypefaceHelper.typeface(view);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        Bundle bundle = getArguments();
-
-        ArrayList<App> apps = (ArrayList<App>) bundle.getSerializable("apps");
-
-        Boolean animate = bundle.getBoolean("animate", false);
-
-        index = bundle.getInt("index", 0);
-
-        setAdapter(apps, index, animate);
+        iAppListFragmentPresenter.setAdapter(getArguments());
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        iAppListFragmentPresenter.unregisterReceiver();
     }
 
-    public void setAdapter(ArrayList<App> apps, Integer index, boolean withAnimation) {
+    @Override
+    public void configFragment() {
+        selectedIndex = 0;
+
+        preferencesUtil = new SharedPreferencesUtil(getActivity());
+        lockedAppsPreferences = getActivity().getSharedPreferences(LOCKED_APPS_PREFERENCES, Context.MODE_PRIVATE);
+    }
+
+    @Override
+    public void setAdapter(ArrayList<App> apps, Integer index, Boolean withAnimation) {
         appAdapter = null;
 
         appArrayList = new ArrayList<>();
 
+        selectedIndex = index;
+
         switch (index) {
             case ALL_APPS:
                 appArrayList = apps;
-
                 appAdapter = new AppAdapter(R.layout.app_item, appArrayList, lockedAppsPreferences, preferencesUtil);
                 break;
             case LOCKED_APPS:
@@ -115,7 +118,6 @@ public class AppListFragment extends Fragment implements BaseQuickAdapter.OnRecy
                         appArrayList.add(app);
                     }
                 }
-
                 appAdapter = new AppAdapter(R.layout.app_item, appArrayList, lockedAppsPreferences, preferencesUtil);
                 break;
             case UNLOCKED_APPS:
@@ -124,7 +126,6 @@ public class AppListFragment extends Fragment implements BaseQuickAdapter.OnRecy
                         appArrayList.add(app);
                     }
                 }
-
                 appAdapter = new AppAdapter(R.layout.app_item, appArrayList, lockedAppsPreferences, preferencesUtil);
                 break;
         }
@@ -139,15 +140,50 @@ public class AppListFragment extends Fragment implements BaseQuickAdapter.OnRecy
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        dragScrollBar.addIndicator(new AlphabetIndicator(getActivity()), true);
+
         appAdapter.setOnRecyclerViewItemClickListener(this);
         appAdapter.setOnRecyclerViewItemLongClickListener(this);
+    }
 
-        dragScrollBar.addIndicator(new AlphabetIndicator(getActivity()), true);
+    @Override
+    public Context getFragmentContext() {
+        return getActivity();
+    }
+
+    @Override
+    public Integer getIndex() {
+        return selectedIndex;
+    }
+
+    @Override
+    public ArrayList<App> getApps() {
+        return appArrayList;
+    }
+
+    @Override
+    public void add(App app, Integer position) {
+        if (selectedIndex == LOCKED_APPS) {
+            appAdapter.add(position, app);
+            appAdapter.remove(position);
+        } else {
+            appAdapter.add(position, app);
+        }
+    }
+
+    @Override
+    public void removeAppIn(Integer position) {
+        appAdapter.remove(position);
+    }
+
+    @Override
+    public void showErrorMessage(String message) {
+        ToastUtil.show(message);
     }
 
     @Override
     public void onItemClick(View view, int i) {
-        App app = appArrayList.get(i);
+        app = appAdapter.getItem(i);
 
         SwitchButton switchCompat = (SwitchButton) view.findViewById(R.id.switchCompat);
         switchCompat.toggle();
@@ -156,24 +192,19 @@ public class AppListFragment extends Fragment implements BaseQuickAdapter.OnRecy
 
         preferencesUtil.putValue(lockedAppsPreferences, app.getAppPackage(), switchCompat.isChecked());
 
-        if (index != ALL_APPS) {
+        if (selectedIndex != ALL_APPS) {
             appAdapter.remove(i);
         }
     }
 
     @Override
-    public boolean onItemLongClick(View view, int i) {
-        final App app = appArrayList.get(i);
-
-        Drawable drawable = app.getAppIcon();
-
-        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-
-        drawable = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 96, 96, true));
+    public boolean onItemLongClick(View view, final int i) {
+        app = appAdapter.getItem(i);
 
         new MaterialDialog.Builder(getActivity())
                 .title(app.getAppName())
-                .icon(drawable)
+                .icon(app.getAppIcon())
+                .limitIconToDefaultSize()
                 .content(getString(R.string.long_click_message))
                 .positiveText(getString(R.string.open))
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -188,21 +219,35 @@ public class AppListFragment extends Fragment implements BaseQuickAdapter.OnRecy
                 .onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        Snackbar.make(getView(), R.string.uninstalling_app_message, Snackbar.LENGTH_LONG)
-                                .setActionTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary))
-                                .setAction(R.string.undo, new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
+                        if (SystemUtil.isRooted()) {
 
+                            removeAppIn(i);
+
+                            snackbar = Snackbar.make(getView(), R.string.uninstall_app_message, Snackbar.LENGTH_LONG);
+                            snackbar.setActionTextColor(ResourceUtil.getColor(R.color.colorPrimary));
+                            snackbar.setAction(ResourceUtil.getString(R.string.undo), new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    add(app, i);
+                                }
+                            });
+                            snackbar.setCallback(new Snackbar.Callback() {
+                                @Override
+                                public void onDismissed(Snackbar snackbar, int event) {
+                                    switch (event) {
+                                        case DISMISS_EVENT_TIMEOUT:
+                                            if (!PackageUtil.silentUninstall(app.getAppPackage(), false)) {
+                                                ToastUtil.show(R.string.uninstall_error_message);
+                                                add(app, i);
+                                            }
+                                            break;
                                     }
-                                })
-                                .setCallback(new Snackbar.Callback() {
-                                    @Override
-                                    public void onDismissed(Snackbar snackbar, int event) {
-                                        super.onDismissed(snackbar, event);
-                                        Log.e("Values", "Dismissed");
-                                    }
-                                }).show();
+                                }
+                            });
+                            snackbar.show();
+                        } else {
+                            PackageUtil.uninstall(app.getAppPackage());
+                        }
                     }
                 })
                 .build()
