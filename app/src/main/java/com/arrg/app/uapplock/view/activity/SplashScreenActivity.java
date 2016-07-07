@@ -105,8 +105,8 @@ public class SplashScreenActivity extends UAppLockActivity implements SplashScre
     }
 
     @Override
-    public void defaultUnlockMethodChosen(String unlockMethod) {
-        PreferencesManager.putString(getString(R.string.unlock_method), unlockMethod);
+    public void defaultUnlockMethodChosen(Integer unlockMethod) {
+        PreferencesManager.putInt(getString(R.string.unlock_method), unlockMethod);
 
         Navigator.with(SplashScreenActivity.this).build().goTo(IntroActivity.class).animation().commit();
     }

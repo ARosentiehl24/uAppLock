@@ -23,7 +23,7 @@ public class FingerprintSettingsActivity extends UAppLockActivity {
 
         setSupportActionBar(toolbar);
 
-        Util.modifyToolbar(this, R.string.title_activity_fingerprint_settings);
+        Util.modifyToolbar(this, R.string.title_activity_fingerprint_settings, true);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container, new FingerprintSettingsFragment()).commit();
     }

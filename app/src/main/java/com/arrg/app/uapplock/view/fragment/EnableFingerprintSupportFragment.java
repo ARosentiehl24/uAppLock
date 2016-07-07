@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.arrg.app.uapplock.R;
+import com.arrg.app.uapplock.UAppLock;
 import com.norbsoft.typefacehelper.TypefaceHelper;
 import com.shawnlin.preferencesmanager.PreferencesManager;
 
@@ -31,6 +32,8 @@ public class EnableFingerprintSupportFragment extends Fragment {
     AppCompatTextView tvDescription;
     @Bind(R.id.btnResetPin)
     AppCompatButton btnResetPin;
+
+    private Integer initialUnlockMethod;
 
     public EnableFingerprintSupportFragment() {
     }
@@ -56,6 +59,8 @@ public class EnableFingerprintSupportFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        initialUnlockMethod = PreferencesManager.getInt(getString(R.string.unlock_method));
+
         boolean isFingerprintEnabled = PreferencesManager.getBoolean(getString(R.string.fingerprint_recognition_activated), false);
 
         updateViews(isFingerprintEnabled);
@@ -69,7 +74,7 @@ public class EnableFingerprintSupportFragment extends Fragment {
 
     @OnClick(R.id.btnResetPin)
     public void onClick() {
-        boolean isFingerprintEnabled = PreferencesManager.getBoolean(getString(R.string.fingerprint_recognition_activated), true);
+        boolean isFingerprintEnabled = PreferencesManager.getBoolean(getString(R.string.fingerprint_recognition_activated));
 
         FingerprintManagerCompat fingerprintManagerCompat = FingerprintManagerCompat.from(getActivity());
 
@@ -78,15 +83,22 @@ public class EnableFingerprintSupportFragment extends Fragment {
 
             Intent intent = new Intent(Settings.ACTION_SECURITY_SETTINGS);
             startActivity(intent);
+            getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
         } else {
-            PreferencesManager.putBoolean(getString(R.string.fingerprint_recognition_activated), !isFingerprintEnabled);
-
-            updateViews(isFingerprintEnabled);
+            updateViews(!isFingerprintEnabled);
         }
     }
 
     public void updateViews(boolean isFingerprintEnabled) {
+        PreferencesManager.putBoolean(getString(R.string.fingerprint_recognition_activated), isFingerprintEnabled);
+
         btnResetPin.setText(isFingerprintEnabled ? R.string.disable_fingerprint_support : R.string.enable_fingerprint_support);
         tvDescription.setVisibility(isFingerprintEnabled ? View.VISIBLE : View.INVISIBLE);
+
+        if (isFingerprintEnabled) {
+            PreferencesManager.putInt(getString(R.string.unlock_method), UAppLock.FINGERPRINT);
+        } else {
+            PreferencesManager.putInt(getString(R.string.unlock_method), initialUnlockMethod);
+        }
     }
 }

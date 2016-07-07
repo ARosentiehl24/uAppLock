@@ -25,7 +25,7 @@ public class SettingsActivity extends UAppLockActivity {
 
         setSupportActionBar(toolbar);
 
-        Util.modifyToolbar(this, R.string.title_activity_settings);
+        Util.modifyToolbar(this, R.string.title_activity_settings, true);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container, new SettingsFragment()).commit();
     }

@@ -13,7 +13,7 @@ import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 public class Util {
 
-    public static void modifyToolbar(AppCompatActivity activity, Integer title){
+    public static void modifyToolbar(AppCompatActivity activity, Integer title, Boolean displayHome){
         ActionBar actionBar = activity.getSupportActionBar();
         if (actionBar != null) {
             ActionBarHelper.setTitle(actionBar, TypefaceHelper.typeface(activity, title));
@@ -24,7 +24,7 @@ public class Util {
                     .setToActionbarSize()
                     .build();
 
-            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(displayHome);
             actionBar.setHomeAsUpIndicator(leftArrow);
         }
     }

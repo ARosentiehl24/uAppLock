@@ -79,6 +79,25 @@
             android:name=".model.service.UAppLockService"
             android:enabled="true"
             android:exported="true" />
+
+        <activity
+            android:name=".view.activity.PatternSettingsActivity"
+            android:label="@string/title_activity_pattern_settings"
+            android:parentActivityName=".view.activity.SettingsActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.arrg.app.uapplock.view.activity.SettingsActivity" />
+        </activity>
+        <activity
+            android:name=".view.activity.PinSettingsActivity"
+            android:label="@string/title_activity_pin_settings"
+            android:parentActivityName=".view.activity.SettingsActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.arrg.app.uapplock.view.activity.SettingsActivity" />
+        </activity>
     </application>
 
 </manifest>

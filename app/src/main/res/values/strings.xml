@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">uAppLock</string>
+    <string name="accept">Accept</string>
+
     <string name="welcome_message">Welcome to uAppLock</string>
 
     <string name="action_settings">Settings</string>
@@ -50,7 +52,8 @@
     <string name="design_settings">Design Settings</string>
 
     <string name="fingerprint_title">Fingerprint Settings</string>
-    <string name="fingerprint_summary_text">Enable / Disable unlocking fingerprint and configure other related settings</string>
+    <string name="fingerprint_summary_text">Enable / Disable unlock by fingerprint on uAppLock screen and configure other related settings</string>
+    <string name="fingerprint_not_supported_message">This device does not have the fingerprint sensor</string>
 
     <string name="unlock_method_title">Unlock Method</string>
     <string name="unlock_method_summary">Choose a default unlock method</string>
@@ -88,7 +91,11 @@
     <string name="uninstall_error_message">An error occurred while trying to uninstall the application</string>
 
     <string name="enable_fingerprint_title">Enable Fingerprint</string>
-    <string name="enable_fingerprint_summary">Enable / Disable fingerprint security on uAppLock screen</string>
+    <string name="enable_fingerprint_summary">Enable / Disable unlock by fingerprint on uAppLock screen</string>
     <string name="security_settings_title">Security Settings</string>
     <string name="security_settings_summary">Open the security settings to configure aspects related to fingerprints, such as, add new fingerprint or delete one, among other things</string>
+
+    <string name="title_activity_pattern_settings">Pattern Settings</string>
+    <string name="title_activity_pin_settings">Pin Settings</string>
+    <string name="unlock_method_chosen">Unlock method chosen: %s</string>
 </resources>

@@ -220,15 +220,12 @@ public class AppListFragment extends Fragment implements AppListFragmentView, Ba
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         if (SystemUtil.isRooted()) {
-
-                            removeAppIn(i);
-
                             snackbar = Snackbar.make(getView(), R.string.uninstall_app_message, Snackbar.LENGTH_LONG);
                             snackbar.setActionTextColor(ResourceUtil.getColor(R.color.colorPrimary));
-                            snackbar.setAction(ResourceUtil.getString(R.string.undo), new View.OnClickListener() {
+                            snackbar.setAction(ResourceUtil.getString(R.string.cancel), new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    add(app, i);
+                                    snackbar.dismiss();
                                 }
                             });
                             snackbar.setCallback(new Snackbar.Callback() {
@@ -238,7 +235,8 @@ public class AppListFragment extends Fragment implements AppListFragmentView, Ba
                                         case DISMISS_EVENT_TIMEOUT:
                                             if (!PackageUtil.silentUninstall(app.getAppPackage(), false)) {
                                                 ToastUtil.show(R.string.uninstall_error_message);
-                                                add(app, i);
+                                            } else {
+                                                removeAppIn(i);
                                             }
                                             break;
                                     }

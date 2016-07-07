@@ -47,12 +47,6 @@
             android:key="@string/wallpaper_settings"
             android:summary="@string/set_a_wallpaper_summary_text"
             android:title="@string/set_a_wallpaper_title" />
-
-        <Preference
-            android:icon="@drawable/ic_theme"
-            android:key="@string/theme_settings"
-            android:summary="@string/theme_summary_text"
-            android:title="@string/theme_title" />
     </PreferenceCategory>
 
     <!--<PreferenceCategory android:title="@string/other_settings">

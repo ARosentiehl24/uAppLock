@@ -6,8 +6,8 @@
     <dimen name="appbar_padding_top">8dp</dimen>
     <dimen name="icon_size_splash_screen">144dp</dimen>
     <dimen name="text_size_splash_screen">50sp</dimen>
-    <dimen name="text_size_unlock_method_request">25sp</dimen>
-    <dimen name="text_padding_unlock_method_request">25dp</dimen>
+    <dimen name="text_size_unlock_method_request">20sp</dimen>
+    <dimen name="text_padding_unlock_method_request">10dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>

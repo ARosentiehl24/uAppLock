@@ -20,9 +20,9 @@ public class UAppLock extends Application {
     public static String PACKAGES_APPS_PREFERENCES;
     public static String SETTINGS_PREFERENCES;
 
-    public static String FINGERPRINT = "fingerprint";
-    public static String PATTERN = "pattern";
-    public static String PIN = "pin";
+    public static Integer FINGERPRINT = 0;
+    public static Integer PATTERN = 1;
+    public static Integer PIN = 2;
 
     private ArrayList<TypefaceCollection> typefaceCollections;
     private PreferencesManager preferencesManager;
