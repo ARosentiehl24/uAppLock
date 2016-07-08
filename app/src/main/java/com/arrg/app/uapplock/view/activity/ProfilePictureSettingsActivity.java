@@ -1,18 +1,21 @@
 package com.arrg.app.uapplock.view.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.MenuItem;
 
 import com.arrg.app.uapplock.R;
+import com.arrg.app.uapplock.interfaces.ProfilePictureSettingsView;
+import com.arrg.app.uapplock.presenter.IProfilePictureSettingsPresenter;
 import com.arrg.app.uapplock.util.BlurEffectUtil;
 import com.arrg.app.uapplock.util.Util;
-import com.arrg.app.uapplock.util.kisstools.utils.BitmapUtil;
+import com.arrg.app.uapplock.util.kisstools.utils.SystemUtil;
 import com.arrg.app.uapplock.util.kisstools.utils.ToastUtil;
 import com.kennyc.bottomsheet.BottomSheet;
 import com.kennyc.bottomsheet.BottomSheetListener;
@@ -20,31 +23,31 @@ import com.mukesh.permissions.AppPermissions;
 import com.norbsoft.typefacehelper.TypefaceHelper;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import eightbitlab.com.blurview.BlurView;
 import pl.aprilapps.easyphotopicker.EasyImage;
 
-public class ProfilePictureSettingsActivity extends UAppLockActivity {
+public class ProfilePictureSettingsActivity extends UAppLockActivity implements ProfilePictureSettingsView {
 
     @Bind(R.id.cropImageView)
     CropImageView cropImageView;
-
     @Bind(R.id.container)
     AppCompatImageView container;
+    @Bind(R.id.btnChooseTakePicture)
+    AppCompatImageButton btnChooseTakePicture;
+    @Bind(R.id.blurView)
+    BlurView blurView;
 
-    private static final String[] STORAGE_PERMISSIONS = {
+    public static final String[] STORAGE_PERMISSIONS = {
             Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
     public static final int STORAGE_PERMISSION_RC = 100;
-
     private AppPermissions appPermissions;
     private BottomSheet bottomSheet;
+    private IProfilePictureSettingsPresenter iProfilePictureSettingsPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +57,65 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity {
         TypefaceHelper.typeface(this);
         Util.modifyToolbar(this, R.string.title_activity_profile_picture_settings, true);
 
+        iProfilePictureSettingsPresenter = new IProfilePictureSettingsPresenter(this);
+        iProfilePictureSettingsPresenter.onCreate();
+
         appPermissions = new AppPermissions(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SystemUtil.hideSystemUI(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        EasyImage.clearConfiguration(this);
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        iProfilePictureSettingsPresenter.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        iProfilePictureSettingsPresenter.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @OnClick(R.id.btnChooseTakePicture)
+    public void onClick() {
+        if (appPermissions.hasPermission(STORAGE_PERMISSIONS)) {
+            showBottomSheet();
+        } else {
+            showBottomSheet();
+
+            appPermissions.requestPermission(STORAGE_PERMISSIONS, STORAGE_PERMISSION_RC);
+        }
+    }
+
+    @Override
+    public void showBottomSheet() {
+        bottomSheet.show();
+    }
+
+    @Override
+    public void setBitmap(Bitmap bitmap) {
+        container.setImageBitmap(BlurEffectUtil.blur(getApplicationContext(), bitmap, 25.0f, 0.1f));
+        cropImageView.setImageBitmap(bitmap);
+    }
+
+    @Override
+    public void hideBottomSheet() {
+        bottomSheet.dismiss();
+    }
+
+    @Override
+    public void setupViews() {
         cropImageView.setMaxZoom(100);
         bottomSheet = new BottomSheet.Builder(this, R.style.BottomSheetStyle)
                 .setSheet(R.menu.camera_gallery_bottom_sheet_picker)
@@ -70,18 +131,7 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity {
 
                     @Override
                     public void onSheetItemSelected(@NonNull BottomSheet bottomSheet, MenuItem menuItem) {
-                        EasyImage.clearConfiguration(getApplicationContext());
-
-                        int id = menuItem.getItemId();
-
-                        switch (id) {
-                            case R.id.action_camera:
-                                EasyImage.openCamera(ProfilePictureSettingsActivity.this, 0);
-                                break;
-                            case R.id.action_gallery:
-                                EasyImage.openGallery(ProfilePictureSettingsActivity.this, 0);
-                                break;
-                        }
+                        iProfilePictureSettingsPresenter.handleOnItemSelected(menuItem.getItemId());
                     }
 
                     @Override
@@ -93,78 +143,12 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        EasyImage.clearConfiguration(this);
-        super.onDestroy();
+    public Activity getActivity() {
+        return this;
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        EasyImage.handleActivityResult(requestCode, resultCode, data, this, new EasyImage.Callbacks() {
-            @Override
-            public void onImagePickerError(Exception e, EasyImage.ImageSource imageSource, int i) {
-                ToastUtil.show(e.getMessage());
-            }
-
-            @Override
-            public void onImagePicked(File file, EasyImage.ImageSource imageSource, int i) {
-                Bitmap bitmap = BitmapUtil.getImage(file.getAbsolutePath());
-
-                cropImageView.setImageBitmap(bitmap);
-
-                container.setImageBitmap(BlurEffectUtil.blur(getApplicationContext(), bitmap));
-            }
-
-            @Override
-            public void onCanceled(EasyImage.ImageSource imageSource, int i) {
-                if (imageSource == EasyImage.ImageSource.CAMERA) {
-                    File photoFile = EasyImage.lastlyTakenButCanceledPhoto(ProfilePictureSettingsActivity.this);
-
-                    if (photoFile != null) {
-                        photoFile.delete();
-                    }
-                }
-            }
-        });
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        switch (requestCode) {
-            case STORAGE_PERMISSION_RC:
-                List<Integer> permissionResults = new ArrayList<>();
-
-                for (int grantResult : grantResults) {
-                    permissionResults.add(grantResult);
-                }
-
-                if (permissionResults.contains(PackageManager.PERMISSION_DENIED)) {
-                    hideBottomSheet();
-                }
-                break;
-        }
-    }
-
-    @OnClick(R.id.btnChooseTakePicture)
-    public void onClick() {
-        if (appPermissions.hasPermission(STORAGE_PERMISSIONS)) {
-            showBottomSheet();
-        } else {
-            showBottomSheet();
-
-            appPermissions.requestPermission(STORAGE_PERMISSIONS, STORAGE_PERMISSION_RC);
-        }
-    }
-
-    public void showBottomSheet() {
-        bottomSheet.show();
-    }
-
-    public void hideBottomSheet() {
-        bottomSheet.dismiss();
+    public void showError(String message) {
+        ToastUtil.show(message);
     }
 }
