@@ -67,7 +67,13 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.turingtechnologies.materialscrollbar:lib:10.0.2'
     compile 'de.hdodenhof:circleimageview:2.1.0'
-    compile 'me.a7madev.androidglobalutils:library:1.0.12'
     compile 'net.steamcrafted:materialiconlib:1.0.9'
     compile 'org.fingerlinks.mobile.android:Navigator:0.1.2'
+
+    /*Utils*/
+    compile 'me.a7madev.androidglobalutils:library:1.0.12'
+
+    /*Image Picker And Cropper*/
+    compile 'com.github.jkwiecien:EasyImage:1.2.3'
+    compile 'com.theartofdev.edmodo:android-image-cropper:2.2.3'
 }

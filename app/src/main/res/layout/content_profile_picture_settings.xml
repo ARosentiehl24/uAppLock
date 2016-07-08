@@ -1,17 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_dark"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.arrg.app.uapplock.view.activity.ProfilePictureSettingsActivity"
     tools:showIn="@layout/activity_profile_picture_settings">
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
-</RelativeLayout>
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.theartofdev.edmodo.cropper.CropImageView
+            android:id="@+id/cropImageView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:cropAspectRatioX="1"
+            app:cropAspectRatioY="1"
+            app:cropAutoZoomEnabled="true"
+            app:cropBorderCornerColor="@color/colorPrimary"
+            app:cropBorderLineColor="@color/colorPrimary"
+            app:cropFixAspectRatio="true"
+            app:cropGuidelines="onTouch"
+            app:cropGuidelinesColor="@color/colorPrimary" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btnChooseTakePicture"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/choose_take_a_picture"
+            android:textColor="@color/colorPrimary" />
+    </LinearLayout>
+</FrameLayout>

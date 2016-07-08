@@ -21,7 +21,7 @@
             android:layout_margin="10dp"
             app:keypadButtonBackgroundDrawable="@drawable/dot_empty_background"
             app:keypadButtonSize="75dp"
-            app:keypadDeleteButtonDrawable="@drawable/ic_backspace_wet_asphalt_24dp"
+            app:keypadDeleteButtonDrawable="@drawable/ic_delete"
             app:keypadDeleteButtonPressedColor="@color/wet_asphalt75"
             app:keypadDeleteButtonSize="25dp"
             app:keypadHorizontalSpacing="50dp"

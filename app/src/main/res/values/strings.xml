@@ -100,4 +100,9 @@
     <string name="unlock_method_chosen">Unlock method chosen: %s</string>
     <string name="title_activity_font_settings">Font Settings</string>
     <string name="title_activity_profile_picture_settings">Profile Picture Settings</string>
+    <string name="choose_take_a_picture">Choose / Take a picture</string>
+    <string name="camera">Camera</string>
+    <string name="close">Close</string>
+    <string name="gallery">Gallery</string>
+    <string name="select_source">Select source</string>
 </resources>
