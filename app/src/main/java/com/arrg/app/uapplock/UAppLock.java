@@ -42,10 +42,9 @@ public class UAppLock extends Application {
         preferencesManager = new PreferencesManager(this);
         setPreferencesManager(SETTINGS_PREFERENCES);
 
-        String fontPath = PreferencesManager.getString(getString(R.string.font_path), "fonts/Raleway.ttf");
-
         typefaceCollections = new ArrayList<>();
-        typefaceCollections.add(new TypefaceCollection.Builder().set(Typeface.NORMAL, Typeface.createFromAsset(getAssets(), fontPath)).create());
+        typefaceCollections.add(new TypefaceCollection.Builder().set(Typeface.NORMAL, Typeface.createFromAsset(getAssets(), "fonts/Raleway.ttf")).create());
+        typefaceCollections.add(new TypefaceCollection.Builder().set(Typeface.NORMAL, Typeface.createFromAsset(getAssets(), "fonts/LazySpringDay.ttf")).create());
 
         int fontPosition = PreferencesManager.getInt(getString(R.string.font_position), 0);
 

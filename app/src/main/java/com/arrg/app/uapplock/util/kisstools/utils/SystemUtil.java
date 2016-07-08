@@ -393,7 +393,6 @@ public class SystemUtil {
 		handler.postDelayed(runnable, delay);
 	}
 
-	@TargetApi(VERSION_CODES.KITKAT)
 	public static void hideSystemUI(Activity activity) {
 		View decorView = activity.getWindow().getDecorView();
 		decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE

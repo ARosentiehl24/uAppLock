@@ -31,6 +31,9 @@ repositories {
     maven {
         url 'http://dl.bintray.com/dev-fingerlinks/maven'
     }
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
 }
 
 dependencies {
@@ -46,6 +49,7 @@ dependencies {
     compile 'com.afollestad.material-dialogs:commons:0.8.6.1'
     compile 'com.afollestad.material-dialogs:core:0.8.6.1'
     compile 'com.andrognito.pinlockview:pinlockview:1.0.1'
+    compile 'com.bignerdranch.android:simple-item-decoration:1.0.0'
     compile 'com.commit451:inkpageindicator:1.0.2'
     compile 'com.dmitrymalkovich.android:material-design-dimens:1.2'
     compile 'com.eightbitlab:blurview:1.1.0'

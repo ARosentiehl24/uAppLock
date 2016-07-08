@@ -98,4 +98,6 @@
     <string name="title_activity_pattern_settings">Pattern Settings</string>
     <string name="title_activity_pin_settings">Pin Settings</string>
     <string name="unlock_method_chosen">Unlock method chosen: %s</string>
+    <string name="title_activity_font_settings">Font Settings</string>
+    <string name="title_activity_profile_picture_settings">Profile Picture Settings</string>
 </resources>

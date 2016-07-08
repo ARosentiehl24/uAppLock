@@ -98,6 +98,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.arrg.app.uapplock.view.activity.SettingsActivity" />
         </activity>
+        <activity
+            android:name=".view.activity.FontSettingsActivity"
+            android:label="@string/title_activity_font_settings"
+            android:parentActivityName=".view.activity.SettingsActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.arrg.app.uapplock.view.activity.SettingsActivity" />
+        </activity>
+        <activity
+            android:name=".view.activity.ProfilePictureSettingsActivity"
+            android:label="@string/title_activity_profile_picture_settings"
+            android:parentActivityName=".view.activity.SettingsActivity"
+            android:theme="@style/PictureAppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.arrg.app.uapplock.view.activity.SettingsActivity" />
+        </activity>
     </application>
 
 </manifest>

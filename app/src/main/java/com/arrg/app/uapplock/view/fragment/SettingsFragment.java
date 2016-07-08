@@ -11,9 +11,12 @@ import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.UAppLock;
 import com.arrg.app.uapplock.util.kisstools.utils.ToastUtil;
 import com.arrg.app.uapplock.view.activity.FingerprintSettingsActivity;
+import com.arrg.app.uapplock.view.activity.FontSettingsActivity;
 import com.arrg.app.uapplock.view.activity.PatternSettingsActivity;
 import com.arrg.app.uapplock.view.activity.PinSettingsActivity;
+import com.arrg.app.uapplock.view.activity.ProfilePictureSettingsActivity;
 import com.shawnlin.preferencesmanager.PreferencesManager;
+import com.takisoft.fix.support.v7.preference.PreferenceCategory;
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompatDividers;
 
 import org.fingerlinks.mobile.android.navigator.Navigator;
@@ -24,6 +27,7 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
 
     private ListPreference unlockMethod;
     private FingerprintManagerCompat fingerprintManagerCompat;
+    private Integer unlockMethodIndex;
     private String[] unlockMethodChosen;
 
     @Override
@@ -31,10 +35,15 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
         addPreferencesFromResource(R.xml.settings);
         setDividerPreferences(DIVIDER_PREFERENCE_AFTER_LAST);
 
+        PreferenceCategory preferenceScreen = (PreferenceCategory) getPreferenceScreen().getPreference(0);
+
         fingerprintManagerCompat = FingerprintManagerCompat.from(getActivity());
 
-        Preference fingerprintSettings = findPreference(getString(R.string.fingerprint_settings));
+        unlockMethod = (ListPreference) findPreference(getString(R.string.unlock_method));
+        unlockMethodChosen = GlobalUtils.getStringArray(getActivity(), R.array.unlock_methods);
+
         if (fingerprintManagerCompat.isHardwareDetected()) {
+            Preference fingerprintSettings = findPreference(getString(R.string.fingerprint_settings));
             fingerprintSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -43,10 +52,10 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
                 }
             });
         } else {
-            fingerprintSettings.setEnabled(false);
-            fingerprintSettings.setPersistent(false);
-            fingerprintSettings.setSelectable(false);
-            fingerprintSettings.setSummary(getString(R.string.fingerprint_not_supported_message));
+            preferenceScreen.removePreference(preferenceScreen.getPreference(0));
+
+            unlockMethod.setEntries(R.array.unlock_methods_without_fingerprint);
+            unlockMethod.setEntryValues(R.array.unlock_methods_values_without_fingerprint);
         }
 
         Preference patternSettings = findPreference(getString(R.string.pattern_settings));
@@ -67,15 +76,30 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
             }
         });
 
-        unlockMethod = (ListPreference) findPreference(getString(R.string.unlock_method));
-        unlockMethodChosen = GlobalUtils.getStringArray(getActivity(), R.array.unlock_methods);
+        Preference fontSettings = findPreference(getString(R.string.font_settings));
+        fontSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Navigator.with(getActivity()).build().goTo(FontSettingsActivity.class).animation().commit();
+                return false;
+            }
+        });
+
+        Preference profilePictureSettings = findPreference(getString(R.string.face_settings));
+        profilePictureSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Navigator.with(getActivity()).build().goTo(ProfilePictureSettingsActivity.class).animation().commit();
+                return false;
+            }
+        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        Integer unlockMethodIndex = PreferencesManager.getInt(getString(R.string.unlock_method));
+        unlockMethodIndex = PreferencesManager.getInt(getString(R.string.unlock_method));
 
         if (unlockMethodIndex.equals(UAppLock.FINGERPRINT)) {
             if (!isFingerPrintActivated()) {
@@ -88,7 +112,12 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
         }
 
         unlockMethod.setSummary(String.format(getString(R.string.unlock_method_chosen), unlockMethodChosen[unlockMethodIndex]));
-        unlockMethod.setValueIndex(unlockMethodIndex);
+
+        if (fingerprintManagerCompat.isHardwareDetected()) {
+            unlockMethod.setValueIndex(unlockMethodIndex);
+        } else {
+            unlockMethod.setValueIndex(unlockMethodIndex - 1);
+        }
 
         unlockMethod.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -114,6 +143,8 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
                     getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
                 }
             } else {
+                unlockMethod.setValueIndex(unlockMethodIndex);
+
                 ToastUtil.show(R.string.fingerprint_not_supported_message);
             }
         } else if (index.equals(UAppLock.PATTERN)) {
@@ -123,7 +154,7 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
                 Navigator.with(getActivity()).build().goTo(PatternSettingsActivity.class).animation().commit();
             }
         } else {
-            if (pinWasConfigured()){
+            if (pinWasConfigured()) {
                 update(index);
             } else {
                 Navigator.with(getActivity()).build().goTo(PinSettingsActivity.class).animation().commit();

@@ -11,4 +11,14 @@
         <item>1</item>
         <item>2</item>
     </string-array>
+
+    <string-array name="unlock_methods_without_fingerprint">
+        <item>Pattern</item>
+        <item>Pin</item>
+    </string-array>
+
+    <string-array name="unlock_methods_values_without_fingerprint">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 </resources>
