@@ -4,41 +4,57 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatImageView;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.arrg.app.uapplock.R;
-import com.arrg.app.uapplock.interfaces.ProfilePictureSettingsView;
-import com.arrg.app.uapplock.presenter.IProfilePictureSettingsPresenter;
+import com.arrg.app.uapplock.interfaces.PictureSettingsView;
+import com.arrg.app.uapplock.presenter.IPictureSettingsPresenter;
 import com.arrg.app.uapplock.util.BlurEffectUtil;
 import com.arrg.app.uapplock.util.Util;
+import com.arrg.app.uapplock.util.kisstools.utils.BitmapUtil;
 import com.arrg.app.uapplock.util.kisstools.utils.SystemUtil;
 import com.arrg.app.uapplock.util.kisstools.utils.ToastUtil;
 import com.kennyc.bottomsheet.BottomSheet;
 import com.kennyc.bottomsheet.BottomSheetListener;
 import com.mukesh.permissions.AppPermissions;
 import com.norbsoft.typefacehelper.TypefaceHelper;
+import com.shawnlin.preferencesmanager.PreferencesManager;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import eightbitlab.com.blurview.BlurView;
+import eightbitlab.com.blurview.RenderScriptBlur;
 import pl.aprilapps.easyphotopicker.EasyImage;
 
-public class ProfilePictureSettingsActivity extends UAppLockActivity implements ProfilePictureSettingsView {
+public class ProfilePictureSettingsActivity extends UAppLockActivity implements PictureSettingsView {
 
     @Bind(R.id.cropImageView)
     CropImageView cropImageView;
     @Bind(R.id.container)
     AppCompatImageView container;
-    @Bind(R.id.btnChooseTakePicture)
-    AppCompatImageButton btnChooseTakePicture;
     @Bind(R.id.blurView)
     BlurView blurView;
+    @Bind(R.id.profilePicture)
+    AppCompatImageView profilePicture;
+    @Bind(R.id.btnAdd)
+    AppCompatImageButton btnAdd;
+    @Bind(R.id.btnRotate)
+    AppCompatImageButton btnRotate;
+    @Bind(R.id.btnDone)
+    AppCompatImageButton btnDone;
+    @Bind(R.id.btnUndo)
+    AppCompatImageButton btnUndo;
+    @Bind(R.id.btnCrop)
+    AppCompatImageButton btnCrop;
 
     public static final String[] STORAGE_PERMISSIONS = {
             Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -47,7 +63,7 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity implements 
     public static final int STORAGE_PERMISSION_RC = 100;
     private AppPermissions appPermissions;
     private BottomSheet bottomSheet;
-    private IProfilePictureSettingsPresenter iProfilePictureSettingsPresenter;
+    private IPictureSettingsPresenter iProfilePictureSettingsPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +73,20 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity implements 
         TypefaceHelper.typeface(this);
         Util.modifyToolbar(this, R.string.title_activity_profile_picture_settings, true);
 
-        iProfilePictureSettingsPresenter = new IProfilePictureSettingsPresenter(this);
-        iProfilePictureSettingsPresenter.onCreate();
+        final float radius = 25;
+        final View decorView = getWindow().getDecorView();
+        final View rootView = decorView.findViewById(android.R.id.content);
+        final Drawable windowBackground = decorView.getBackground();
+
+        blurView.setupWith(rootView)
+                .windowBackground(windowBackground)
+                .blurAlgorithm(new RenderScriptBlur(this, true))
+                .blurRadius(radius);
 
         appPermissions = new AppPermissions(this);
+
+        iProfilePictureSettingsPresenter = new IPictureSettingsPresenter(this);
+        iProfilePictureSettingsPresenter.onCreate();
     }
 
     @Override
@@ -72,6 +98,7 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity implements 
     @Override
     protected void onDestroy() {
         EasyImage.clearConfiguration(this);
+        EasyImage.clearPublicTemp(this);
         super.onDestroy();
     }
 
@@ -87,14 +114,12 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity implements 
         iProfilePictureSettingsPresenter.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    @OnClick(R.id.btnChooseTakePicture)
-    public void onClick() {
-        if (appPermissions.hasPermission(STORAGE_PERMISSIONS)) {
-            showBottomSheet();
-        } else {
-            showBottomSheet();
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
 
-            appPermissions.requestPermission(STORAGE_PERMISSIONS, STORAGE_PERMISSION_RC);
+        if (hasFocus) {
+            SystemUtil.hideSystemUI(this);
         }
     }
 
@@ -105,8 +130,78 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity implements 
 
     @Override
     public void setBitmap(Bitmap bitmap) {
-        container.setImageBitmap(BlurEffectUtil.blur(getApplicationContext(), bitmap, 25.0f, 0.1f));
+        container.setImageBitmap(BlurEffectUtil.blur(getApplicationContext(), bitmap, 25.0f, 0.0625f));
         cropImageView.setImageBitmap(bitmap);
+    }
+
+    public void showCurrentProfilePicture(Bitmap bitmap) {
+        container.setImageBitmap(BlurEffectUtil.blur(getApplicationContext(), bitmap, 25.0f, 0.0625f));
+
+        profilePicture.setImageBitmap(bitmap);
+
+        cropImageView.setVisibility(View.INVISIBLE);
+
+        profilePicture.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public boolean hasPermissions(String[] permissions) {
+        return appPermissions.hasPermission(permissions);
+    }
+
+    @Override
+    public void requestOnePermission(String permission, int requestCode) {
+        appPermissions.requestPermission(permission, requestCode);
+    }
+
+    @Override
+    public void requestMultiplePermissions(String[] permissions, int requestCode) {
+        appPermissions.requestPermission(permissions, requestCode);
+    }
+
+    @Override
+    public void rotateCropImage(int degrees) {
+        cropImageView.rotateImage(degrees);
+    }
+
+    @Override
+    public void enableButtons(boolean enable) {
+        btnCrop.setEnabled(enable);
+        btnDone.setEnabled(enable);
+        btnRotate.setEnabled(enable);
+        btnUndo.setEnabled(enable);
+    }
+
+    @Override
+    public void enableUndo(boolean enable) {
+        btnCrop.setEnabled(!enable);
+        btnUndo.setEnabled(enable);
+    }
+
+    @Override
+    public void makeCroppedImageViewVisible(boolean isVisible) {
+        if (isVisible) {
+            profilePicture.setImageBitmap(cropImageView.getCroppedImage());
+        } else {
+            profilePicture.setImageBitmap(null);
+        }
+
+        cropImageView.setVisibility(isVisible ? View.INVISIBLE : View.VISIBLE);
+        profilePicture.setVisibility(isVisible ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    @Override
+    public void saveProfilePicture() {
+        String path = getFilesDir().getPath() + "/Pictures/Profile Picture/ProfilePicture.png";
+
+        PreferencesManager.putString(getString(R.string.profile_picture), path);
+
+        iProfilePictureSettingsPresenter.saveProfilePicture(cropImageView.getCroppedImage(), path);
+    }
+
+    @Override
+    public boolean hasPermission(String permission) {
+        return appPermissions.hasPermission(permission);
     }
 
     @Override
@@ -116,13 +211,19 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity implements 
 
     @Override
     public void setupViews() {
+        String profilePicture = PreferencesManager.getString(getString(R.string.profile_picture));
+
+        if (profilePicture.length() != 0) {
+            Bitmap background = BitmapUtil.getImage(profilePicture);
+
+            showCurrentProfilePicture(background);
+        }
+
         cropImageView.setMaxZoom(100);
+
         bottomSheet = new BottomSheet.Builder(this, R.style.BottomSheetStyle)
-                .setSheet(R.menu.camera_gallery_bottom_sheet_picker)
+                .setSheet(R.menu.bottom_sheet_picture_picker)
                 .setTitle(R.string.select_source)
-                .grid()
-                .setColumnCount(2)
-                .setCancelable(false)
                 .setListener(new BottomSheetListener() {
                     @Override
                     public void onSheetShown(@NonNull BottomSheet bottomSheet) {
@@ -136,7 +237,7 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity implements 
 
                     @Override
                     public void onSheetDismissed(@NonNull BottomSheet bottomSheet, int i) {
-
+                        SystemUtil.hideSystemUI(getActivity());
                     }
                 })
                 .create();
@@ -148,7 +249,20 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity implements 
     }
 
     @Override
-    public void showError(String message) {
+    public void showMessage(String message, boolean showInLog) {
         ToastUtil.show(message);
+
+        if (showInLog) {
+            Log.d(TAG(), message);
+        }
+    }
+
+    @OnClick({R.id.btnAdd, R.id.btnRotate, R.id.btnCrop, R.id.btnUndo, R.id.btnDone})
+    public void onClick(View view) {
+        iProfilePictureSettingsPresenter.onClick(view.getId());
+    }
+
+    public String TAG(){
+        return this.getClass().getCanonicalName();
     }
 }

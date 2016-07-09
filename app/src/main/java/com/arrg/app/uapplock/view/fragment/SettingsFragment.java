@@ -15,6 +15,7 @@ import com.arrg.app.uapplock.view.activity.FontSettingsActivity;
 import com.arrg.app.uapplock.view.activity.PatternSettingsActivity;
 import com.arrg.app.uapplock.view.activity.PinSettingsActivity;
 import com.arrg.app.uapplock.view.activity.ProfilePictureSettingsActivity;
+import com.arrg.app.uapplock.view.activity.WallpaperSettingsActivity;
 import com.shawnlin.preferencesmanager.PreferencesManager;
 import com.takisoft.fix.support.v7.preference.PreferenceCategory;
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompatDividers;
@@ -90,6 +91,15 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 Navigator.with(getActivity()).build().goTo(ProfilePictureSettingsActivity.class).animation().commit();
+                return false;
+            }
+        });
+
+        Preference wallPaperSettings = findPreference(getString(R.string.wallpaper_settings));
+        wallPaperSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Navigator.with(getActivity()).build().goTo(WallpaperSettingsActivity.class).animation().commit();
                 return false;
             }
         });

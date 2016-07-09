@@ -2,6 +2,7 @@ package com.arrg.app.uapplock.view.activity;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -11,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -27,6 +29,9 @@ import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.interfaces.AppListView;
 import com.arrg.app.uapplock.model.entity.App;
 import com.arrg.app.uapplock.presenter.IAppListPresenter;
+import com.arrg.app.uapplock.util.PackageUtils;
+import com.arrg.app.uapplock.util.kisstools.utils.BitmapUtil;
+import com.arrg.app.uapplock.util.kisstools.utils.FileUtil;
 import com.arrg.app.uapplock.view.fragment.AppListFragment;
 import com.easyandroidanimations.library.Animation;
 import com.easyandroidanimations.library.AnimationListener;
@@ -34,6 +39,7 @@ import com.easyandroidanimations.library.FadeOutAnimation;
 import com.jaouan.revealator.Revealator;
 import com.norbsoft.typefacehelper.ActionBarHelper;
 import com.norbsoft.typefacehelper.TypefaceHelper;
+import com.shawnlin.preferencesmanager.PreferencesManager;
 
 import org.fingerlinks.mobile.android.navigator.Navigator;
 
@@ -45,6 +51,7 @@ import java.util.TimerTask;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.arrg.app.uapplock.UAppLock.DURATIONS_OF_ANIMATIONS;
 
@@ -72,6 +79,7 @@ public class AppListActivity extends AppCompatActivity implements AppListView, N
     private ArrayList<App> appsArrayList;
     private Boolean closeSearchWithBackButton = false;
     private Boolean isSearchInputOpen = false;
+    private View headerView;
     private IAppListPresenter iAppListPresenter;
     private Integer selectedList = -1;
 
@@ -86,6 +94,39 @@ public class AppListActivity extends AppCompatActivity implements AppListView, N
         iAppListPresenter.onCreate();
 
         new LoadApplications().execute();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        CircleImageView profilePicture = (CircleImageView) headerView.findViewById(R.id.profilePicture);
+        AppCompatImageView container = (AppCompatImageView) headerView.findViewById(R.id.container);
+
+        String profilePicturePath = PreferencesManager.getString(getString(R.string.profile_picture));
+        String headerWallpaper = PreferencesManager.getString(getString(R.string.wallpaper));
+
+        if (FileUtil.exists(profilePicturePath)) {
+            if (profilePicturePath.length() != 0) {
+                Bitmap profile = BitmapUtil.getImage(profilePicturePath);
+
+                profilePicture.setBackground(null);
+                profilePicture.setImageBitmap(profile);
+            }
+        } else {
+            profilePicture.setBackgroundResource(R.drawable.dot_empty_background);
+            profilePicture.setImageBitmap(null);
+        }
+
+        if (FileUtil.exists(headerWallpaper)) {
+            if (headerWallpaper.length() != 0) {
+                Bitmap wallpaper = BitmapUtil.getImage(headerWallpaper);
+
+                container.setImageBitmap(wallpaper);
+            }
+        } else {
+            container.setImageBitmap(null);
+        }
     }
 
     @Override
@@ -213,11 +254,11 @@ public class AppListActivity extends AppCompatActivity implements AppListView, N
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        View view = navigationView.getHeaderView(0);
-        TypefaceHelper.typeface(view);
+        headerView = navigationView.getHeaderView(0);
+        TypefaceHelper.typeface(headerView);
 
-        AppCompatTextView appVersion = (AppCompatTextView) view.findViewById(R.id.tvAppVersion);
-        appVersion.setText(String.format(getString(R.string.current_version), "1.0"));
+        AppCompatTextView appVersion = (AppCompatTextView) headerView.findViewById(R.id.tvAppVersion);
+        appVersion.setText(String.format(getString(R.string.current_version), PackageUtils.getAppVersionName(this)));
 
         searchInput.addTextChangedListener(new TextWatcher() {
             @Override

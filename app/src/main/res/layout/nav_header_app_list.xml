@@ -1,38 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimaryDark"
-    android:gravity="bottom"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:theme="@style/ThemeOverlay.AppCompat">
+    android:layout_marginBottom="2.5dp"
+    app:cardBackgroundColor="@color/colorPrimaryDark"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="2.5dp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="@dimen/profile_picture_header_size"
-        android:layout_height="@dimen/profile_picture_header_size"
-        android:layout_marginTop="@dimen/material_layout_vertical_spacing_status_bar"
-        android:background="@drawable/dot_empty_background"
-        app:civ_border_color="@color/colorAccent"
-        app:civ_border_width="1.25dp" />
-
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tvUserName"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="@string/app_name"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/colorAccent" />
+        android:layout_height="match_parent">
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tvAppVersion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/current_version"
-        android:textColor="@color/wet_asphalt75" />
-</LinearLayout>
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryDark"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:theme="@style/ThemeOverlay.AppCompat">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profilePicture"
+                android:layout_width="@dimen/profile_picture_header_size"
+                android:layout_height="@dimen/profile_picture_header_size"
+                android:layout_marginTop="@dimen/material_layout_vertical_spacing_status_bar"
+                android:background="@drawable/dot_empty_background"
+                app:civ_border_color="@color/colorAccent"
+                app:civ_border_width="1.25dp" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tvUserName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/nav_header_vertical_spacing"
+                android:text="@string/app_name"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/colorAccent" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tvAppVersion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/current_version"
+                android:textColor="@color/wet_asphalt75" />
+        </LinearLayout>
+    </FrameLayout>
+
+</android.support.v7.widget.CardView>

@@ -14,7 +14,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/background_dark</item>
         <item name="colorPrimaryDark">@color/background_dark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/clouds</item>
         <item name="android:navigationBarColor">@color/background_dark</item>
         <item name="android:windowBackground">@color/background_dark</item>
         <item name="android:windowTranslucentNavigation">true</item>
@@ -42,7 +42,7 @@
 
     <style name="ListAppearance" parent="BottomSheet.ListItem.TextAppearance">
         <item name="android:textColor">@color/background_dark</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
     <style name="GridAppearance" parent="BottomSheet.GridItem.TextAppearance">

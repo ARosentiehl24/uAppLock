@@ -105,4 +105,12 @@
     <string name="close">Close</string>
     <string name="gallery">Gallery</string>
     <string name="select_source">Select source</string>
+    <string name="done">Done</string>
+    <string name="document">Document</string>
+    <string name="title_activity_wallpaper_settings">Wallpaper Settings</string>
+    <string name="add">Add</string>
+    <string name="rotate">Rotate</string>
+    <string name="crop">Crop</string>
+    <string name="blur">Blur</string>
+    <string name="wallpaper">wallpaper</string>
 </resources>

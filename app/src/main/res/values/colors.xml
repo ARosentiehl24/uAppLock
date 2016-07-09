@@ -15,12 +15,12 @@
     <color name="glass50">#80212121</color>
     <color name="glass75">#BF212121</color>
 
-    <color name="white_glass5">#0DFAFAFA</color>
-    <color name="white_glass10">#1AFAFAFA</color>
-    <color name="white_glass20">#33FAFAFA</color>
-    <color name="white_glass25">#40FAFAFA</color>
-    <color name="white_glass50">#80FAFAFA</color>
-    <color name="white_glass75">#BFFAFAFA</color>
+    <color name="white_glass5">#0DECF0F1</color>
+    <color name="white_glass10">#1AECF0F1</color>
+    <color name="white_glass20">#33ECF0F1</color>
+    <color name="white_glass25">#40ECF0F1</color>
+    <color name="white_glass50">#80ECF0F1</color>
+    <color name="white_glass75">#BFECF0F1</color>
 
     <color name="wet_asphalt5">#0D34495E</color>
     <color name="wet_asphalt10">#1A34495E</color>

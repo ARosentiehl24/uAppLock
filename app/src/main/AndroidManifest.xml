@@ -116,6 +116,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.arrg.app.uapplock.view.activity.SettingsActivity" />
         </activity>
+        <activity
+            android:name=".view.activity.WallpaperSettingsActivity"
+            android:label="@string/title_activity_wallpaper_settings"
+            android:parentActivityName=".view.activity.SettingsActivity"
+            android:theme="@style/PictureAppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.arrg.app.uapplock.view.activity.SettingsActivity" />
+        </activity>
     </application>
 
 </manifest>

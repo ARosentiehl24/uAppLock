@@ -17,8 +17,8 @@
         android:id="@+id/cropImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cropAspectRatioX="1"
-        app:cropAspectRatioY="1"
+        app:cropAspectRatioX="9"
+        app:cropAspectRatioY="16"
         app:cropAutoZoomEnabled="true"
         app:cropBackgroundColor="@color/glass50"
         app:cropBorderCornerColor="@color/colorPrimary"
@@ -64,6 +64,17 @@
                 android:src="@drawable/ic_add_white" />
 
             <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/btnBlur"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_clouds"
+                android:contentDescription="@string/blur"
+                android:gravity="center"
+                android:src="@drawable/ic_blur_white" />
+
+            <android.support.v7.widget.AppCompatImageButton
                 android:id="@+id/btnRotate"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="0dp"
@@ -107,5 +118,28 @@
                 android:gravity="center"
                 android:src="@drawable/ic_done_white" />
         </LinearLayout>
+    </eightbitlab.com.blurview.BlurView>
+
+    <eightbitlab.com.blurview.BlurView
+        android:id="@+id/blurSeekBarView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:background="@android:color/transparent"
+        android:elevation="10dp"
+        app:blurOverlayColor="@color/glass50">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.AppCompatSeekBar
+                android:id="@+id/seekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_horizontal|bottom"
+                android:max="25" />
+        </RelativeLayout>
     </eightbitlab.com.blurview.BlurView>
 </FrameLayout>

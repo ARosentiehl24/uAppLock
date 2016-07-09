@@ -6,6 +6,11 @@
         android:title="@string/camera" />
 
     <item
+        android:id="@+id/action_document"
+        android:icon="@drawable/ic_menu_document"
+        android:title="@string/document" />
+
+    <item
         android:id="@+id/action_gallery"
         android:icon="@drawable/ic_menu_gallery"
         android:title="@string/gallery" />
