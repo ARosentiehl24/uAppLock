@@ -125,6 +125,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.arrg.app.uapplock.view.activity.SettingsActivity" />
         </activity>
+        <activity
+            android:name=".view.activity.ApplicationListActivity"
+            android:label="@string/title_activity_application_list"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
