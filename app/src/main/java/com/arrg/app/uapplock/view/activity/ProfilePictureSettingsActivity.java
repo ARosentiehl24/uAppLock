@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatImageView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -60,7 +61,10 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity implements 
             Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
+    public static final float SCALE = 0.0625f;
     public static final int STORAGE_PERMISSION_RC = 100;
+    private int height;
+    private int width;
     private AppPermissions appPermissions;
     private BottomSheet bottomSheet;
     private IPictureSettingsPresenter iProfilePictureSettingsPresenter;
@@ -72,6 +76,12 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity implements 
         ButterKnife.bind(this);
         TypefaceHelper.typeface(this);
         Util.modifyToolbar(this, R.string.title_activity_profile_picture_settings, true);
+
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+
+        height = displaymetrics.heightPixels;
+        width = displaymetrics.widthPixels;
 
         final float radius = 25;
         final View decorView = getWindow().getDecorView();
@@ -130,12 +140,12 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity implements 
 
     @Override
     public void setBitmap(Bitmap bitmap) {
-        container.setImageBitmap(BlurEffectUtil.blur(getApplicationContext(), bitmap, 25.0f, 0.0625f));
+        container.setImageBitmap(BlurEffectUtil.blur(getApplicationContext(), bitmap, 25.0f, SCALE));
         cropImageView.setImageBitmap(bitmap);
     }
 
     public void showCurrentProfilePicture(Bitmap bitmap) {
-        container.setImageBitmap(BlurEffectUtil.blur(getApplicationContext(), bitmap, 25.0f, 0.0625f));
+        container.setImageBitmap(BlurEffectUtil.blur(getApplicationContext(), bitmap, 25.0f, SCALE));
 
         profilePicture.setImageBitmap(bitmap);
 
@@ -181,7 +191,7 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity implements 
     @Override
     public void makeCroppedImageViewVisible(boolean isVisible) {
         if (isVisible) {
-            profilePicture.setImageBitmap(cropImageView.getCroppedImage());
+            profilePicture.setImageBitmap(BitmapUtil.resizeImage(cropImageView.getCroppedImage(), width, height, true));
         } else {
             profilePicture.setImageBitmap(null);
         }
@@ -197,6 +207,11 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity implements 
         PreferencesManager.putString(getString(R.string.profile_picture), path);
 
         iProfilePictureSettingsPresenter.saveProfilePicture(cropImageView.getCroppedImage(), path);
+    }
+
+    @Override
+    public void closeActivity() {
+        onBackPressed();
     }
 
     @Override
@@ -216,7 +231,7 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity implements 
         if (profilePicture.length() != 0) {
             Bitmap background = BitmapUtil.getImage(profilePicture);
 
-            showCurrentProfilePicture(background);
+            showCurrentProfilePicture(BitmapUtil.resizeImage(background, width, height, true));
         }
 
         cropImageView.setMaxZoom(100);
@@ -262,7 +277,7 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity implements 
         iProfilePictureSettingsPresenter.onClick(view.getId());
     }
 
-    public String TAG(){
+    public String TAG() {
         return this.getClass().getCanonicalName();
     }
 }

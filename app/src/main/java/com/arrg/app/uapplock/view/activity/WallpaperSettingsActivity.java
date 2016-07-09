@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatSeekBar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,8 +46,8 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Pictu
     AppCompatImageView container;
     @Bind(R.id.cropImageView)
     CropImageView cropImageView;
-    @Bind(R.id.profilePicture)
-    AppCompatImageView profilePicture;
+    @Bind(R.id.wallpaperPicture)
+    AppCompatImageView wallpaperPicture;
     @Bind(R.id.seekBar)
     AppCompatSeekBar seekBar;
     @Bind(R.id.btnAdd)
@@ -70,7 +71,10 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Pictu
             Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
+    public static final float SCALE = 0.0625f;
     public static final int STORAGE_PERMISSION_RC = 100;
+    private int height;
+    private int width;
     private AppPermissions appPermissions;
     private Bitmap original;
     private Boolean isBlurEffectEnabled = false;
@@ -84,6 +88,12 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Pictu
         ButterKnife.bind(this);
         TypefaceHelper.typeface(this);
         Util.modifyToolbar(this, R.string.title_activity_wallpaper_settings, true);
+
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+
+        height = displaymetrics.heightPixels;
+        width = displaymetrics.widthPixels;
 
         final float radius = 25;
         final View decorView = getWindow().getDecorView();
@@ -172,7 +182,7 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Pictu
         if (wallpaper.length() != 0) {
             Bitmap background = BitmapUtil.getImage(wallpaper);
 
-            showCurrentProfilePicture(background);
+            showCurrentProfilePicture(BitmapUtil.resizeImage(background, width, height, true));
         }
 
         cropImageView.setMaxZoom(100);
@@ -254,7 +264,7 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Pictu
     public void setBitmap(Bitmap bitmap) {
         original = bitmap;
 
-        container.setImageBitmap(BlurEffectUtil.blur(getApplicationContext(), bitmap, 25.0f, 0.0625f));
+        container.setImageBitmap(BlurEffectUtil.blur(getApplicationContext(), bitmap, 25.0f, SCALE));
         cropImageView.setImageBitmap(bitmap);
     }
 
@@ -301,13 +311,13 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Pictu
     @Override
     public void makeCroppedImageViewVisible(boolean isVisible) {
         if (isVisible) {
-            profilePicture.setImageBitmap(cropImageView.getCroppedImage());
+            wallpaperPicture.setImageBitmap(BitmapUtil.resizeImage(cropImageView.getCroppedImage(), width, height, true));
         } else {
-            profilePicture.setImageBitmap(null);
+            wallpaperPicture.setImageBitmap(null);
         }
 
         cropImageView.setVisibility(isVisible ? View.INVISIBLE : View.VISIBLE);
-        profilePicture.setVisibility(isVisible ? View.VISIBLE : View.INVISIBLE);
+        wallpaperPicture.setVisibility(isVisible ? View.VISIBLE : View.INVISIBLE);
     }
 
     @Override
@@ -319,31 +329,40 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Pictu
         iPictureSettingsPresenter.saveProfilePicture(cropImageView.getCroppedImage(), path);
     }
 
-    @OnClick({R.id.btnAdd, R.id.btnBlur, R.id.btnRotate, R.id.btnCrop, R.id.btnUndo, R.id.btnDone})
+    @Override
+    public void closeActivity() {
+        onBackPressed();
+    }
+
+    @OnClick({R.id.btnAdd, R.id.btnBlur, R.id.btnRotate, R.id.btnCrop, R.id.btnUndo, R.id.btnDone, R.id.btnClose})
     public void onClick(View view) {
         iPictureSettingsPresenter.onClick(view.getId());
+
+        switch (view.getId()) {
+            case R.id.btnBlur:
+                if (isBlurEffectEnabled) {
+                    hideSeekBar();
+                } else {
+                    showSeekBar();
+                }
+                break;
+            case R.id.btnClose:
+                hideSeekBar();
+                break;
+        }
     }
 
     public void showCurrentProfilePicture(Bitmap bitmap) {
-        container.setImageBitmap(BlurEffectUtil.blur(getApplicationContext(), bitmap, 25.0f, 0.0625f));
+        container.setImageBitmap(BlurEffectUtil.blur(getApplicationContext(), bitmap, 25.0f, SCALE));
 
-        profilePicture.setImageBitmap(bitmap);
+        wallpaperPicture.setImageBitmap(bitmap);
 
         cropImageView.setVisibility(View.INVISIBLE);
 
-        profilePicture.setVisibility(View.VISIBLE);
+        wallpaperPicture.setVisibility(View.VISIBLE);
     }
 
     public String TAG() {
         return this.getClass().getCanonicalName();
-    }
-
-    @OnClick(R.id.btnBlur)
-    public void onClick() {
-        if (isBlurEffectEnabled) {
-            hideSeekBar();
-        } else {
-            showSeekBar();
-        }
     }
 }

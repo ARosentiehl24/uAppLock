@@ -34,4 +34,6 @@ public interface PictureSettingsView {
     void makeCroppedImageViewVisible(boolean isVisible);
 
     void saveProfilePicture();
+
+    void closeActivity();
 }

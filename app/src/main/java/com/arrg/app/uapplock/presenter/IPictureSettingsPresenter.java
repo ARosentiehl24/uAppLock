@@ -155,6 +155,8 @@ public class IPictureSettingsPresenter implements PictureSettingsPresenter {
                 makeScan(path);
 
                 profilePictureSettingsView.showMessage(ResourceUtil.getString(R.string.done), false);
+
+                profilePictureSettingsView.closeActivity();
             }
         } catch (IOException e) {
             profilePictureSettingsView.showMessage(e.getMessage(), true);
