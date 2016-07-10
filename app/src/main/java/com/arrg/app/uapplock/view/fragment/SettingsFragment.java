@@ -1,14 +1,20 @@
 package com.arrg.app.uapplock.view.fragment;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceScreen;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 
 import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.UAppLock;
+import com.arrg.app.uapplock.model.UTypefaceSpan;
+import com.arrg.app.uapplock.util.kisstools.utils.ResourceUtil;
 import com.arrg.app.uapplock.util.kisstools.utils.ToastUtil;
 import com.arrg.app.uapplock.view.activity.FingerprintSettingsActivity;
 import com.arrg.app.uapplock.view.activity.FontSettingsActivity;
@@ -30,13 +36,24 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
     private FingerprintManagerCompat fingerprintManagerCompat;
     private Integer unlockMethodIndex;
     private String[] unlockMethodChosen;
+    private Typeface typeface;
 
     @Override
     public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.settings);
         setDividerPreferences(DIVIDER_PREFERENCE_AFTER_LAST);
 
-        PreferenceCategory preferenceScreen = (PreferenceCategory) getPreferenceScreen().getPreference(0);
+        String fontPath = PreferencesManager.getString(ResourceUtil.getString(R.string.font_path), "fonts/Raleway.ttf");
+
+        typeface = Typeface.createFromAsset(getActivity().getAssets(), fontPath);
+
+        PreferenceScreen preferenceScreen = getPreferenceScreen();
+
+        for (int i = 0; i < preferenceScreen.getPreferenceCount(); i++) {
+            setFontTo(preferenceScreen.getPreference(i));
+        }
+
+        PreferenceCategory preferenceCategory = (PreferenceCategory) getPreferenceScreen().getPreference(0);
 
         fingerprintManagerCompat = FingerprintManagerCompat.from(getActivity());
 
@@ -52,8 +69,9 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
                     return false;
                 }
             });
+            setFontTo(fingerprintSettings);
         } else {
-            preferenceScreen.removePreference(preferenceScreen.getPreference(0));
+            preferenceCategory.removePreference(preferenceCategory.getPreference(0));
 
             unlockMethod.setEntries(R.array.unlock_methods_without_fingerprint);
             unlockMethod.setEntryValues(R.array.unlock_methods_values_without_fingerprint);
@@ -67,6 +85,7 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
                 return false;
             }
         });
+        setFontTo(patternSettings);
 
         Preference pinSettings = findPreference(getString(R.string.pin_settings));
         pinSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -76,6 +95,7 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
                 return false;
             }
         });
+        setFontTo(pinSettings);
 
         Preference fontSettings = findPreference(getString(R.string.font_settings));
         fontSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -85,6 +105,7 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
                 return false;
             }
         });
+        setFontTo(fontSettings);
 
         Preference profilePictureSettings = findPreference(getString(R.string.face_settings));
         profilePictureSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -94,6 +115,7 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
                 return false;
             }
         });
+        setFontTo(profilePictureSettings);
 
         Preference wallPaperSettings = findPreference(getString(R.string.wallpaper_settings));
         wallPaperSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -103,6 +125,7 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
                 return false;
             }
         });
+        setFontTo(wallPaperSettings);
     }
 
     @Override
@@ -196,5 +219,23 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
         unlockMethod.setSummary(String.format(getString(R.string.unlock_method_chosen), unlockMethodChosen[index]));
 
         PreferencesManager.putInt(getString(R.string.unlock_method), index);
+    }
+
+    private void setFontTo(Preference preference) {
+        UTypefaceSpan customTypefaceSpan = new UTypefaceSpan("", typeface);
+
+        SpannableStringBuilder spannableStringBuilder;
+
+        if (preference.getTitle() != null) {
+            spannableStringBuilder = new SpannableStringBuilder(preference.getTitle().toString());
+            spannableStringBuilder.setSpan(customTypefaceSpan, 0, spannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+            preference.setTitle(spannableStringBuilder);
+        }
+
+        if (preference.getSummary() != null) {
+            spannableStringBuilder = new SpannableStringBuilder(preference.getSummary().toString());
+            spannableStringBuilder.setSpan(customTypefaceSpan, 0, spannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+            preference.setSummary(spannableStringBuilder);
+        }
     }
 }

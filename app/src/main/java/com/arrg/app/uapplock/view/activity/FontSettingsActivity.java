@@ -28,6 +28,8 @@ public class FontSettingsActivity extends UAppLockActivity implements BaseQuickA
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
 
+    private FontAdapter fontAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +46,7 @@ public class FontSettingsActivity extends UAppLockActivity implements BaseQuickA
         fonts.add(new Font("Raleway", "fonts/Raleway.ttf"));
         fonts.add(new Font("LazySpringDay", "fonts/LazySpringDay.ttf"));
 
-        FontAdapter fontAdapter = new FontAdapter(R.layout.font_item, fonts);
+        fontAdapter = new FontAdapter(R.layout.font_item, fonts);
 
         recyclerView.setAdapter(fontAdapter);
         recyclerView.setHasFixedSize(true);
@@ -59,6 +61,7 @@ public class FontSettingsActivity extends UAppLockActivity implements BaseQuickA
         uAppLock.initTypeFace(uAppLock.getTypeface(i));
 
         PreferencesManager.putInt(getString(R.string.font_position), i);
+        PreferencesManager.putString(getString(R.string.font_path), fontAdapter.getItem(i).getPath());
 
         Intent intent = new Intent(this, SplashScreenActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
