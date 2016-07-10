@@ -3,8 +3,13 @@ package com.arrg.app.uapplock;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.support.v7.preference.Preference;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 
+import com.arrg.app.uapplock.model.UTypefaceSpan;
 import com.arrg.app.uapplock.util.kisstools.KissTools;
+import com.arrg.app.uapplock.util.kisstools.utils.ResourceUtil;
 import com.norbsoft.typefacehelper.TypefaceCollection;
 import com.norbsoft.typefacehelper.TypefaceHelper;
 import com.shawnlin.preferencesmanager.PreferencesManager;
@@ -65,5 +70,27 @@ public class UAppLock extends Application {
 
     public void initTypeFace(TypefaceCollection typefaceCollection) {
         TypefaceHelper.init(typefaceCollection);
+    }
+
+    public void setFontTo(Preference preference) {
+        String fontPath = PreferencesManager.getString(ResourceUtil.getString(R.string.font_path), "fonts/Raleway.ttf");
+
+        Typeface typeface = Typeface.createFromAsset(getAssets(), fontPath);
+
+        UTypefaceSpan customTypefaceSpan = new UTypefaceSpan("", typeface);
+
+        SpannableStringBuilder spannableStringBuilder;
+
+        if (preference.getTitle() != null) {
+            spannableStringBuilder = new SpannableStringBuilder(preference.getTitle().toString());
+            spannableStringBuilder.setSpan(customTypefaceSpan, 0, spannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+            preference.setTitle(spannableStringBuilder);
+        }
+
+        if (preference.getSummary() != null) {
+            spannableStringBuilder = new SpannableStringBuilder(preference.getSummary().toString());
+            spannableStringBuilder.setSpan(customTypefaceSpan, 0, spannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+            preference.setSummary(spannableStringBuilder);
+        }
     }
 }

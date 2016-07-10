@@ -3,6 +3,7 @@ package com.arrg.app.uapplock.view.activity;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -16,9 +17,12 @@ import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
@@ -27,11 +31,13 @@ import android.widget.Toast;
 
 import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.interfaces.AppListView;
+import com.arrg.app.uapplock.model.UTypefaceSpan;
 import com.arrg.app.uapplock.model.entity.App;
 import com.arrg.app.uapplock.presenter.IAppListPresenter;
 import com.arrg.app.uapplock.util.PackageUtils;
 import com.arrg.app.uapplock.util.kisstools.utils.BitmapUtil;
 import com.arrg.app.uapplock.util.kisstools.utils.FileUtil;
+import com.arrg.app.uapplock.util.kisstools.utils.ResourceUtil;
 import com.arrg.app.uapplock.view.fragment.AppListFragment;
 import com.easyandroidanimations.library.Animation;
 import com.easyandroidanimations.library.AnimationListener;
@@ -254,6 +260,23 @@ public class AppListActivity extends AppCompatActivity implements AppListView, N
 
         navigationView.setNavigationItemSelectedListener(this);
 
+        Menu menu = navigationView.getMenu();
+
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem menuItem = menu.getItem(i);
+
+            SubMenu subMenu = menuItem.getSubMenu();
+
+            if (subMenu != null && subMenu.size() > 0) {
+                for (int j = 0; j < subMenu.size(); j++) {
+                    MenuItem subMenuItem = subMenu.getItem(j);
+                    applyFontToMenuItem(subMenuItem);
+                }
+            }
+
+            applyFontToMenuItem(menuItem);
+        }
+
         headerView = navigationView.getHeaderView(0);
         TypefaceHelper.typeface(headerView);
 
@@ -322,6 +345,18 @@ public class AppListActivity extends AppCompatActivity implements AppListView, N
     @Override
     public Boolean isSearchInputOpen() {
         return isSearchInputOpen;
+    }
+
+    private void applyFontToMenuItem(MenuItem menuItem) {
+        String fontPath = PreferencesManager.getString(ResourceUtil.getString(R.string.font_path), "fonts/Raleway.ttf");
+
+        Typeface typeface = Typeface.createFromAsset(getAssets(), fontPath);
+
+        SpannableString mNewTitle = new SpannableString(menuItem.getTitle());
+
+        mNewTitle.setSpan(new UTypefaceSpan("", typeface), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+
+        menuItem.setTitle(mNewTitle);
     }
 
     public class LoadApplications extends AsyncTask<Void, Void, ArrayList<App>> {
