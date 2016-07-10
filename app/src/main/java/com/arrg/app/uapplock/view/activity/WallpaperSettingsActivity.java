@@ -14,6 +14,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 
 import com.arrg.app.uapplock.R;
@@ -62,10 +63,14 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Pictu
     AppCompatImageButton btnUndo;
     @Bind(R.id.btnDone)
     AppCompatImageButton btnDone;
+    @Bind(R.id.btnClose)
+    AppCompatImageButton btnClose;
     @Bind(R.id.blurView)
     BlurView blurView;
     @Bind(R.id.blurSeekBarView)
     BlurView blurSeekBarView;
+    @Bind(R.id.buttonBarContainer)
+    LinearLayout buttonBarContainer;
 
     public static final String[] STORAGE_PERMISSIONS = {
             Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -175,6 +180,17 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Pictu
 
     @Override
     public void setupViews() {
+        if (!haveNavigationBar()) {
+            buttonBarContainer.post(new Runnable() {
+                @Override
+                public void run() {
+                    buttonBarContainer.removeViewAt(6);
+                }
+            });
+        }
+
+        btnUndo.setEnabled(false);
+
         hideSeekBar();
 
         String wallpaper = PreferencesManager.getString(getString(R.string.wallpaper));
@@ -299,7 +315,6 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Pictu
         btnCrop.setEnabled(enable);
         btnDone.setEnabled(enable);
         btnRotate.setEnabled(enable);
-        btnUndo.setEnabled(enable);
     }
 
     @Override
@@ -334,7 +349,14 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Pictu
         onBackPressed();
     }
 
-    @OnClick({R.id.btnAdd, R.id.btnBlur, R.id.btnRotate, R.id.btnCrop, R.id.btnUndo, R.id.btnDone, R.id.btnClose})
+    @Override
+    public boolean haveNavigationBar() {
+        int id = getResources().getIdentifier("config_showNavigationBar", "bool", "android");
+
+        return !(id > 0 && getResources().getBoolean(id));
+    }
+
+    @OnClick({R.id.btnAdd, R.id.btnBlur, R.id.btnRotate, R.id.btnCrop, R.id.btnUndo, R.id.btnDone, R.id.btnCloseSeekBar, R.id.btnClose})
     public void onClick(View view) {
         iPictureSettingsPresenter.onClick(view.getId());
 
@@ -346,8 +368,11 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Pictu
                     showSeekBar();
                 }
                 break;
-            case R.id.btnClose:
+            case R.id.btnCloseSeekBar:
                 hideSeekBar();
+                break;
+            case R.id.btnClose:
+                onBackPressed();
                 break;
         }
     }

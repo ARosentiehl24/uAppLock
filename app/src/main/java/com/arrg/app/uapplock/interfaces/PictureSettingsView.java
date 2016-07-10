@@ -36,4 +36,6 @@ public interface PictureSettingsView {
     void saveProfilePicture();
 
     void closeActivity();
+
+    boolean haveNavigationBar();
 }

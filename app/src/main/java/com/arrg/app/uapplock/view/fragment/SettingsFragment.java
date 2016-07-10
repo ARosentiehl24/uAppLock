@@ -126,6 +126,8 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
             }
         });
         setFontTo(wallPaperSettings);
+
+        setFontTo(unlockMethod);
     }
 
     @Override

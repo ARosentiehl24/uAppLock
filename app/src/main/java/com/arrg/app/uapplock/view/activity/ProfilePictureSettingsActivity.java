@@ -13,6 +13,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.interfaces.PictureSettingsView;
@@ -56,6 +57,10 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity implements 
     AppCompatImageButton btnUndo;
     @Bind(R.id.btnCrop)
     AppCompatImageButton btnCrop;
+    @Bind(R.id.btnClose)
+    AppCompatImageButton btnClose;
+    @Bind(R.id.buttonBarContainer)
+    LinearLayout buttonBarContainer;
 
     public static final String[] STORAGE_PERMISSIONS = {
             Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -179,7 +184,6 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity implements 
         btnCrop.setEnabled(enable);
         btnDone.setEnabled(enable);
         btnRotate.setEnabled(enable);
-        btnUndo.setEnabled(enable);
     }
 
     @Override
@@ -215,6 +219,13 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity implements 
     }
 
     @Override
+    public boolean haveNavigationBar() {
+        int id = getResources().getIdentifier("config_showNavigationBar", "bool", "android");
+
+        return !(id > 0 && getResources().getBoolean(id));
+    }
+
+    @Override
     public boolean hasPermission(String permission) {
         return appPermissions.hasPermission(permission);
     }
@@ -226,6 +237,17 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity implements 
 
     @Override
     public void setupViews() {
+        if (!haveNavigationBar()) {
+            buttonBarContainer.post(new Runnable() {
+                @Override
+                public void run() {
+                    buttonBarContainer.removeViewAt(5);
+                }
+            });
+        }
+
+        btnUndo.setEnabled(false);
+
         String profilePicture = PreferencesManager.getString(getString(R.string.profile_picture));
 
         if (profilePicture.length() != 0) {
@@ -272,9 +294,15 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity implements 
         }
     }
 
-    @OnClick({R.id.btnAdd, R.id.btnRotate, R.id.btnCrop, R.id.btnUndo, R.id.btnDone})
+    @OnClick({R.id.btnAdd, R.id.btnRotate, R.id.btnCrop, R.id.btnUndo, R.id.btnDone, R.id.btnClose})
     public void onClick(View view) {
         iProfilePictureSettingsPresenter.onClick(view.getId());
+
+        switch (view.getId()) {
+            case R.id.btnClose:
+                onBackPressed();
+                break;
+        }
     }
 
     public String TAG() {
