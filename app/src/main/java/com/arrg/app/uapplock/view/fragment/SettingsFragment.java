@@ -32,7 +32,6 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
     private FingerprintManagerCompat fingerprintManagerCompat;
     private Integer unlockMethodIndex;
     private String[] unlockMethodChosen;
-    private Typeface typeface;
 
     @Override
     public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey) {
@@ -42,7 +41,13 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
         PreferenceScreen preferenceScreen = getPreferenceScreen();
 
         for (int i = 0; i < preferenceScreen.getPreferenceCount(); i++) {
-            UAppLock.uAppLock.setFontTo(preferenceScreen.getPreference(i));
+            PreferenceCategory preferenceCategory = (PreferenceCategory) preferenceScreen.getPreference(i);
+
+            UAppLock.uAppLock.setFontTo(preferenceCategory);
+
+            for (int j = 0; j < preferenceCategory.getPreferenceCount(); j++) {
+                UAppLock.uAppLock.setFontTo(preferenceCategory.getPreference(i));
+            }
         }
 
         PreferenceCategory preferenceCategory = (PreferenceCategory) getPreferenceScreen().getPreference(0);
@@ -61,7 +66,6 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
                     return false;
                 }
             });
-            UAppLock.uAppLock.setFontTo(fingerprintSettings);
         } else {
             preferenceCategory.removePreference(preferenceCategory.getPreference(0));
 
@@ -77,7 +81,6 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
                 return false;
             }
         });
-        UAppLock.uAppLock.setFontTo(patternSettings);
 
         Preference pinSettings = findPreference(getString(R.string.pin_settings));
         pinSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -87,7 +90,6 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
                 return false;
             }
         });
-        UAppLock.uAppLock.setFontTo(pinSettings);
 
         Preference fontSettings = findPreference(getString(R.string.font_settings));
         fontSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -97,7 +99,6 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
                 return false;
             }
         });
-        UAppLock.uAppLock.setFontTo(fontSettings);
 
         Preference profilePictureSettings = findPreference(getString(R.string.face_settings));
         profilePictureSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -107,7 +108,6 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
                 return false;
             }
         });
-        UAppLock.uAppLock.setFontTo(profilePictureSettings);
 
         Preference wallPaperSettings = findPreference(getString(R.string.wallpaper_settings));
         wallPaperSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -117,9 +117,6 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
                 return false;
             }
         });
-        UAppLock.uAppLock.setFontTo(wallPaperSettings);
-
-        UAppLock.uAppLock.setFontTo(unlockMethod);
     }
 
     @Override

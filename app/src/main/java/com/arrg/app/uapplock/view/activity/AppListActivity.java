@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -106,33 +107,38 @@ public class AppListActivity extends AppCompatActivity implements AppListView, N
     protected void onResume() {
         super.onResume();
 
-        CircleImageView profilePicture = (CircleImageView) headerView.findViewById(R.id.profilePicture);
-        AppCompatImageView container = (AppCompatImageView) headerView.findViewById(R.id.container);
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                CircleImageView profilePicture = (CircleImageView) headerView.findViewById(R.id.profilePicture);
+                AppCompatImageView container = (AppCompatImageView) headerView.findViewById(R.id.container);
 
-        String profilePicturePath = PreferencesManager.getString(getString(R.string.profile_picture));
-        String headerWallpaper = PreferencesManager.getString(getString(R.string.wallpaper));
+                String profilePicturePath = PreferencesManager.getString(getString(R.string.profile_picture));
+                String headerWallpaper = PreferencesManager.getString(getString(R.string.wallpaper));
 
-        if (FileUtil.exists(profilePicturePath)) {
-            if (profilePicturePath.length() != 0) {
-                Bitmap profile = BitmapUtil.getImage(profilePicturePath);
+                if (FileUtil.exists(profilePicturePath)) {
+                    if (profilePicturePath.length() != 0) {
+                        Bitmap profile = BitmapUtil.getImage(profilePicturePath);
 
-                profilePicture.setBackground(null);
-                profilePicture.setImageBitmap(profile);
+                        profilePicture.setBackground(null);
+                        profilePicture.setImageBitmap(profile);
+                    }
+                } else {
+                    profilePicture.setBackgroundResource(R.drawable.dot_empty_background);
+                    profilePicture.setImageBitmap(null);
+                }
+
+                if (FileUtil.exists(headerWallpaper)) {
+                    if (headerWallpaper.length() != 0) {
+                        Bitmap wallpaper = BitmapUtil.getImage(headerWallpaper);
+
+                        container.setImageBitmap(wallpaper);
+                    }
+                } else {
+                    container.setImageBitmap(null);
+                }
             }
-        } else {
-            profilePicture.setBackgroundResource(R.drawable.dot_empty_background);
-            profilePicture.setImageBitmap(null);
-        }
-
-        if (FileUtil.exists(headerWallpaper)) {
-            if (headerWallpaper.length() != 0) {
-                Bitmap wallpaper = BitmapUtil.getImage(headerWallpaper);
-
-                container.setImageBitmap(wallpaper);
-            }
-        } else {
-            container.setImageBitmap(null);
-        }
+        });
     }
 
     @Override
