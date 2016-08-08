@@ -1,21 +1,28 @@
 package com.arrg.app.uapplock.presenter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
-import android.os.Handler;
 
 import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.interfaces.AppListPresenter;
 import com.arrg.app.uapplock.interfaces.AppListView;
 import com.arrg.app.uapplock.model.entity.App;
-import com.arrg.app.uapplock.view.activity.AppListActivity;
+import com.arrg.app.uapplock.util.SharedPreferencesUtil;
+import com.arrg.app.uapplock.util.kisstools.utils.LogUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+import static com.arrg.app.uapplock.UAppLock.LOCKED_APPS_PREFERENCES;
 
 public class IAppListPresenter implements AppListPresenter {
 
     private AppListView appListView;
+    private SharedPreferences lockedAppsPreferences;
+    private SharedPreferencesUtil preferencesUtil;
 
     public IAppListPresenter(AppListView appListView) {
         this.appListView = appListView;
@@ -23,6 +30,9 @@ public class IAppListPresenter implements AppListPresenter {
 
     @Override
     public void onCreate() {
+        preferencesUtil = new SharedPreferencesUtil(getContext());
+        lockedAppsPreferences = getContext().getSharedPreferences(LOCKED_APPS_PREFERENCES, Context.MODE_PRIVATE);
+
         appListView.setupViews();
     }
 
@@ -32,37 +42,87 @@ public class IAppListPresenter implements AppListPresenter {
     }
 
     @Override
+    public ArrayList<App> lockedApps(ArrayList<App> apps) {
+        ArrayList<App> lockedApps = new ArrayList<>();
+
+        for (App app : apps) {
+            if (preferencesUtil.getBoolean(lockedAppsPreferences, app.getAppPackage(), false)) {
+                lockedApps.add(app);
+            }
+        }
+
+        return lockedApps;
+    }
+
+    @Override
+    public ArrayList<App> unlockedApps(ArrayList<App> apps) {
+        ArrayList<App> unlockedApps = new ArrayList<>();
+
+        for (App app : apps) {
+            if (!preferencesUtil.getBoolean(lockedAppsPreferences, app.getAppPackage(), false)) {
+                unlockedApps.add(app);
+            }
+        }
+
+        return unlockedApps;
+    }
+
+    @Override
     public Context getContext() {
         return appListView.getContext();
     }
 
     @Override
-    public void onItemClick(final int id) {
-        appListView.closeDrawer();
+    public void updateAppWith(ArrayList<App> apps, App newApp, boolean checked) {
+        Integer position = 0;
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (id == R.id.nav_apps) {
-                    appListView.setFragment(AppListActivity.ALL_APPS, R.string.title_activity_app_list, false);
-                } else if (id == R.id.nav_locked_apps) {
-                    appListView.setFragment(AppListActivity.LOCKED_APPS, R.string.locked_apps, false);
-                } else if (id == R.id.nav_unlocked_apps) {
-                    appListView.setFragment(AppListActivity.UNLOCKED_APPS, R.string.unlocked_apps, false);
-                } else if (id == R.id.nav_settings) {
-                    appListView.launchSettingsActivity();
-                }/* else if (id == R.id.nav_send) {
+        if (checked) {
+            if (apps.size() == 0) {
+                appListView.add(newApp, apps.size());
+            } else {
+                Boolean sw = false;
 
-        } else if (id == R.id.nav_about_me) {
+                for (App app : apps) {
+                    if (app.getAppName().compareToIgnoreCase(newApp.getAppName()) > 1) {
+                        if (position - 1 >= 0) {
+                            LogUtil.e("OnClick", "Add App > 1 in: " + apps.get(position - 1).getAppName() + " --> " + newApp.getAppName() + " <-- " + apps.get(position).getAppName());
+                        } else {
+                            LogUtil.e("OnClick", "Add App > 1 in: " + newApp.getAppName() + " <-- " + apps.get(position).getAppName());
+                        }
 
-        }*/
+                        appListView.add(newApp, position);
+
+                        break;
+                    } else {
+                        LogUtil.e("OnClick", "App in: " + apps.get(position).getAppName());
+
+                        sw = true;
+                    }
+
+                    position++;
+                }
+
+                if (sw) {
+                    if (!apps.contains(newApp)) {
+                        appListView.add(newApp, apps.size());
+                    }
+                }
             }
-        }, 250);
-    }
+        } else {
+            for (App app : apps) {
+                if (app.getAppPackage().equals(newApp.getAppPackage())) {
+                    LogUtil.e("OnClick", "Removing: " + apps.get(position).getAppName());
 
-    @Override
-    public void onMenuItemClick(int id) {
-        appListView.showSearch();
+                    appListView.remove(position);
+
+                    break;
+                } else {
+                    LogUtil.e("OnClick", "App in: " + apps.get(position).getAppName());
+                }
+
+                position++;
+            }
+        }
     }
 
     @Override
@@ -85,6 +145,13 @@ public class IAppListPresenter implements AppListPresenter {
                 e.printStackTrace();
             }
         }
+
+        Collections.sort(apps, new Comparator<App>() {
+            @Override
+            public int compare(App lhs, App rhs) {
+                return lhs.getAppName().compareToIgnoreCase(rhs.getAppName());
+            }
+        });
 
         return apps;
     }

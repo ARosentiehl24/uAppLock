@@ -13,28 +13,28 @@ import com.arrg.app.uapplock.util.Util;
 import com.arrg.app.uapplock.view.ui.MaterialLockView;
 import com.easyandroidanimations.library.Animation;
 import com.easyandroidanimations.library.ShakeAnimation;
-import com.norbsoft.typefacehelper.TypefaceHelper;
 import com.shawnlin.preferencesmanager.PreferencesManager;
 
 import org.fingerlinks.mobile.android.navigator.Navigator;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static com.arrg.app.uapplock.UAppLock.DURATIONS_OF_ANIMATIONS;
 
 public class PatternSettingsActivity extends UAppLockActivity {
 
-    @Bind(R.id.btnSetPattern)
+    @BindView(R.id.btnSetPattern)
     AppCompatButton btnSetPattern;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.tvMessage)
+    @BindView(R.id.tvMessage)
     AppCompatTextView tvMessage;
-    @Bind(R.id.materialLockView)
+    @BindView(R.id.materialLockView)
     MaterialLockView materialLockView;
 
     private String pattern = "";
@@ -45,7 +45,6 @@ public class PatternSettingsActivity extends UAppLockActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pattern_settings);
         ButterKnife.bind(this);
-        TypefaceHelper.typeface(this);
 
         setSupportActionBar(toolbar);
 
@@ -83,6 +82,11 @@ public class PatternSettingsActivity extends UAppLockActivity {
         });
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
     @OnClick({R.id.btnResetPattern, R.id.btnSetPattern})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -108,5 +112,6 @@ public class PatternSettingsActivity extends UAppLockActivity {
 
     @OnClick(R.id.btnSetPattern)
     public void onClick() {
+
     }
 }

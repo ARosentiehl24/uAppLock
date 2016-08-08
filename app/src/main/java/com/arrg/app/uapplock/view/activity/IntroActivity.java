@@ -1,5 +1,6 @@
 package com.arrg.app.uapplock.view.activity;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -23,7 +24,6 @@ import com.arrg.app.uapplock.view.fragment.RequestPermissionsFragment;
 import com.arrg.app.uapplock.view.fragment.RequestPinFragment;
 import com.arrg.app.uapplock.view.ui.LockableViewPager;
 import com.commit451.inkpageindicator.InkPageIndicator;
-import com.norbsoft.typefacehelper.TypefaceHelper;
 import com.shawnlin.preferencesmanager.PreferencesManager;
 
 import net.steamcrafted.materialiconlib.MaterialIconView;
@@ -32,9 +32,10 @@ import org.fingerlinks.mobile.android.navigator.Navigator;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class IntroActivity extends UAppLockActivity implements IntroActivityView, ViewPager.OnPageChangeListener {
 
@@ -42,13 +43,13 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
     public static final int OVERLAY_PERMISSION_RC = 101;
     public static final int WRITE_SETTINGS_RC = 102;
 
-    @Bind(R.id.viewPager)
+    @BindView(R.id.viewPager)
     LockableViewPager viewPager;
-    @Bind(R.id.btnPrevious)
+    @BindView(R.id.btnPrevious)
     MaterialIconView btnPrevious;
-    @Bind(R.id.btnNext)
+    @BindView(R.id.btnNext)
     MaterialIconView btnNext;
-    @Bind(R.id.inkPageIndicator)
+    @BindView(R.id.inkPageIndicator)
     InkPageIndicator inkPageIndicator;
 
     private ArrayList<Boolean> list;
@@ -62,10 +63,14 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
         ButterKnife.bind(this);
-        TypefaceHelper.typeface(this);
 
         iIntroActivityPresenter = new IIntroActivityPresenter(this);
         iIntroActivityPresenter.onCreate();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     @Override
@@ -89,7 +94,7 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (fingerprintManagerCompat.isHardwareDetected()) {
+            if (isHardwareDetected()) {
                 fragments.add(EnableFingerprintSupportFragment.newInstance());
             }
 
@@ -126,7 +131,8 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
 
                 PreferencesManager.putBoolean(getString(R.string.all_settings_are_complete), true);
 
-                Navigator.with(this).build().goTo(AppListActivity.class).animation().commit();
+                Navigator.with(this).build().goTo(ApplicationListActivity.class).animation().commit();
+
                 finish();
             } else {
                 if ((!patternWasConfigured() && unlockMethod.equals(UAppLock.PATTERN)) || (!pinWasConfigured() && unlockMethod.equals(UAppLock.PIN))) {

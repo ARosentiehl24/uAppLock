@@ -1,13 +1,11 @@
 package com.arrg.app.uapplock.view.fragment;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceScreen;
 
 import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.UAppLock;
@@ -37,18 +35,6 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
     public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.settings);
         setDividerPreferences(DIVIDER_PREFERENCE_AFTER_LAST);
-
-        PreferenceScreen preferenceScreen = getPreferenceScreen();
-
-        for (int i = 0; i < preferenceScreen.getPreferenceCount(); i++) {
-            PreferenceCategory preferenceCategory = (PreferenceCategory) preferenceScreen.getPreference(i);
-
-            UAppLock.uAppLock.setFontTo(preferenceCategory);
-
-            for (int j = 0; j < preferenceCategory.getPreferenceCount(); j++) {
-                UAppLock.uAppLock.setFontTo(preferenceCategory.getPreference(i));
-            }
-        }
 
         PreferenceCategory preferenceCategory = (PreferenceCategory) getPreferenceScreen().getPreference(0);
 

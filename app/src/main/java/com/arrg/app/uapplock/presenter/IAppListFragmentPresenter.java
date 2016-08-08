@@ -6,12 +6,14 @@ import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
 import com.arrg.app.uapplock.interfaces.AppListFragmentPresenter;
 import com.arrg.app.uapplock.interfaces.AppListFragmentView;
 import com.arrg.app.uapplock.model.entity.App;
 import com.arrg.app.uapplock.model.receiver.PackageReceiver;
 import com.arrg.app.uapplock.util.kisstools.utils.LogUtil;
+import com.arrg.app.uapplock.view.activity.ApplicationListActivity;
 
 import java.util.ArrayList;
 
@@ -34,11 +36,7 @@ public class IAppListFragmentPresenter implements AppListFragmentPresenter {
     public void setAdapter(Bundle args) {
         ArrayList<App> apps = (ArrayList<App>) args.getSerializable("apps");
 
-        Boolean animate = args.getBoolean("animate", false);
-
-        Integer index = args.getInt("index", 0);
-
-        appListFragmentView.setAdapter(apps, index, animate);
+        appListFragmentView.setAdapter(apps);
     }
 
     @Override
@@ -114,5 +112,18 @@ public class IAppListFragmentPresenter implements AppListFragmentPresenter {
     @Override
     public PackageManager getPackageManager() {
         return getContext().getPackageManager();
+    }
+
+    @Override
+    public void updateListWith(App app, boolean checked, FragmentActivity fragmentActivity) {
+        ApplicationListActivity applicationListActivity = (ApplicationListActivity) fragmentActivity;
+        applicationListActivity.updateListWith(app, checked);
+    }
+
+    @Override
+    public void resetFragments(FragmentActivity fragmentActivity) {
+        ApplicationListActivity applicationListActivity = (ApplicationListActivity) fragmentActivity;
+        applicationListActivity.resetFragment(0);
+        applicationListActivity.resetFragment(2);
     }
 }

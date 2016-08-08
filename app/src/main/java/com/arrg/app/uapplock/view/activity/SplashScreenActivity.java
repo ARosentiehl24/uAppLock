@@ -15,41 +15,47 @@ import com.easyandroidanimations.library.Animation;
 import com.easyandroidanimations.library.FadeInAnimation;
 import com.easyandroidanimations.library.ParallelAnimator;
 import com.easyandroidanimations.library.SlideInAnimation;
-import com.norbsoft.typefacehelper.TypefaceHelper;
 import com.shawnlin.preferencesmanager.PreferencesManager;
 
 import org.fingerlinks.mobile.android.navigator.Navigator;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SplashScreenActivity extends UAppLockActivity implements SplashScreenView {
 
-    private static final int SPLASH_SCREEN_ANIMATION = 750;
-    public static SplashScreenActivity splashScreenActivity;
-    private ISplashScreenPresenter iSplashScreenPresenter;
-
-    @Bind(R.id.icon)
+    @BindView(R.id.icon)
     RelativeLayout icon;
-    @Bind(R.id.tvWelcomeMessage)
+    @BindView(R.id.tvWelcomeMessage)
     AppCompatTextView tvWelcomeMessage;
-    @Bind(R.id.buttonBarContainer)
+    @BindView(R.id.buttonBarContainer)
     LinearLayout buttonBarContainer;
-    @Bind(R.id.divider)
+    @BindView(R.id.divider)
     View divider;
+
+    private static final int SPLASH_SCREEN_ANIMATION = 750;
+
+    public static SplashScreenActivity splashScreenActivity;
+
+    private ISplashScreenPresenter iSplashScreenPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         ButterKnife.bind(this);
-        TypefaceHelper.typeface(this);
 
         splashScreenActivity = this;
 
         iSplashScreenPresenter = new ISplashScreenPresenter(this);
         iSplashScreenPresenter.onCreate();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     @Override
@@ -64,8 +70,6 @@ public class SplashScreenActivity extends UAppLockActivity implements SplashScre
 
     @Override
     public void setupViews() {
-        //Glide.with(this).load(R.drawable.ic_icon_background).asBitmap().into(view);
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

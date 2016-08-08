@@ -1,15 +1,16 @@
 apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    buildToolsVersion '24.0.1'
 
     defaultConfig {
         applicationId "com.arrg.app.uapplock"
         minSdkVersion 21
         targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
+        versionCode 0
+        versionName "0.1"
 
         renderscriptTargetApi 24
         renderscriptNdkModeEnabled true
@@ -37,43 +38,41 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.0.0'
-    compile 'com.android.support:cardview-v7:24.0.0'
-    compile 'com.android.support:design:24.0.0'
-    compile 'com.android.support:palette-v7:24.0.0'
-    compile 'com.takisoft.fix:preference-v7:24.0.0.0-beta'
-    compile 'com.android.support:recyclerview-v7:24.0.0'
-    compile 'com.android.support:support-v4:24.0.0'
-    compile 'com.afollestad.material-dialogs:commons:0.8.6.1'
-    compile 'com.afollestad.material-dialogs:core:0.8.6.1'
+    apt 'com.jakewharton:butterknife-compiler:8.2.1'
+    compile 'ayar.oktay.library:advancedtextview:0.4.5'
+    compile 'com.android.support:appcompat-v7:24.1.1'
+    compile 'com.android.support:cardview-v7:24.1.1'
+    compile 'com.android.support:design:24.1.1'
+    compile 'com.android.support:palette-v7:24.1.1'
+    compile 'com.android.support:recyclerview-v7:24.1.1'
+    compile 'com.android.support:support-v4:24.1.1'
+    compile 'com.afollestad.material-dialogs:commons:0.8.6.2'
+    compile 'com.afollestad.material-dialogs:core:0.8.6.2'
     compile 'com.andrognito.pinlockview:pinlockview:1.0.1'
-    compile 'com.bignerdranch.android:simple-item-decoration:1.0.0'
     compile 'com.commit451:inkpageindicator:1.0.2'
     compile 'com.dmitrymalkovich.android:material-design-dimens:1.2'
-    compile 'com.eightbitlab:blurview:1.1.0'
+    compile 'com.eightbitlab:blurview:1.1.2'
     compile 'com.github.2359media:EasyAndroidAnimations:0.8'
     compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v1.8.5'
-    compile 'com.github.jaouan:revealator:0.0.1'
-    compile 'com.github.Kennyc1012:BottomSheet:2.2.0'
-    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v1.9.7'
+    compile 'com.github.jaouan:revealator:1.1.0'
+    compile 'com.github.Kennyc1012:BottomSheet:2.3.1'
+    compile 'com.jakewharton:butterknife:8.2.1'
     compile 'com.kyleduo.switchbutton:library:1.4.1'
     compile 'com.mukesh:permissions:1.0.3'
     compile 'com.nvanbenschoten.motion:library:1.1.2'
-    compile 'com.norbsoft.typefacehelper:library:0.9.0'
     compile 'com.shawnlin:PreferencesManager:1.0.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.turingtechnologies.materialscrollbar:lib:10.0.2'
+    compile 'com.takisoft.fix:preference-v7:24.1.1.1'
+    compile 'com.turingtechnologies.materialscrollbar:lib:10.1.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'net.steamcrafted:materialiconlib:1.0.9'
-    compile 'org.fingerlinks.mobile.android:Navigator:0.1.2'
-
-    /*Utils*/
+    compile 'org.fingerlinks.mobile.android:Navigator:0.1.4'
+    compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'me.a7madev.androidglobalutils:library:1.0.12'
-
-    /*Image Picker And Cropper*/
     compile 'com.github.jkwiecien:EasyImage:1.2.3'
-    compile 'com.theartofdev.edmodo:android-image-cropper:2.2.3'
+    compile 'com.theartofdev.edmodo:android-image-cropper:2.2.5'
+    compile 'com.sbrukhanda.fragmentviewpager:fragmentviewpager:1.0.0'
 }

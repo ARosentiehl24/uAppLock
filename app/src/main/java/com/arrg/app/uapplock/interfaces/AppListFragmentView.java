@@ -1,6 +1,7 @@
 package com.arrg.app.uapplock.interfaces;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 
 import com.arrg.app.uapplock.model.entity.App;
 
@@ -9,7 +10,9 @@ import java.util.ArrayList;
 public interface AppListFragmentView {
     void configFragment();
 
-    void setAdapter(ArrayList<App> apps, Integer index, Boolean withAnimation);
+    void setAdapter(ArrayList<App> apps);
+
+    FragmentActivity getFragmentActivity();
 
     Context getFragmentContext();
 

@@ -17,28 +17,28 @@ import com.arrg.app.uapplock.util.Util;
 import com.easyandroidanimations.library.Animation;
 import com.easyandroidanimations.library.AnimationListener;
 import com.easyandroidanimations.library.ShakeAnimation;
-import com.norbsoft.typefacehelper.TypefaceHelper;
 import com.shawnlin.preferencesmanager.PreferencesManager;
 
 import org.fingerlinks.mobile.android.navigator.Navigator;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static com.arrg.app.uapplock.UAppLock.DURATIONS_OF_ANIMATIONS;
 
 public class PinSettingsActivity extends UAppLockActivity {
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.tvMessage)
+    @BindView(R.id.tvMessage)
     AppCompatTextView tvMessage;
-    @Bind(R.id.indicatorDots)
+    @BindView(R.id.indicatorDots)
     IndicatorDots indicatorDots;
-    @Bind(R.id.pinLockView)
+    @BindView(R.id.pinLockView)
     PinLockView pinLockView;
-    @Bind(R.id.btnSetPin)
+    @BindView(R.id.btnSetPin)
     AppCompatButton btnSetPin;
 
     private String pin = "";
@@ -49,7 +49,6 @@ public class PinSettingsActivity extends UAppLockActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pin_settings);
         ButterKnife.bind(this);
-        TypefaceHelper.typeface(this);
 
         setSupportActionBar(toolbar);
 
@@ -99,6 +98,11 @@ public class PinSettingsActivity extends UAppLockActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     @OnClick({R.id.btnResetPin, R.id.btnSetPin})

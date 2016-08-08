@@ -40,7 +40,6 @@ public class FingerprintSettingsFragment extends PreferenceFragmentCompatDivider
                 return true;
             }
         });
-        UAppLock.uAppLock.setFontTo(switchPreferenceCompat);
 
         Preference preference = findPreference(getString(R.string.security_settings));
         preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -53,7 +52,6 @@ public class FingerprintSettingsFragment extends PreferenceFragmentCompatDivider
                 return false;
             }
         });
-        UAppLock.uAppLock.setFontTo(preference);
     }
 
     public Boolean isFingerPrintActivated() {

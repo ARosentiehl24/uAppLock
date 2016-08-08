@@ -3,18 +3,13 @@ package com.arrg.app.uapplock;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.v7.preference.Preference;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 
-import com.arrg.app.uapplock.model.UTypefaceSpan;
 import com.arrg.app.uapplock.util.kisstools.KissTools;
 import com.arrg.app.uapplock.util.kisstools.utils.ResourceUtil;
-import com.norbsoft.typefacehelper.TypefaceCollection;
-import com.norbsoft.typefacehelper.TypefaceHelper;
 import com.shawnlin.preferencesmanager.PreferencesManager;
 
-import java.util.ArrayList;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class UAppLock extends Application {
     public static UAppLock uAppLock;
@@ -29,7 +24,6 @@ public class UAppLock extends Application {
     public static Integer PATTERN = 1;
     public static Integer PIN = 2;
 
-    private ArrayList<TypefaceCollection> typefaceCollections;
     private PreferencesManager preferencesManager;
 
     @Override
@@ -47,15 +41,15 @@ public class UAppLock extends Application {
         preferencesManager = new PreferencesManager(this);
         setPreferencesManager(SETTINGS_PREFERENCES);
 
-        typefaceCollections = new ArrayList<>();
-        typefaceCollections.add(new TypefaceCollection.Builder().set(Typeface.NORMAL, Typeface.createFromAsset(getAssets(), "fonts/Raleway.ttf")).create());
-        typefaceCollections.add(new TypefaceCollection.Builder().set(Typeface.NORMAL, Typeface.createFromAsset(getAssets(), "fonts/LazySpringDay.ttf")).create());
-
-        int fontPosition = PreferencesManager.getInt(getString(R.string.font_position), 0);
-
-        initTypeFace(getTypeface(fontPosition));
+        String fontPath = PreferencesManager.getString(getString(R.string.font_path), "fonts/Raleway.ttf");
+        setAppFontTo(fontPath);
 
         KissTools.setContext(getApplicationContext());
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     public void setPreferencesManager(String name) {
@@ -64,33 +58,18 @@ public class UAppLock extends Application {
         preferencesManager.init();
     }
 
-    public TypefaceCollection getTypeface(int index) {
-        return typefaceCollections.get(index);
+    public void setAppFontTo(String fontPath) {
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath(fontPath)
+                .setFontAttrId(R.attr.fontPath)
+                .build());
     }
 
-    public void initTypeFace(TypefaceCollection typefaceCollection) {
-        TypefaceHelper.init(typefaceCollection);
+    public static String fontPath() {
+        return PreferencesManager.getString(ResourceUtil.getString(R.string.font_path), "fonts/Raleway.ttf");
     }
 
-    public void setFontTo(Preference preference) {
-        String fontPath = PreferencesManager.getString(ResourceUtil.getString(R.string.font_path), "fonts/Raleway.ttf");
-
-        Typeface typeface = Typeface.createFromAsset(getAssets(), fontPath);
-
-        UTypefaceSpan customTypefaceSpan = new UTypefaceSpan("", typeface);
-
-        SpannableStringBuilder spannableStringBuilder;
-
-        if (preference.getTitle() != null) {
-            spannableStringBuilder = new SpannableStringBuilder(preference.getTitle().toString());
-            spannableStringBuilder.setSpan(customTypefaceSpan, 0, spannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-            preference.setTitle(spannableStringBuilder);
-        }
-
-        if (preference.getSummary() != null) {
-            spannableStringBuilder = new SpannableStringBuilder(preference.getSummary().toString());
-            spannableStringBuilder.setSpan(customTypefaceSpan, 0, spannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-            preference.setSummary(spannableStringBuilder);
-        }
+    public static Typeface typeface() {
+        return Typeface.createFromAsset(uAppLock.getAssets(), fontPath());
     }
 }

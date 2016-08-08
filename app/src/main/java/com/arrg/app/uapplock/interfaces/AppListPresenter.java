@@ -11,10 +11,18 @@ import java.util.List;
 public interface AppListPresenter {
 
     void onCreate();
+
     void onClick();
-    void onItemClick(int id);
-    void onMenuItemClick(int id);
+
+    ArrayList<App> lockedApps(ArrayList<App> apps);
+
+    ArrayList<App> unlockedApps(ArrayList<App> apps);
+
     ArrayList<App> getInstalledApplications(List<ApplicationInfo> applicationInfoList);
+
     void makeQuery(ArrayList<App> apps, CharSequence charSequence);
+
     Context getContext();
+
+    void updateAppWith(ArrayList<App> apps, App app, boolean checked);
 }

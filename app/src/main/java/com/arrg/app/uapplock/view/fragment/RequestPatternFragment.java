@@ -15,12 +15,11 @@ import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.view.ui.MaterialLockView;
 import com.easyandroidanimations.library.Animation;
 import com.easyandroidanimations.library.ShakeAnimation;
-import com.norbsoft.typefacehelper.TypefaceHelper;
 import com.shawnlin.preferencesmanager.PreferencesManager;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -31,9 +30,9 @@ public class RequestPatternFragment extends Fragment {
     private String pattern = "";
     private Vibrator vibrator;
 
-    @Bind(R.id.tvMessage)
+    @BindView(R.id.tvMessage)
     AppCompatTextView tvMessage;
-    @Bind(R.id.materialLockView)
+    @BindView(R.id.materialLockView)
     MaterialLockView materialLockView;
 
     public RequestPatternFragment() {
@@ -54,7 +53,6 @@ public class RequestPatternFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_request_pattern, container, false);
         ButterKnife.bind(this, view);
-        TypefaceHelper.typeface(view);
         return view;
     }
 
@@ -94,7 +92,6 @@ public class RequestPatternFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     @OnClick(R.id.btnResetPattern)

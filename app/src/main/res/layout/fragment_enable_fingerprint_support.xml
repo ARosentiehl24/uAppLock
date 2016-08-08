@@ -9,17 +9,19 @@
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tvMessage"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
         android:gravity="center"
         android:padding="@dimen/text_padding_unlock_method_request"
         android:text="@string/message_fingerprint_sensor_detected"
         android:textColor="@color/wet_asphalt75"
-        android:textSize="@dimen/text_size_unlock_method_request" />
+        android:textSize="@dimen/text_size_unlock_method_request"
+        android:layout_margin="5dp" />
 
     <net.steamcrafted.materialiconlib.MaterialIconView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.5"
+        android:layout_weight="1"
         android:scaleType="center"
         app:materialIcon="fingerprint"
         app:materialIconColor="@color/colorAccent"

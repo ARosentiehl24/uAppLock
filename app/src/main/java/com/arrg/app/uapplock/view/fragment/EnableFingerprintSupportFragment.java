@@ -16,10 +16,9 @@ import android.widget.Toast;
 
 import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.UAppLock;
-import com.norbsoft.typefacehelper.TypefaceHelper;
 import com.shawnlin.preferencesmanager.PreferencesManager;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -28,9 +27,9 @@ import butterknife.OnClick;
  */
 public class EnableFingerprintSupportFragment extends Fragment {
 
-    @Bind(R.id.tvDescription)
+    @BindView(R.id.tvDescription)
     AppCompatTextView tvDescription;
-    @Bind(R.id.btnResetPin)
+    @BindView(R.id.btnResetPin)
     AppCompatButton btnResetPin;
 
     private Integer initialUnlockMethod;
@@ -50,7 +49,6 @@ public class EnableFingerprintSupportFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_enable_fingerprint_support, container, false);
-        TypefaceHelper.typeface(view);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -69,7 +67,6 @@ public class EnableFingerprintSupportFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     @OnClick(R.id.btnResetPin)

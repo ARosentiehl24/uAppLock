@@ -19,10 +19,9 @@ import com.arrg.app.uapplock.R;
 import com.easyandroidanimations.library.Animation;
 import com.easyandroidanimations.library.AnimationListener;
 import com.easyandroidanimations.library.ShakeAnimation;
-import com.norbsoft.typefacehelper.TypefaceHelper;
 import com.shawnlin.preferencesmanager.PreferencesManager;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -30,11 +29,11 @@ import static com.arrg.app.uapplock.UAppLock.DURATIONS_OF_ANIMATIONS;
 
 public class RequestPinFragment extends Fragment {
 
-    @Bind(R.id.tvMessage)
+    @BindView(R.id.tvMessage)
     AppCompatTextView tvMessage;
-    @Bind(R.id.indicatorDots)
+    @BindView(R.id.indicatorDots)
     IndicatorDots indicatorDots;
-    @Bind(R.id.pinLockView)
+    @BindView(R.id.pinLockView)
     PinLockView pinLockView;
     private String pin = "";
     private Vibrator vibrator;
@@ -57,7 +56,6 @@ public class RequestPinFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_request_pin, container, false);
         ButterKnife.bind(this, view);
-        TypefaceHelper.typeface(view);
         return view;
     }
 
@@ -111,7 +109,6 @@ public class RequestPinFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     @OnClick(R.id.btnResetPin)
@@ -123,7 +120,7 @@ public class RequestPinFragment extends Fragment {
 
         PreferencesManager.putString(getString(R.string.user_pin), pin);
 
-        updateText(R.string.message_to_request_pattern);
+        updateText(R.string.message_to_request_pin);
     }
 
     public void resetPin() {

@@ -10,6 +10,14 @@
         <item name="android:windowBackground">@color/colorPrimary</item>
     </style>
 
+    <style name="SettingsAppTheme" parent="PreferenceFixTheme.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorAccent</item>
+        <item name="colorAccent">@color/preference_accent</item>
+        <item name="android:navigationBarColor">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorPrimary</item>
+    </style>
+
     <style name="PictureAppTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/background_dark</item>
@@ -19,14 +27,6 @@
         <item name="android:windowBackground">@color/background_dark</item>
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowTranslucentStatus">true</item>
-    </style>
-
-    <style name="SettingsAppTheme" parent="PreferenceFixTheme.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorAccent</item>
-        <item name="colorAccent">@color/preference_accent</item>
-        <item name="android:navigationBarColor">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/colorPrimary</item>
     </style>
 
     <style name="BottomSheetStyle" parent="@style/BottomSheet">
@@ -54,4 +54,8 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="AccentToolbar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColorPrimary">@color/colorAccent</item>
+        <item name="android:textColorSecondary">@color/colorAccent</item>
+    </style>
 </resources>

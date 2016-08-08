@@ -1,86 +1,26 @@
 package com.arrg.app.uapplock.view.activity;
 
-import android.app.Activity;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Typeface;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatEditText;
-import android.support.v7.widget.AppCompatImageView;
-import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.TextWatcher;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.SubMenu;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import com.arrg.app.uapplock.R;
-import com.arrg.app.uapplock.interfaces.AppListView;
-import com.arrg.app.uapplock.model.UTypefaceSpan;
-import com.arrg.app.uapplock.model.entity.App;
-import com.arrg.app.uapplock.presenter.IAppListPresenter;
-import com.arrg.app.uapplock.util.PackageUtils;
-import com.arrg.app.uapplock.util.kisstools.utils.BitmapUtil;
-import com.arrg.app.uapplock.util.kisstools.utils.FileUtil;
-import com.arrg.app.uapplock.util.kisstools.utils.ResourceUtil;
-import com.arrg.app.uapplock.view.fragment.AppListFragment;
-import com.easyandroidanimations.library.Animation;
-import com.easyandroidanimations.library.AnimationListener;
-import com.easyandroidanimations.library.FadeOutAnimation;
-import com.jaouan.revealator.Revealator;
-import com.norbsoft.typefacehelper.ActionBarHelper;
-import com.norbsoft.typefacehelper.TypefaceHelper;
-import com.shawnlin.preferencesmanager.PreferencesManager;
+public class AppListActivity extends AppCompatActivity /*implements AppListView, NavigationView.OnNavigationItemSelectedListener*/ {
 
-import org.fingerlinks.mobile.android.navigator.Navigator;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.TimerTask;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.arrg.app.uapplock.UAppLock.DURATIONS_OF_ANIMATIONS;
-
-public class AppListActivity extends AppCompatActivity implements AppListView, NavigationView.OnNavigationItemSelectedListener {
-
-    public static final int ALL_APPS = 0;
+    /*public static final int ALL_APPS = 0;
     public static final int LOCKED_APPS = 1;
     public static final int UNLOCKED_APPS = 2;
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.initialView)
+    @BindView(R.id.initialView)
     View initialView;
-    @Bind(R.id.searchInput)
+    @BindView(R.id.searchInput)
     AppCompatEditText searchInput;
-    @Bind(R.id.revealView)
+    @BindView(R.id.revealView)
     LinearLayout revealView;
-    @Bind(R.id.navigationView)
+    @BindView(R.id.navigationView)
     NavigationView navigationView;
-    @Bind(R.id.drawerLayout)
+    @BindView(R.id.drawerLayout)
     DrawerLayout drawer;
-    @Bind(R.id.progressBar)
+    @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
     private ArrayList<App> appsArrayList;
@@ -95,7 +35,6 @@ public class AppListActivity extends AppCompatActivity implements AppListView, N
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_list);
         ButterKnife.bind(this);
-        TypefaceHelper.typeface(this);
 
         iAppListPresenter = new IAppListPresenter(this);
         iAppListPresenter.onCreate();
@@ -226,7 +165,7 @@ public class AppListActivity extends AppCompatActivity implements AppListView, N
     @Override
     public void hideSearch() {
         Revealator.unreveal(revealView)
-                .withDuration(DURATIONS_OF_ANIMATIONS)
+                .withUnrevealDuration(DURATIONS_OF_ANIMATIONS)
                 .withEndAction(new TimerTask() {
                     @Override
                     public void run() {
@@ -402,5 +341,5 @@ public class AppListActivity extends AppCompatActivity implements AppListView, N
                 }
             }).animate();
         }
-    }
+    }*/
 }

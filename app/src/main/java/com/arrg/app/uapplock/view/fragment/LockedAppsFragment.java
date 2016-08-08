@@ -43,7 +43,7 @@ import butterknife.ButterKnife;
 
 import static com.arrg.app.uapplock.UAppLock.LOCKED_APPS_PREFERENCES;
 
-public class AppListFragment extends Fragment implements AppListFragmentView, FragmentVisibilityListener, BaseQuickAdapter.OnRecyclerViewItemClickListener, BaseQuickAdapter.OnRecyclerViewItemLongClickListener {
+public class LockedAppsFragment extends Fragment implements AppListFragmentView, FragmentVisibilityListener, BaseQuickAdapter.OnRecyclerViewItemClickListener, BaseQuickAdapter.OnRecyclerViewItemLongClickListener {
 
     private App app;
     private AppAdapter appAdapter;
@@ -56,19 +56,19 @@ public class AppListFragment extends Fragment implements AppListFragmentView, Fr
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
-    public AppListFragment() {
-
+    public LockedAppsFragment() {
+        // Required empty public constructor
     }
 
-    public static AppListFragment newInstance(ArrayList<App> apps) {
-        AppListFragment appListFragment = new AppListFragment();
+    public static LockedAppsFragment newInstance(ArrayList<App> apps) {
+        LockedAppsFragment lockedAppsFragment = new LockedAppsFragment();
 
         Bundle args = new Bundle();
         args.putSerializable("apps", apps);
 
-        appListFragment.setArguments(args);
+        lockedAppsFragment.setArguments(args);
 
-        return appListFragment;
+        return lockedAppsFragment;
     }
 
     @Override
@@ -80,7 +80,7 @@ public class AppListFragment extends Fragment implements AppListFragmentView, Fr
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_app_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_locked_apps, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -109,7 +109,7 @@ public class AppListFragment extends Fragment implements AppListFragmentView, Fr
 
         appArrayList = apps;
 
-        appAdapter = new AppAdapter(R.layout.app_item, apps, lockedAppsPreferences, preferencesUtil);
+        appAdapter = new AppAdapter(R.layout.app_item, appArrayList, lockedAppsPreferences, preferencesUtil);
 
         recyclerView.setAdapter(appAdapter);
         recyclerView.setHasFixedSize(true);
@@ -131,12 +131,12 @@ public class AppListFragment extends Fragment implements AppListFragmentView, Fr
 
     @Override
     public Integer getIndex() {
-        return ApplicationListActivity.ALL_APPS;
+        return ApplicationListActivity.LOCKED_APPS;
     }
 
     @Override
     public ArrayList<App> getApps() {
-        return appArrayList;
+        return (ArrayList<App>) appAdapter.getData();
     }
 
     @Override
@@ -155,6 +155,16 @@ public class AppListFragment extends Fragment implements AppListFragmentView, Fr
     }
 
     @Override
+    public void onFragmentVisible() {
+
+    }
+
+    @Override
+    public void onFragmentInvisible() {
+
+    }
+
+    @Override
     public void onItemClick(View view, int i) {
         app = appAdapter.getItem(i);
 
@@ -165,7 +175,9 @@ public class AppListFragment extends Fragment implements AppListFragmentView, Fr
 
         preferencesUtil.putValue(lockedAppsPreferences, app.getAppPackage(), switchCompat.isChecked());
 
-        iAppListFragmentPresenter.updateListWith(app, switchCompat.isChecked(), getFragmentActivity());
+        iAppListFragmentPresenter.resetFragments(getActivity());
+
+        removeAppIn(i);
     }
 
     @Override
@@ -234,14 +246,5 @@ public class AppListFragment extends Fragment implements AppListFragmentView, Fr
                 .show();
 
         return false;
-    }
-
-    @Override
-    public void onFragmentVisible() {
-
-    }
-
-    @Override
-    public void onFragmentInvisible() {
     }
 }

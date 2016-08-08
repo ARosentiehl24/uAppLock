@@ -2,6 +2,7 @@ package com.arrg.app.uapplock.view.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -28,48 +29,48 @@ import com.arrg.app.uapplock.util.kisstools.utils.ToastUtil;
 import com.kennyc.bottomsheet.BottomSheet;
 import com.kennyc.bottomsheet.BottomSheetListener;
 import com.mukesh.permissions.AppPermissions;
-import com.norbsoft.typefacehelper.TypefaceHelper;
 import com.shawnlin.preferencesmanager.PreferencesManager;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.fingerlinks.mobile.android.navigator.Navigator;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import eightbitlab.com.blurview.BlurView;
 import eightbitlab.com.blurview.RenderScriptBlur;
 import pl.aprilapps.easyphotopicker.EasyImage;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class WallpaperSettingsActivity extends UAppLockActivity implements PictureSettingsView {
 
-    @Bind(R.id.container)
+    @BindView(R.id.container)
     AppCompatImageView container;
-    @Bind(R.id.cropImageView)
+    @BindView(R.id.cropImageView)
     CropImageView cropImageView;
-    @Bind(R.id.wallpaperPicture)
+    @BindView(R.id.wallpaperPicture)
     AppCompatImageView wallpaperPicture;
-    @Bind(R.id.seekBar)
+    @BindView(R.id.seekBar)
     AppCompatSeekBar seekBar;
-    @Bind(R.id.btnAdd)
+    @BindView(R.id.btnAdd)
     AppCompatImageButton btnAdd;
-    @Bind(R.id.btnBlur)
+    @BindView(R.id.btnBlur)
     AppCompatImageButton btnBlur;
-    @Bind(R.id.btnRotate)
+    @BindView(R.id.btnRotate)
     AppCompatImageButton btnRotate;
-    @Bind(R.id.btnCrop)
+    @BindView(R.id.btnCrop)
     AppCompatImageButton btnCrop;
-    @Bind(R.id.btnUndo)
+    @BindView(R.id.btnUndo)
     AppCompatImageButton btnUndo;
-    @Bind(R.id.btnDone)
+    @BindView(R.id.btnDone)
     AppCompatImageButton btnDone;
-    @Bind(R.id.btnClose)
+    @BindView(R.id.btnClose)
     AppCompatImageButton btnClose;
-    @Bind(R.id.blurView)
+    @BindView(R.id.blurView)
     BlurView blurView;
-    @Bind(R.id.blurSeekBarView)
+    @BindView(R.id.blurSeekBarView)
     BlurView blurSeekBarView;
-    @Bind(R.id.buttonBarContainer)
+    @BindView(R.id.buttonBarContainer)
     LinearLayout buttonBarContainer;
 
     public static final String[] STORAGE_PERMISSIONS = {
@@ -91,7 +92,6 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Pictu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallpaper_settings);
         ButterKnife.bind(this);
-        TypefaceHelper.typeface(this);
         Util.modifyToolbar(this, R.string.title_activity_wallpaper_settings, true);
 
         DisplayMetrics displaymetrics = new DisplayMetrics();
@@ -119,6 +119,11 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Pictu
 
         iPictureSettingsPresenter = new IPictureSettingsPresenter(this);
         iPictureSettingsPresenter.onCreate();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     @Override

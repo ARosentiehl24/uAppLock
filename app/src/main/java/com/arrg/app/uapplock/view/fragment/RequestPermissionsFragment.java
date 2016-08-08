@@ -16,9 +16,8 @@ import android.view.ViewGroup;
 
 import com.arrg.app.uapplock.R;
 import com.bumptech.glide.Glide;
-import com.norbsoft.typefacehelper.TypefaceHelper;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -32,11 +31,11 @@ import static com.arrg.app.uapplock.view.activity.IntroActivity.WRITE_SETTINGS_R
  */
 public class RequestPermissionsFragment extends Fragment {
 
-    @Bind(R.id.imageView)
+    @BindView(R.id.imageView)
     AppCompatImageView imageView;
-    @Bind(R.id.header)
+    @BindView(R.id.header)
     AppCompatTextView header;
-    @Bind(R.id.description)
+    @BindView(R.id.description)
     AppCompatTextView description;
     private int resIdHeader;
     private int resIdImage;
@@ -77,7 +76,6 @@ public class RequestPermissionsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_request_permissions, container, false);
         ButterKnife.bind(this, view);
-        TypefaceHelper.typeface(view);
         return view;
     }
 
@@ -95,7 +93,6 @@ public class RequestPermissionsFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     @OnClick(R.id.btnGrantPermission)
