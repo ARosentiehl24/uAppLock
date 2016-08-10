@@ -83,7 +83,7 @@ public class PinSettingsActivity extends UAppLockActivity {
 
                         vibrator.vibrate(DURATIONS_OF_ANIMATIONS);
 
-                        updateText(R.string.message_to_repeat_pattern);
+                        updateText(R.string.message_to_repeat_pin);
                     }
                 }
             }
@@ -111,12 +111,12 @@ public class PinSettingsActivity extends UAppLockActivity {
             case R.id.btnResetPin:
                 pin = "";
 
-                pinLockView.resetPinLockView();
                 pinLockView.attachIndicatorDots(indicatorDots);
+                pinLockView.resetPinLockView();
 
-                PreferencesManager.putString(getString(R.string.user_pin), pin);
+                //PreferencesManager.putString(getString(R.string.user_pin), pin);
 
-                updateText(R.string.message_to_request_pattern);
+                updateText(R.string.message_to_request_pin);
                 break;
             case R.id.btnSetPin:
                 Navigator.with(this).utils().finishWithAnimation();

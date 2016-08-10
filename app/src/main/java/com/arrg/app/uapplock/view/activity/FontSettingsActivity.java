@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.arrg.app.uapplock.R;
@@ -16,6 +17,7 @@ import com.arrg.app.uapplock.view.adapter.FontAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.shawnlin.preferencesmanager.PreferencesManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -43,8 +45,24 @@ public class FontSettingsActivity extends UAppLockActivity implements BaseQuickA
 
         ArrayList<Font> fonts = new ArrayList<>();
 
-        fonts.add(new Font("Raleway", "fonts/Raleway.ttf"));
-        fonts.add(new Font("LazySpringDay", "fonts/LazySpringDay.ttf"));
+        try {
+            String[] assetFonts = getAssets().list("fonts");
+
+            for (String font : assetFonts) {
+                String newFont = font.substring(0, 1).toUpperCase() + font.substring(1);
+                String fontPath = "fonts/" + font;
+
+                fonts.add(new Font(newFont, fontPath));
+
+                Log.v("names", fontPath + " - " + newFont.substring(0, newFont.lastIndexOf(".")));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+       // fonts.add(new Font("Raleway", "fonts/Raleway.ttf"));
+        //fonts.add(new Font("LazySpringDay", "fonts/LazySpringDay.ttf"));
 
         fontAdapter = new FontAdapter(R.layout.font_item, fonts);
 

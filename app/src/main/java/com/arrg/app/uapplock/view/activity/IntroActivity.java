@@ -141,7 +141,7 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         if (isHardwareDetected()) {
                             if (!hasEnrolledFingerprints()) {
-                                viewPager.setCurrentItem(1);
+
                             } else if (!usageStatsIsNotEmpty()) {
                                 viewPager.setCurrentItem(2);
                             } else if (!overlayPermissionGranted()) {
@@ -160,7 +160,6 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
                         }
                     } else {
                         if (!hasEnrolledFingerprints()) {
-                            viewPager.setCurrentItem(1);
                         }
                     }
                 }
@@ -245,7 +244,6 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (isHardwareDetected() && !hasEnrolledFingerprints()) {
-                list.add(hasEnrolledFingerprints());
                 Log.e("Values", "hasEnrolledFingerprints: " + hasEnrolledFingerprints());
             }
             list.add(usageStatsIsNotEmpty());
@@ -259,7 +257,6 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
         } else {
             if (fingerprintManagerCompat.isHardwareDetected()) {
                 if (!hasEnrolledFingerprints()) {
-                    list.add(hasEnrolledFingerprints());
                     Log.e("Values", "hasEnrolledFingerprints: " + hasEnrolledFingerprints());
                 }
             }
@@ -271,7 +268,7 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
     }
 
     public String userPin() {
-        return PreferencesManager.getString(getString(R.string.user_pin), "");
+        return PreferencesManager.getString(getString(R.string.user_pin));
     }
 
     public Boolean patternWasConfigured() {
@@ -279,7 +276,7 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
     }
 
     public String userPattern() {
-        return PreferencesManager.getString(getString(R.string.user_pattern), "");
+        return PreferencesManager.getString(getString(R.string.user_pattern));
     }
 
     public Boolean usageStatsIsNotEmpty() {
