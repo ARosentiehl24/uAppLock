@@ -43,14 +43,9 @@
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:text="@string/app_name"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/background_dark"
             android:textSize="@dimen/text_size_splash_screen"
             android:visibility="invisible" />
-
-        <!--android:shadowColor="@color/wet_asphalt25"
-        android:shadowDx="5"
-        android:shadowDy="5"
-        android:shadowRadius="5"-->
 
         <LinearLayout
             android:id="@+id/buttonBarContainer"
@@ -68,7 +63,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/button_bar_background"
                 android:text="@string/set_pattern"
-                android:textColor="@color/colorAccent" />
+                android:textColor="@color/background_dark" />
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/btnSetPin"
@@ -78,7 +73,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/button_bar_background"
                 android:text="@string/set_pin"
-                android:textColor="@color/colorAccent" />
+                android:textColor="@color/background_dark" />
         </LinearLayout>
 
         <View
@@ -89,7 +84,7 @@
             android:layout_marginBottom="1dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:background="@color/wet_asphalt10"
+            android:background="@color/glass10"
             android:visibility="invisible" />
     </RelativeLayout>
 </LinearLayout>

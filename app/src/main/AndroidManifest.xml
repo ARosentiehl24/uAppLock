@@ -91,7 +91,7 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_pattern_settings"
             android:parentActivityName=".view.activity.SettingsActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/SettingsAppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.arrg.app.uapplock.view.activity.SettingsActivity" />

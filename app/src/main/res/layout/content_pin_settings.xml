@@ -17,7 +17,7 @@
         android:gravity="center|bottom"
         android:padding="@dimen/text_padding_unlock_method_request"
         android:text="@string/message_to_request_pin"
-        android:textColor="@color/wet_asphalt75"
+        android:textColor="@color/background_dark"
         android:textSize="@dimen/text_size_unlock_method_request" />
 
     <com.andrognito.pinlockview.IndicatorDots
@@ -41,11 +41,11 @@
         app:keypadButtonBackgroundDrawable="@drawable/dot_empty_background"
         app:keypadButtonSize="75dp"
         app:keypadDeleteButtonDrawable="@drawable/ic_delete"
-        app:keypadDeleteButtonPressedColor="@color/wet_asphalt75"
+        app:keypadDeleteButtonPressedColor="@color/background_dark"
         app:keypadDeleteButtonSize="25dp"
         app:keypadHorizontalSpacing="50dp"
         app:keypadShowDeleteButton="true"
-        app:keypadTextColor="@color/wet_asphalt75"
+        app:keypadTextColor="@color/background_dark"
         app:keypadTextSize="25sp"
         app:keypadVerticalSpacing="10dp"
         app:pinLength="4" />
@@ -58,7 +58,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="1dp"
-        android:background="@color/wet_asphalt10" />
+        android:background="@color/glass10" />
 
     <LinearLayout
         android:id="@+id/buttonBarContainer"
@@ -74,7 +74,7 @@
             android:layout_weight="1"
             android:background="@drawable/button_bar_background"
             android:text="@string/reset_pin"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/background_dark" />
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btnSetPin"
@@ -85,6 +85,6 @@
             android:background="@drawable/button_bar_background"
             android:enabled="false"
             android:text="@string/accept"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/background_dark" />
     </LinearLayout>
 </LinearLayout>

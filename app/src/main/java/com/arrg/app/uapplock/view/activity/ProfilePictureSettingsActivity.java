@@ -232,6 +232,11 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity implements 
     }
 
     @Override
+    public void showColorDialog() {
+
+    }
+
+    @Override
     public boolean hasPermission(String permission) {
         return appPermissions.hasPermission(permission);
     }

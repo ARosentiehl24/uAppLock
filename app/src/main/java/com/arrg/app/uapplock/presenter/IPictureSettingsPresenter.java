@@ -56,6 +56,9 @@ public class IPictureSettingsPresenter implements PictureSettingsPresenter {
                 .setCopyExistingPicturesToPublicLocation(true);
 
         switch (itemId) {
+            case R.id.action_color:
+                profilePictureSettingsView.showColorDialog();
+                break;
             case R.id.action_camera:
                 EasyImage.openCamera(getContext(), 0);
                 break;

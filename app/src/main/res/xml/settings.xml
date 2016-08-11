@@ -31,18 +31,18 @@
             app:entryValues="@array/unlock_methods_values" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/design_settings">
+    <PreferenceCategory android:title="@string/other_settings">
         <Preference
             android:icon="@drawable/ic_font"
             android:key="@string/font_settings"
             android:summary="@string/font_summary_text"
             android:title="@string/font_title" />
 
-        <Preference
+        <!--<Preference
             android:icon="@drawable/ic_face"
             android:key="@string/face_settings"
             android:summary="@string/profile_picture_summary_text"
-            android:title="@string/profile_picture_title" />
+            android:title="@string/profile_picture_title" />-->
 
         <Preference
             android:icon="@drawable/ic_wallpaper"

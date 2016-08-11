@@ -52,9 +52,7 @@ public class FontSettingsActivity extends UAppLockActivity implements BaseQuickA
                 String newFont = font.substring(0, 1).toUpperCase() + font.substring(1);
                 String fontPath = "fonts/" + font;
 
-                fonts.add(new Font(newFont, fontPath));
-
-                Log.v("names", fontPath + " - " + newFont.substring(0, newFont.lastIndexOf(".")));
+                fonts.add(new Font(newFont.substring(0, newFont.lastIndexOf(".")), fontPath));
             }
         } catch (IOException e) {
             e.printStackTrace();

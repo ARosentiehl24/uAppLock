@@ -86,15 +86,6 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
             }
         });
 
-        Preference profilePictureSettings = findPreference(getString(R.string.face_settings));
-        profilePictureSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                Navigator.with(getActivity()).build().goTo(ProfilePictureSettingsActivity.class).animation().commit();
-                return false;
-            }
-        });
-
         Preference wallPaperSettings = findPreference(getString(R.string.wallpaper_settings));
         wallPaperSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override

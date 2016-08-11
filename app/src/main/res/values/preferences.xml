@@ -17,4 +17,5 @@
     <string name="enable_fingerprint">enable_fingerprint</string>
     <string name="security_settings">security_settings</string>
     <string name="profile_picture">profile_picture</string>
+    <string name="color_as_background">color_as_background</string>
 </resources>

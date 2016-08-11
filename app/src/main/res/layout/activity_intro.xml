@@ -29,7 +29,7 @@
             android:clickable="true"
             android:scaleType="center"
             app:materialIcon="chevron_left"
-            app:materialIconColor="@color/colorAccent"
+            app:materialIconColor="@color/background_dark"
             app:materialIconSize="24dp" />
 
         <com.commit451.inkpageindicator.InkPageIndicator
@@ -39,10 +39,10 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             app:animationDuration="250"
-            app:currentPageIndicatorColor="@color/wet_asphalt75"
+            app:currentPageIndicatorColor="@color/glass75"
             app:dotDiameter="10dp"
             app:dotGap="10dp"
-            app:pageIndicatorColor="@color/wet_asphalt50" />
+            app:pageIndicatorColor="@color/glass50" />
 
         <net.steamcrafted.materialiconlib.MaterialIconView
             android:id="@+id/btnNext"
@@ -53,7 +53,7 @@
             android:clickable="true"
             android:scaleType="center"
             app:materialIcon="chevron_right"
-            app:materialIconColor="@color/colorAccent"
+            app:materialIconColor="@color/background_dark"
             app:materialIconSize="24dp" />
     </LinearLayout>
 </LinearLayout>

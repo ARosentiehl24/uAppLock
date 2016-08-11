@@ -14,7 +14,7 @@
         android:gravity="center"
         android:padding="@dimen/text_padding_unlock_method_request"
         android:text="@string/message_fingerprint_sensor_detected"
-        android:textColor="@color/wet_asphalt75"
+        android:textColor="@color/background_dark"
         android:textSize="@dimen/text_size_unlock_method_request"
         android:layout_margin="5dp" />
 
@@ -24,7 +24,7 @@
         android:layout_weight="1"
         android:scaleType="center"
         app:materialIcon="fingerprint"
-        app:materialIconColor="@color/colorAccent"
+        app:materialIconColor="@color/background_dark"
         app:materialIconSize="192dp" />
 
     <android.support.v7.widget.AppCompatTextView
@@ -34,7 +34,7 @@
         android:gravity="center"
         android:padding="@dimen/text_padding_unlock_method_request"
         android:text="@string/fingerprint_enabled_message"
-        android:textColor="@color/wet_asphalt75"
+        android:textColor="@color/background_dark"
         android:textSize="@dimen/text_size_unlock_method_request"
         android:visibility="invisible" />
 
@@ -57,6 +57,6 @@
             android:background="@drawable/button_bar_background"
             android:gravity="center"
             android:text="@string/enable_fingerprint_support"
-            android:textColor="@color/wet_asphalt75" />
+            android:textColor="@color/background_dark" />
     </LinearLayout>
 </LinearLayout>

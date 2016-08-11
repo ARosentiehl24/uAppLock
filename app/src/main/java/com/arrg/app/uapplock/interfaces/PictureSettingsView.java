@@ -38,4 +38,6 @@ public interface PictureSettingsView {
     void closeActivity();
 
     boolean haveNavigationBar();
+
+    void showColorDialog();
 }

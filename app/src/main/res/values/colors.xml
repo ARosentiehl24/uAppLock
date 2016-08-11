@@ -33,6 +33,7 @@
     <color name="blue_touch_wiz_dark">#ff499ebe</color>
     <color name="blue_ios">#FF0676DC</color>
     <color name="blue_ios_dark">#FF056ac6</color>
+    <color name="text_color">#6C6D6D</color>
 
     <color name="background_dark">#ff212121</color>
     <color name="background_light">#ffFAFAFA</color>

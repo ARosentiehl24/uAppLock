@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_camera"
+        android:icon="@drawable/ic_menu_camera"
+        android:title="@string/camera" />
+
+    <item
+        android:id="@+id/action_document"
+        android:icon="@drawable/ic_menu_document"
+        android:title="@string/document" />
+
+    <item
+        android:id="@+id/action_gallery"
+        android:icon="@drawable/ic_menu_gallery"
+        android:title="@string/gallery" />
+
+    <item
+        android:id="@+id/action_color"
+        android:icon="@drawable/ic_theme"
+        android:title="@string/color" />
+
+    <item
+        android:id="@+id/action_default"
+        android:icon="@drawable/ic_default"
+        android:title="@string/set_to_default" />
+</menu>

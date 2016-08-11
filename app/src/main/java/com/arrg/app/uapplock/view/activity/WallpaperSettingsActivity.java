@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatImageView;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 
+import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.interfaces.PictureSettingsView;
 import com.arrg.app.uapplock.presenter.IPictureSettingsPresenter;
@@ -42,7 +44,7 @@ import eightbitlab.com.blurview.RenderScriptBlur;
 import pl.aprilapps.easyphotopicker.EasyImage;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class WallpaperSettingsActivity extends UAppLockActivity implements PictureSettingsView {
+public class WallpaperSettingsActivity extends UAppLockActivity implements ColorChooserDialog.ColorCallback, PictureSettingsView {
 
     @BindView(R.id.container)
     AppCompatImageView container;
@@ -64,8 +66,8 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Pictu
     AppCompatImageButton btnUndo;
     @BindView(R.id.btnDone)
     AppCompatImageButton btnDone;
-    @BindView(R.id.btnClose)
-    AppCompatImageButton btnClose;
+    /*@BindView(R.id.btnClose)
+    AppCompatImageButton btnClose;*/
     @BindView(R.id.blurView)
     BlurView blurView;
     @BindView(R.id.blurSeekBarView)
@@ -85,6 +87,7 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Pictu
     private Bitmap original;
     private Boolean isBlurEffectEnabled = false;
     private BottomSheet bottomSheet;
+    private Integer selectedColor;
     private IPictureSettingsPresenter iPictureSettingsPresenter;
 
     @Override
@@ -100,7 +103,7 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Pictu
         height = displaymetrics.heightPixels;
         width = displaymetrics.widthPixels;
 
-        final float radius = 25;
+        final float radius = 25.0f;
         final View decorView = getWindow().getDecorView();
         final View rootView = decorView.findViewById(android.R.id.content);
         final Drawable windowBackground = decorView.getBackground();
@@ -185,6 +188,7 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Pictu
 
     @Override
     public void setupViews() {
+/*
         if (!haveNavigationBar()) {
             buttonBarContainer.post(new Runnable() {
                 @Override
@@ -193,6 +197,7 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Pictu
                 }
             });
         }
+*/
 
         btnUndo.setEnabled(false);
 
@@ -201,15 +206,21 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Pictu
         String wallpaper = PreferencesManager.getString(getString(R.string.wallpaper));
 
         if (wallpaper.length() != 0) {
-            Bitmap background = BitmapUtil.getImage(wallpaper);
+            if (PreferencesManager.getBoolean(getString(R.string.color_as_background))) {
+                int backgroundColor = Integer.parseInt(wallpaper);
 
-            showCurrentProfilePicture(BitmapUtil.resizeImage(background, width, height, true));
+                getWindow().getDecorView().setBackgroundColor(backgroundColor);
+            } else {
+                Bitmap background = BitmapUtil.getImage(wallpaper);
+
+                showCurrentProfilePicture(BitmapUtil.resizeImage(background, width, height, true));
+            }
         }
 
         cropImageView.setMaxZoom(100);
 
         bottomSheet = new BottomSheet.Builder(this, R.style.BottomSheetStyle)
-                .setSheet(R.menu.bottom_sheet_picture_picker)
+                .setSheet(R.menu.bottom_sheet_background_picker)
                 .setTitle(R.string.select_source)
                 .setListener(new BottomSheetListener() {
                     @Override
@@ -344,6 +355,8 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Pictu
     public void saveProfilePicture() {
         String path = getFilesDir().getPath() + "/Pictures/Wallpaper/Wallpaper.png";
 
+        PreferencesManager.putBoolean(getString(R.string.color_as_background), false);
+
         PreferencesManager.putString(getString(R.string.wallpaper), path);
 
         iPictureSettingsPresenter.saveProfilePicture(cropImageView.getCroppedImage(), path);
@@ -361,7 +374,16 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Pictu
         return !(id > 0 && getResources().getBoolean(id));
     }
 
-    @OnClick({R.id.btnAdd, R.id.btnBlur, R.id.btnRotate, R.id.btnCrop, R.id.btnUndo, R.id.btnDone, R.id.btnCloseSeekBar, R.id.btnClose})
+    @Override
+    public void showColorDialog() {
+        new ColorChooserDialog.Builder(WallpaperSettingsActivity.this, R.string.color)
+                .doneButton(R.string.md_done_label)
+                .cancelButton(R.string.md_cancel_label)
+                .backButton(R.string.md_back_label)
+                .show();
+    }
+
+    @OnClick({R.id.btnAdd, R.id.btnBlur, R.id.btnRotate, R.id.btnCrop, R.id.btnUndo, R.id.btnDone, R.id.btnCloseSeekBar/*, R.id.btnClose*/})
     public void onClick(View view) {
         iPictureSettingsPresenter.onClick(view.getId());
 
@@ -376,9 +398,9 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Pictu
             case R.id.btnCloseSeekBar:
                 hideSeekBar();
                 break;
-            case R.id.btnClose:
+            /*case R.id.btnClose:
                 onBackPressed();
-                break;
+                break;*/
         }
     }
 
@@ -394,5 +416,16 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Pictu
 
     public String TAG() {
         return this.getClass().getCanonicalName();
+    }
+
+    @Override
+    public void onColorSelection(@NonNull ColorChooserDialog dialog, @ColorInt int selectedColor) {
+        getWindow().getDecorView().setBackgroundColor(selectedColor);
+
+        PreferencesManager.putBoolean(getString(R.string.color_as_background), true);
+
+        PreferencesManager.putString(getString(R.string.wallpaper), String.valueOf(selectedColor));
+
+        ToastUtil.show(getString(R.string.done));
     }
 }

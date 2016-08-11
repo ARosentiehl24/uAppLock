@@ -68,8 +68,8 @@
                         android:imeOptions="actionSearch"
                         android:inputType="text"
                         android:maxLines="1"
-                        android:textColor="@color/colorAccent"
-                        android:textColorHint="@color/wet_asphalt50" />
+                        android:textColor="@color/background_dark"
+                        android:textColorHint="@color/glass50" />
                 </LinearLayout>
             </io.codetail.widget.RevealFrameLayout>
         </FrameLayout>
