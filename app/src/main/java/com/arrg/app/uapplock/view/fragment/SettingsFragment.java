@@ -34,7 +34,7 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
     @Override
     public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.settings);
-        setDividerPreferences(DIVIDER_PREFERENCE_AFTER_LAST);
+        setDividerPreferences(DIVIDER_PADDING_PARENT);
 
         PreferenceCategory preferenceCategory = (PreferenceCategory) getPreferenceScreen().getPreference(0);
 

@@ -355,45 +355,6 @@ public class ApplicationListActivity extends AppCompatActivity implements AppLis
         iAppListPresenter.onClick();
     }
 
-    public static class PlaceholderFragment extends Fragment implements FragmentVisibilityListener {
-
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        public PlaceholderFragment() {
-        }
-
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment placeholderFragment = new PlaceholderFragment();
-
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-
-            placeholderFragment.setArguments(args);
-
-            return placeholderFragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_application_list, container, false);
-
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-
-            return rootView;
-        }
-
-        @Override
-        public void onFragmentVisible() {
-            LogUtil.e("AppsAux", "Visible: " + getArguments().getInt(ARG_SECTION_NUMBER));
-        }
-
-        @Override
-        public void onFragmentInvisible() {
-            LogUtil.e("AppsAux", "Invisible: " + getArguments().getInt(ARG_SECTION_NUMBER));
-        }
-    }
-
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {

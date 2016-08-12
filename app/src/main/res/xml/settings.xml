@@ -22,6 +22,8 @@
             android:summary="@string/pin_summary_text"
             android:title="@string/pin_title" />
 
+        <SwitchPreference android:title="Lock apps after" />
+
         <ListPreference
             android:icon="@drawable/ic_unlock_method"
             android:key="@string/unlock_method"
@@ -31,7 +33,7 @@
             app:entryValues="@array/unlock_methods_values" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/other_settings">
+    <PreferenceCategory android:title="@string/design_settings">
         <Preference
             android:icon="@drawable/ic_font"
             android:key="@string/font_settings"
@@ -51,29 +53,7 @@
             android:title="@string/set_a_wallpaper_title" />
     </PreferenceCategory>
 
-    <!--<PreferenceCategory android:title="@string/other_settings">
-        <Preference
-            android:icon="@drawable/ic_font"
-            android:key="@string/font_settings"
-            android:summary="@string/font_summary_text"
-            android:title="@string/font_title" />
+    <PreferenceCategory android:title="@string/other_settings">
 
-        <Preference
-            android:icon="@drawable/ic_face"
-            android:key="@string/face_settings"
-            android:summary="@string/profile_picture_summary_text"
-            android:title="@string/profile_picture_title" />
-
-        <Preference
-            android:icon="@drawable/ic_wallpaper"
-            android:key="@string/wallpaper_settings"
-            android:summary="@string/set_a_wallpaper_summary_text"
-            android:title="@string/set_a_wallpaper_title" />
-
-        <Preference
-            android:icon="@drawable/ic_theme"
-            android:key="@string/theme_settings"
-            android:summary="@string/theme_summary_text"
-            android:title="@string/theme_title" />
-    </PreferenceCategory>-->
+    </PreferenceCategory>
 </PreferenceScreen>

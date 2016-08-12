@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <SwitchPreference
-        android:textColor="@color/colorAccent"
-        android:key="is_pattern_visible"
-        android:title="Show pattern on uBlock screen" />
+        app:title="Stealth mode"
+        app:key="@string/stealth_mode"
+        app:summaryOff="Stealth mode disabled"
+        app:summaryOn="Stealth mode enabled" />
 </PreferenceScreen>
