@@ -22,7 +22,7 @@
             android:summary="@string/pin_summary_text"
             android:title="@string/pin_title" />
 
-        <SwitchPreference android:title="Lock apps after" />
+
 
         <ListPreference
             android:icon="@drawable/ic_unlock_method"
