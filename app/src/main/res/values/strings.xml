@@ -4,8 +4,6 @@
 
     <string name="welcome_message">Welcome to uAppLock</string>
 
-    <string name="action_settings">Settings</string>
-
     <string name="set_pattern">Set a pattern</string>
     <string name="message_to_request_pattern">Please enter a pattern that you can remember easily</string>
     <string name="message_to_confirm_pattern">Please enter the pattern again</string>
@@ -36,71 +34,65 @@
     <string name="write_settings_permission_description">It is necessary to setup cool features</string>
 
     <string name="title_activity_app_list">Application List</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_search">Search</string>
+    <string name="action_settings">Settings</string>
     <string name="search_hint">Search…</string>
-    <string name="action_send">Send Report</string>
-    <string name="action_about_me">About Me</string>
     <string name="applications">Applications</string>
     <string name="locked_apps">Locked Apps</string>
     <string name="unlocked_apps">Unlocked Apps</string>
-    <string name="more">More</string>
 
-    <string name="title_activity_settings">Settings</string>
-    <string name="uapplock_settings">uAppLock Settings</string>
-    <string name="design_settings">Design Settings</string>
-
-    <string name="fingerprint_title">Fingerprint Settings</string>
-    <string name="fingerprint_summary_text">Enable / Disable unlock by fingerprint on uAppLock screen and configure other related settings</string>
-    <string name="fingerprint_not_supported_message">This device does not have the fingerprint sensor</string>
-
-    <string name="unlock_method_title">Unlock Method</string>
-    <string name="unlock_method_summary">Choose a default unlock method</string>
-
-    <string name="pattern_title">Pattern Settings</string>
-    <string name="pattern_summary_text">Changes the settings related to the pattern</string>
-
-    <string name="pin_title">Pin Settings</string>
-    <string name="pin_summary_text">Changes the settings related to the pin</string>
-
-    <string name="other_settings">Other</string>
-
-    <string name="profile_picture_title">Profile Picture</string>
-    <string name="profile_picture_summary_text">Add a profile photo to header of navigation view</string>
-
-    <string name="font_title">Font</string>
-    <string name="font_summary_text">Change the font style of the application</string>
-
-    <string name="theme_title">Theme</string>
-    <string name="theme_summary_text">Create a theme by changing the main colors</string>
-
-    <string name="set_a_wallpaper_title">Set A Wallpaper</string>
-    <string name="set_a_wallpaper_summary_text">Add / Change the wallpaper header navigation view and also the lock screen</string>
-
-    <string name="title_activity_fingerprint_settings">Fingerprint Settings</string>
-
-    <string name="current_version">Current version: %s</string>
     <string name="long_click_message">What would you like to do?</string>
     <string name="open">Open</string>
     <string name="uninstall">Uninstall</string>
     <string name="cancel">Cancel</string>
     <string name="app_details">App Details</string>
     <string name="undo">Undo</string>
-
     <string name="uninstall_app_message">Preparing to uninstall app</string>
     <string name="uninstall_error_message">An error occurred while trying to uninstall the application</string>
 
+    <string name="title_activity_settings">Settings</string>
+    <string name="uapplock_settings">uAppLock Settings</string>
+    <string name="advanced_settings">Advanced Settings</string>
+    <string name="design_settings">Design Settings</string>
+    <string name="other_settings">Other</string>
+
+    <string name="fingerprint_title">Fingerprint Settings</string>
+    <string name="fingerprint_summary">Enable / Disable unlock by fingerprint on uAppLock screen and configure other related settings</string>
+    <string name="pattern_title">Pattern Settings</string>
+    <string name="pattern_summary_text">Changes the settings related to the pattern</string>
+    <string name="pin_title">Pin Settings</string>
+    <string name="pin_summary_text">Changes the settings related to the pin</string>
+    <string name="unlock_method_title">Unlock Method</string>
+    <string name="unlock_method_summary">Choose a default unlock method</string>
+    <string name="block_apps_after_screen_off_title">It helps you to not have unnecessary blocks</string>
+    <string name="block_apps_after_screen_off_summary">Block applications after the screen turns off</string>
+    <string name="profile_picture_title">Profile Picture</string>
+    <string name="profile_picture_summary_text">Add a profile photo to header of navigation view</string>
+    <string name="font_title">Font</string>
+    <string name="font_summary_text">Change the font style of the application</string>
+    <string name="set_a_wallpaper_title">Set A Wallpaper</string>
+    <string name="set_a_wallpaper_summary_text">Add / Change the wallpaper header navigation view and also the lock screen</string>
+
+    <string name="title_activity_fingerprint_settings">Fingerprint Settings</string>
     <string name="enable_fingerprint_title">Enable Fingerprint</string>
     <string name="enable_fingerprint_summary">Enable / Disable unlock by fingerprint on uAppLock screen</string>
     <string name="security_settings_title">Security Settings</string>
     <string name="security_settings_summary">Open the security settings to configure aspects related to fingerprints, such as, add new fingerprint or delete one, among other things</string>
 
     <string name="title_activity_pattern_settings">Pattern Settings</string>
+    <string name="stealth_mode">Stealth mode</string>
+    <string name="stealth_mode_disabled">Stealth mode disabled</string>
+    <string name="stealth_mode_enabled">Stealth mode enabled</string>
+
     <string name="title_activity_pin_settings">Pin Settings</string>
+
     <string name="unlock_method_chosen">Unlock method chosen: %s</string>
+
     <string name="title_activity_font_settings">Font Settings</string>
+
     <string name="title_activity_profile_picture_settings">Profile Picture Settings</string>
+
+    <string name="title_activity_wallpaper_settings">Wallpaper Settings</string>
     <string name="choose_take_a_picture">Choose / Take a picture</string>
     <string name="camera">Camera</string>
     <string name="close">Close</string>
@@ -110,7 +102,6 @@
     <string name="document">Document</string>
     <string name="color">Solid Color</string>
     <string name="set_to_default">Default</string>
-    <string name="title_activity_wallpaper_settings">Wallpaper Settings</string>
     <string name="add">Add</string>
     <string name="rotate">Rotate</string>
     <string name="crop">Crop</string>

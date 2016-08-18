@@ -19,5 +19,6 @@
     <string name="profile_picture">profile_picture</string>
     <string name="color_as_background">color_as_background</string>
     <string name="wallpaper">wallpaper</string>
-    <string name="stealth_mode">stealth_mode</string>
+    <string name="stealth_mode_key">stealth_mode</string>
+    <string name="block_apps_after_screen_off">block_apps_after_screen_off</string>
 </resources>

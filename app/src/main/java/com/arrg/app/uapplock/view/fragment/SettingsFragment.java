@@ -145,8 +145,6 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
                 }
             } else {
                 unlockMethod.setValueIndex(unlockMethodIndex);
-
-                ToastUtil.show(R.string.fingerprint_not_supported_message);
             }
         } else if (index.equals(UAppLock.PATTERN)) {
             if (patternWasConfigured()) {

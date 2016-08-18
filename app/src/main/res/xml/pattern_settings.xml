@@ -2,8 +2,8 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <SwitchPreference
-        app:title="Stealth mode"
-        app:key="@string/stealth_mode"
-        app:summaryOff="Stealth mode disabled"
-        app:summaryOn="Stealth mode enabled" />
+        app:title="@string/stealth_mode"
+        app:key="@string/stealth_mode_key"
+        app:summaryOff="@string/stealth_mode_disabled"
+        app:summaryOn="@string/stealth_mode_enabled" />
 </PreferenceScreen>
