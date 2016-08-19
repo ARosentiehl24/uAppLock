@@ -23,7 +23,7 @@ public class FingerprintSettingsFragment extends PreferenceFragmentCompatDivider
     @Override
     public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.fingerprint_settings);
-        setDividerPreferences(DIVIDER_PREFERENCE_AFTER_LAST);
+        setDividerPreferences(DIVIDER_PADDING_PARENT);
 
         fingerprintManagerCompat = FingerprintManagerCompat.from(getContext());
         initialUnlockMethod = PreferencesManager.getInt(getString(R.string.unlock_method));

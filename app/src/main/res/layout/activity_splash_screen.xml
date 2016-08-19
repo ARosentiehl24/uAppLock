@@ -19,7 +19,7 @@
             android:layout_height="@dimen/icon_size_splash_screen"
             android:layout_centerInParent="true"
             android:layout_margin="@dimen/material_layout_keylines_screen_edge_margin"
-            android:background="@drawable/ic_launcher_background"
+            android:background="@drawable/ic_picture_launcher_background"
             android:visibility="invisible">
 
             <android.support.v7.widget.AppCompatImageView
@@ -61,7 +61,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/button_bar_background"
+                android:background="@drawable/ripple_dark"
                 android:text="@string/set_pattern"
                 android:textColor="@color/background_dark" />
 
@@ -71,7 +71,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/button_bar_background"
+                android:background="@drawable/ripple_dark"
                 android:text="@string/set_pin"
                 android:textColor="@color/background_dark" />
         </LinearLayout>

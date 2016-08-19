@@ -44,13 +44,6 @@
             app:key="@string/font_settings"
             app:summary="@string/font_summary_text"
             app:title="@string/font_title" />
-
-        <!--<Preference
-            app:icon="@drawable/ic_face"
-            app:key="@string/face_settings"
-            app:summary="@string/profile_picture_summary_text"
-            app:title="@string/profile_picture_title" />-->
-
         <Preference
             app:icon="@drawable/ic_wallpaper"
             app:key="@string/wallpaper_settings"

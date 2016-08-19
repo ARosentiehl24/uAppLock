@@ -54,7 +54,7 @@
             android:layout_marginEnd="@dimen/material_layout_keylines_horizontal_mobile_margin"
             android:layout_marginStart="@dimen/material_layout_keylines_horizontal_mobile_margin"
             android:layout_weight="1"
-            android:background="@drawable/button_bar_background"
+            android:background="@drawable/ripple_dark"
             android:gravity="center"
             android:text="@string/enable_fingerprint_support"
             android:textColor="@color/background_dark" />

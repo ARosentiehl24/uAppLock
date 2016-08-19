@@ -59,10 +59,10 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/ripple_clouds"
+                android:background="@drawable/ripple_light"
                 android:contentDescription="@string/add"
                 android:gravity="center"
-                android:src="@drawable/ic_add_white" />
+                android:src="@drawable/ic_button_bar_add_white" />
 
             <android.support.v7.widget.AppCompatImageButton
                 android:id="@+id/btnBlur"
@@ -70,10 +70,10 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/ripple_clouds"
+                android:background="@drawable/ripple_light"
                 android:contentDescription="@string/blur"
                 android:gravity="center"
-                android:src="@drawable/ic_blur_white" />
+                android:src="@drawable/ic_button_bar_blur_white" />
 
             <android.support.v7.widget.AppCompatImageButton
                 android:id="@+id/btnRotate"
@@ -81,10 +81,10 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/ripple_clouds"
+                android:background="@drawable/ripple_light"
                 android:contentDescription="@string/rotate"
                 android:gravity="center"
-                android:src="@drawable/ic_rotate_white" />
+                android:src="@drawable/ic_button_bar_rotate_white" />
 
             <android.support.v7.widget.AppCompatImageButton
                 android:id="@+id/btnCrop"
@@ -92,10 +92,10 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/ripple_clouds"
+                android:background="@drawable/ripple_light"
                 android:contentDescription="@string/crop"
                 android:gravity="center"
-                android:src="@drawable/ic_crop_white" />
+                android:src="@drawable/ic_button_bar_crop_white" />
 
             <android.support.v7.widget.AppCompatImageButton
                 android:id="@+id/btnUndo"
@@ -103,10 +103,10 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/ripple_clouds"
+                android:background="@drawable/ripple_light"
                 android:contentDescription="@string/undo"
                 android:gravity="center"
-                android:src="@drawable/ic_undo_white" />
+                android:src="@drawable/ic_button_bar_undo_white" />
 
             <android.support.v7.widget.AppCompatImageButton
                 android:id="@+id/btnDone"
@@ -114,21 +114,10 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/ripple_clouds"
+                android:background="@drawable/ripple_light"
                 android:contentDescription="@string/done"
                 android:gravity="center"
-                android:src="@drawable/ic_done_white" />
-
-            <!--<android.support.v7.widget.AppCompatImageButton
-                android:id="@+id/btnClose"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/ripple_clouds"
-                android:contentDescription="@string/done"
-                android:gravity="center"
-                android:src="@drawable/ic_close_white" />-->
+                android:src="@drawable/ic_button_bar_done_white" />
         </LinearLayout>
     </eightbitlab.com.blurview.BlurView>
 
@@ -152,16 +141,6 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:max="25" />
-
-            <android.support.v7.widget.AppCompatImageButton
-                android:id="@+id/btnCloseSeekBar"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@drawable/ripple_clouds"
-                android:contentDescription="@string/done"
-                android:gravity="center"
-                android:src="@drawable/ic_close_white" />
         </LinearLayout>
     </eightbitlab.com.blurview.BlurView>
 </FrameLayout>

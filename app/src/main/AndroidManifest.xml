@@ -134,7 +134,7 @@
         <activity
             android:name=".view.activity.ApplicationListActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_application_list"
+            android:label="@string/title_activity_app_list"
             android:theme="@style/AppTheme" />
     </application>
 

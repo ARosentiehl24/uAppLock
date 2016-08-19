@@ -99,15 +99,15 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
             }
 
             if (!usageStatsIsNotEmpty()) {
-                fragments.add(RequestPermissionsFragment.newInstance(R.string.usage_stats_permission, R.drawable.ic_usage_stats, R.string.usage_stats_permission_description, USAGE_STATS_RC));
+                fragments.add(RequestPermissionsFragment.newInstance(R.string.usage_stats_permission, R.drawable.ic_picture_usage_stats, R.string.usage_stats_permission_description, USAGE_STATS_RC));
             }
 
             if (!overlayPermissionGranted()) {
-                fragments.add(RequestPermissionsFragment.newInstance(R.string.overlay_permission, R.drawable.ic_overlay_permission, R.string.overlay_permission_description, OVERLAY_PERMISSION_RC));
+                fragments.add(RequestPermissionsFragment.newInstance(R.string.overlay_permission, R.drawable.ic_picture_overlay_permission, R.string.overlay_permission_description, OVERLAY_PERMISSION_RC));
             }
 
             if (!writeSettingsPermissionGranted()) {
-                fragments.add(RequestPermissionsFragment.newInstance(R.string.write_settings_permission, R.drawable.ic_write_settings_permission, R.string.write_settings_permission_description, WRITE_SETTINGS_RC));
+                fragments.add(RequestPermissionsFragment.newInstance(R.string.write_settings_permission, R.drawable.ic_picture_write_settings_permission, R.string.write_settings_permission_description, WRITE_SETTINGS_RC));
             }
         } else {
             if (isHardwareDetected()) {
