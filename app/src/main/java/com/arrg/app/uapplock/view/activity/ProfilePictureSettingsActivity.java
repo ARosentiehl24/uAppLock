@@ -58,8 +58,6 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity implements 
     AppCompatImageButton btnUndo;
     @BindView(R.id.btnCrop)
     AppCompatImageButton btnCrop;
-    @BindView(R.id.btnClose)
-    AppCompatImageButton btnClose;
     @BindView(R.id.buttonBarContainer)
     LinearLayout buttonBarContainer;
 
@@ -305,15 +303,9 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity implements 
         }
     }
 
-    @OnClick({R.id.btnAdd, R.id.btnRotate, R.id.btnCrop, R.id.btnUndo, R.id.btnDone, R.id.btnClose})
+    @OnClick({R.id.btnAdd, R.id.btnRotate, R.id.btnCrop, R.id.btnUndo, R.id.btnDone})
     public void onClick(View view) {
         iProfilePictureSettingsPresenter.onClick(view.getId());
-
-        switch (view.getId()) {
-            case R.id.btnClose:
-                onBackPressed();
-                break;
-        }
     }
 
     public String TAG() {

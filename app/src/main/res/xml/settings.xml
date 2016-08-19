@@ -33,9 +33,27 @@
 
     <PreferenceCategory app:title="@string/advanced_settings">
         <SwitchPreference
+            app:icon="@drawable/ic_screen_lock_portrait"
             app:key="@string/block_apps_after_screen_off"
-            app:summary="@string/block_apps_after_screen_off_title"
-            app:title="@string/block_apps_after_screen_off_summary" />
+            app:summary="@string/block_apps_after_screen_off_summary"
+            app:title="@string/block_apps_after_screen_off_title" />
+        <SwitchPreference
+            app:icon="@drawable/ic_swap_horiz"
+            app:key="@string/enable_swipe_on_lock_screen"
+            app:summary="@string/enable_swipe_on_lock_screen_summary"
+            app:title="@string/enable_swipe_on_lock_screen_title" />
+        <SwitchPreference
+            app:defaultValue="true"
+            app:icon="@drawable/ic_visibility"
+            app:key="@string/icon_on_app_drawer"
+            app:summary="@string/icon_on_app_drawer_summary"
+            app:title="@string/icon_on_app_drawer_title" />
+        <SwitchPreference
+            app:defaultValue="true"
+            app:icon="@drawable/ic_notifications_active"
+            app:key="@string/notification_on_status_bar"
+            app:summary="@string/notification_on_status_bar_summary"
+            app:title="@string/notification_on_status_bar_title" />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/design_settings">
@@ -49,5 +67,20 @@
             app:key="@string/wallpaper_settings"
             app:summary="@string/set_a_wallpaper_summary_text"
             app:title="@string/set_a_wallpaper_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/info_settings">
+        <Preference
+            app:key="@string/open_source_lic"
+            app:summary="Tools used for application development"
+            app:title="Open source licenses" />
+        <Preference
+            app:key="@string/about_me"
+            app:summary="@string/mail_developer"
+            app:title="@string/contact_me" />
+        <Preference
+            app:key="@string/check_for_update"
+            app:summary="v1.0"
+            app:title="Current version" />
     </PreferenceCategory>
 </PreferenceScreen>

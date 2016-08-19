@@ -141,6 +141,16 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:max="25" />
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/btnCloseSeekBar"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/ripple_light"
+                android:contentDescription="@string/done"
+                android:gravity="center"
+                android:src="@drawable/ic_button_bar_close_white" />
         </LinearLayout>
     </eightbitlab.com.blurview.BlurView>
 </FrameLayout>

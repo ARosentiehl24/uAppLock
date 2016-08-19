@@ -398,9 +398,6 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Color
             case R.id.btnCloseSeekBar:
                 hideSeekBar();
                 break;
-            /*case R.id.btnClose:
-                onBackPressed();
-                break;*/
         }
     }
 
