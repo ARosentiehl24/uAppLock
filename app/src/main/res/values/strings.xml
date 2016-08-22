@@ -118,7 +118,9 @@
     <string name="rotate">Rotate</string>
     <string name="crop">Crop</string>
     <string name="blur">Blur</string>
+
+    <string name="title_activity_licenses">Licenses</string>
+
     <string name="support_email">uappssystemservice@gmail.com</string>
     <string name="bug_report_subject">Bug report on %1$s v%2$s</string>
-    <string name="title_activity_licenses">Licenses</string>
 </resources>

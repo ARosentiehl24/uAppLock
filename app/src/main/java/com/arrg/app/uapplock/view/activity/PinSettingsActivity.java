@@ -114,8 +114,6 @@ public class PinSettingsActivity extends UAppLockActivity {
                 pinLockView.attachIndicatorDots(indicatorDots);
                 pinLockView.resetPinLockView();
 
-                //PreferencesManager.putString(getString(R.string.user_pin), pin);
-
                 updateText(R.string.message_to_request_pin);
                 break;
             case R.id.btnSetPin:

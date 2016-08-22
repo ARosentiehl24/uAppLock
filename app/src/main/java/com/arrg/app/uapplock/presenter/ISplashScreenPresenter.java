@@ -3,6 +3,7 @@ package com.arrg.app.uapplock.presenter;
 import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.interfaces.SplashScreenPresenter;
 import com.arrg.app.uapplock.interfaces.SplashScreenView;
+import com.arrg.app.uapplock.model.service.UAppLockService;
 import com.arrg.app.uapplock.view.activity.ApplicationListActivity;
 
 import static com.arrg.app.uapplock.UAppLock.PATTERN;

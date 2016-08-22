@@ -58,10 +58,6 @@ public class FontSettingsActivity extends UAppLockActivity implements BaseQuickA
             e.printStackTrace();
         }
 
-
-       // fonts.add(new Font("Raleway", "fonts/Raleway.ttf"));
-        //fonts.add(new Font("LazySpringDay", "fonts/LazySpringDay.ttf"));
-
         fontAdapter = new FontAdapter(R.layout.font_item, fonts);
 
         recyclerView.setAdapter(fontAdapter);

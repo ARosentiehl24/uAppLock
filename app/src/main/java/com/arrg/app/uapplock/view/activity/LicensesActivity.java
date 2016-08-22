@@ -39,6 +39,7 @@ public class LicensesActivity extends UAppLockActivity {
 
         licenses.add(Licenses.noContent("Android SDK", "Google Inc.", "https://developer.android.com/sdk/terms.html"));
         licenses.add(Licenses.fromGitHub("oktayayr/advancedtextview", Licenses.LICENSE_APACHE_V2));
+        licenses.add(Licenses.fromGitHub("afollestad/assent", Licenses.NAME_APACHE_V2, Licenses.FILE_MD));
         licenses.add(Licenses.fromGitHub("afollestad/material-dialogs", Licenses.NAME_MIT, Licenses.FILE_TXT));
         licenses.add(Licenses.fromGitHub("aritraroy/PinLockView", Licenses.LICENSE_APACHE_V2));
         licenses.add(Licenses.fromGitHub("Commit451/InkPageIndicator", Licenses.LICENSE_APACHE_V2));
@@ -60,8 +61,8 @@ public class LicensesActivity extends UAppLockActivity {
         licenses.add(Licenses.fromGitHub("ArthurHub/Android-Image-Cropper", Licenses.LICENSE_APACHE_V2));
         licenses.add(Licenses.fromGitHub("cketti/EmailIntentBuilder", Licenses.LICENSE_APACHE_V2));
         licenses.add(Licenses.fromGitHub("hdodenhof/CircleImageView", Licenses.LICENSE_APACHE_V2));
-        licenses.add(Licenses.fromGitHub("A7maDev/AndroidGlobalUtils", "http://www.gnu.org/licenses/gpl-3.0.en.html"));
-        licenses.add(Licenses.fromGitHub("code-mc/material-icon-lib", Licenses.NAME_APACHE_V2, Licenses.FILE_MD));
+        licenses.add(Licenses.noContent("AndroidGlobalUtils", "A7maDev", "http://www.gnu.org/licenses/gpl-3.0.en.html"));
+        licenses.add(Licenses.fromGitHub("code-mc/material-icon-lib", Licenses.LICENSE_APACHE_V2));
         licenses.add(Licenses.fromGitHub("yshrsmz/LicenseAdapter", Licenses.LICENSE_APACHE_V2));
         licenses.add(Licenses.fromGitHub("fingerlinks/Navigator", Licenses.LICENSE_APACHE_V2));
         licenses.add(Licenses.fromGitHub("chrisjenx/Calligraphy", Licenses.LICENSE_APACHE_V2));

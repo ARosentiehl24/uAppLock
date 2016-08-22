@@ -100,8 +100,6 @@ public class PatternSettingsActivity extends UAppLockActivity {
                 materialLockView.clearPattern();
                 materialLockView.setEnabled(true);
 
-                //PreferencesManager.putString(getString(R.string.user_pattern), pattern);
-
                 updateText(R.string.message_to_request_pattern);
                 break;
             case R.id.btnSetPattern:

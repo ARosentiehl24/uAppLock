@@ -140,9 +140,7 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
                 } else {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         if (isHardwareDetected()) {
-                            if (!hasEnrolledFingerprints()) {
-
-                            } else if (!usageStatsIsNotEmpty()) {
+                            if (!usageStatsIsNotEmpty()) {
                                 viewPager.setCurrentItem(2);
                             } else if (!overlayPermissionGranted()) {
                                 viewPager.setCurrentItem(3);
@@ -157,9 +155,6 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
                             } else if (!writeSettingsPermissionGranted()) {
                                 viewPager.setCurrentItem(3);
                             }
-                        }
-                    } else {
-                        if (!hasEnrolledFingerprints()) {
                         }
                     }
                 }

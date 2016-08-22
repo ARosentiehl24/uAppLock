@@ -1,14 +1,23 @@
 package com.arrg.app.uapplock.view.fragment;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v13.app.FragmentCompat;
 import android.support.v14.preference.SwitchPreference;
+import android.support.v4.app.Fragment;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
+import android.util.Log;
 
+import com.afollestad.assent.Assent;
+import com.afollestad.assent.AssentCallback;
+import com.afollestad.assent.PermissionResultSet;
 import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.UAppLock;
 import com.arrg.app.uapplock.util.PackageUtils;
@@ -18,22 +27,38 @@ import com.arrg.app.uapplock.view.activity.FontSettingsActivity;
 import com.arrg.app.uapplock.view.activity.LicensesActivity;
 import com.arrg.app.uapplock.view.activity.PatternSettingsActivity;
 import com.arrg.app.uapplock.view.activity.PinSettingsActivity;
+import com.arrg.app.uapplock.view.activity.ProfilePictureSettingsActivity;
 import com.arrg.app.uapplock.view.activity.WallpaperSettingsActivity;
+import com.mukesh.permissions.AppPermissions;
 import com.shawnlin.preferencesmanager.PreferencesManager;
 import com.takisoft.fix.support.v7.preference.PreferenceCategory;
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompatDividers;
 
 import org.fingerlinks.mobile.android.navigator.Navigator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.cketti.mailto.EmailIntentBuilder;
 import me.a7madev.androidglobalutils.GlobalUtils;
 
-public class SettingsFragment extends PreferenceFragmentCompatDividers {
+public class SettingsFragment extends PreferenceFragmentCompatDividers implements FragmentCompat.OnRequestPermissionsResultCallback {
 
-    private ListPreference unlockMethod;
+    public static final int PROCESS_OUTGOING_CALLS_PERMISSION_RC = 200;
+
+    private AppPermissions appPermissions;
     private FingerprintManagerCompat fingerprintManagerCompat;
     private Integer unlockMethodIndex;
+    private ListPreference unlockMethod;
+    private String[] permissions = {Manifest.permission.PROCESS_OUTGOING_CALLS};
     private String[] unlockMethodChosen;
+    private SwitchPreference iconOnAppDrawer;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Assent.setFragment(this, this);
+    }
 
     @Override
     public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey) {
@@ -42,6 +67,7 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
 
         PreferenceCategory preferenceCategory = (PreferenceCategory) getPreferenceScreen().getPreference(0);
 
+        appPermissions = new AppPermissions(getActivity());
         fingerprintManagerCompat = FingerprintManagerCompat.from(getActivity());
 
         unlockMethod = (ListPreference) findPreference(getString(R.string.unlock_method));
@@ -105,14 +131,36 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
             }
         });
 
-        SwitchPreference iconOnAppDrawer = (SwitchPreference) findPreference(getString(R.string.icon_on_app_drawer));
+        iconOnAppDrawer = (SwitchPreference) findPreference(getString(R.string.icon_on_app_drawer));
         iconOnAppDrawer.setIcon(iconOnAppDrawer.isChecked() ? R.drawable.ic_visibility : R.drawable.ic_visibility_off);
         iconOnAppDrawer.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                Boolean showIcon = Boolean.parseBoolean(String.valueOf(newValue));
+            public boolean onPreferenceChange(final Preference preference, Object newValue) {
+                final Boolean showIcon = Boolean.parseBoolean(String.valueOf(newValue));
 
                 preference.setIcon(showIcon ? R.drawable.ic_visibility : R.drawable.ic_visibility_off);
+
+                if (!appPermissions.hasPermission(Manifest.permission.PROCESS_OUTGOING_CALLS)) {
+                    Assent.requestPermissions(new AssentCallback() {
+                        @Override
+                        public void onPermissionResult(PermissionResultSet result) {
+                            if (result.isGranted(result.getPermissions()[0])) {
+                                preference.setIcon(showIcon ? R.drawable.ic_visibility : R.drawable.ic_visibility_off);
+
+                                PreferencesManager.putBoolean(getString(R.string.icon_on_app_drawer), showIcon);
+
+                                showOnAppDrawer(showIcon);
+                            } else {
+                                iconOnAppDrawer.setChecked(true);
+                                iconOnAppDrawer.setIcon(R.drawable.ic_visibility);
+                            }
+                        }
+                    }, PROCESS_OUTGOING_CALLS_PERMISSION_RC, Assent.PROCESS_OUTGOING_CALLS);
+                } else {
+                    PreferencesManager.putBoolean(getString(R.string.icon_on_app_drawer), showIcon);
+
+                    showOnAppDrawer(showIcon);
+                }
 
                 return true;
             }
@@ -126,6 +174,10 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
                 Boolean showNotification = Boolean.parseBoolean(String.valueOf(newValue));
 
                 preference.setIcon(showNotification ? R.drawable.ic_notifications_active : R.drawable.ic_notifications_off);
+
+                PreferencesManager.putBoolean(getString(R.string.notification_on_status_bar), showNotification);
+
+                showNotificationOnStatusBar(showNotification);
 
                 return true;
             }
@@ -195,6 +247,7 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
     @Override
     public void onResume() {
         super.onResume();
+        Assent.setFragment(this, this);
 
         unlockMethodIndex = PreferencesManager.getInt(getString(R.string.unlock_method));
 
@@ -223,6 +276,20 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
                 return true;
             }
         });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (getActivity() != null && getActivity().isFinishing()) {
+            Assent.setFragment(this, null);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Assent.handleResult(permissions, grantResults);
     }
 
     private void setupUnlockMethodIfIsNecessary(Integer index) {
@@ -281,5 +348,25 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
         unlockMethod.setSummary(String.format(getString(R.string.unlock_method_chosen), unlockMethodChosen[index]));
 
         PreferencesManager.putInt(getString(R.string.unlock_method), index);
+    }
+
+    public void showOnAppDrawer(boolean isChecked) {
+        if (isChecked) {
+            Intent intent = new Intent(UAppLock.ACTION_SHOW_APPLICATION);
+            getActivity().sendBroadcast(intent);
+        } else {
+            Intent intent = new Intent(UAppLock.ACTION_HIDE_APPLICATION);
+            getActivity().sendBroadcast(intent);
+        }
+    }
+
+    public void showNotificationOnStatusBar(boolean isChecked) {
+        if (isChecked) {
+            Intent intent = new Intent(UAppLock.ACTION_SHOW_NOTIFICATION);
+            getActivity().sendBroadcast(intent);
+        } else {
+            Intent intent = new Intent(UAppLock.ACTION_HIDE_NOTIFICATION);
+            getActivity().sendBroadcast(intent);
+        }
     }
 }
