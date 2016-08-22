@@ -1,20 +1,23 @@
 package com.arrg.app.uapplock.view.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v14.preference.SwitchPreference;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 
 import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.UAppLock;
+import com.arrg.app.uapplock.util.PackageUtils;
 import com.arrg.app.uapplock.util.kisstools.utils.ToastUtil;
 import com.arrg.app.uapplock.view.activity.FingerprintSettingsActivity;
 import com.arrg.app.uapplock.view.activity.FontSettingsActivity;
+import com.arrg.app.uapplock.view.activity.LicensesActivity;
 import com.arrg.app.uapplock.view.activity.PatternSettingsActivity;
 import com.arrg.app.uapplock.view.activity.PinSettingsActivity;
-import com.arrg.app.uapplock.view.activity.ProfilePictureSettingsActivity;
 import com.arrg.app.uapplock.view.activity.WallpaperSettingsActivity;
 import com.shawnlin.preferencesmanager.PreferencesManager;
 import com.takisoft.fix.support.v7.preference.PreferenceCategory;
@@ -22,6 +25,7 @@ import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompatDividers;
 
 import org.fingerlinks.mobile.android.navigator.Navigator;
 
+import de.cketti.mailto.EmailIntentBuilder;
 import me.a7madev.androidglobalutils.GlobalUtils;
 
 public class SettingsFragment extends PreferenceFragmentCompatDividers {
@@ -59,7 +63,7 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
             unlockMethod.setEntryValues(R.array.unlock_methods_values_without_fingerprint);
         }
 
-        Preference patternSettings = findPreference(getString(R.string.pattern_settings));
+        final Preference patternSettings = findPreference(getString(R.string.pattern_settings));
         patternSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -77,6 +81,56 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
             }
         });
 
+        SwitchPreference blockAppsAfterScreenOff = (SwitchPreference) findPreference(getString(R.string.block_apps_after_screen_off));
+        blockAppsAfterScreenOff.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                Boolean blockApps = Boolean.parseBoolean(String.valueOf(newValue));
+
+                PreferencesManager.putBoolean(getString(R.string.block_apps_after_screen_off), blockApps);
+
+                return true;
+            }
+        });
+
+        SwitchPreference enableSwipeOnLockScreen = (SwitchPreference) findPreference(getString(R.string.enable_swipe_on_lock_screen));
+        enableSwipeOnLockScreen.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                Boolean enableSwipe = Boolean.parseBoolean(String.valueOf(newValue));
+
+                PreferencesManager.putBoolean(getString(R.string.enable_swipe_on_lock_screen), enableSwipe);
+
+                return true;
+            }
+        });
+
+        SwitchPreference iconOnAppDrawer = (SwitchPreference) findPreference(getString(R.string.icon_on_app_drawer));
+        iconOnAppDrawer.setIcon(iconOnAppDrawer.isChecked() ? R.drawable.ic_visibility : R.drawable.ic_visibility_off);
+        iconOnAppDrawer.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                Boolean showIcon = Boolean.parseBoolean(String.valueOf(newValue));
+
+                preference.setIcon(showIcon ? R.drawable.ic_visibility : R.drawable.ic_visibility_off);
+
+                return true;
+            }
+        });
+
+        SwitchPreference notificationOnStatusBar = (SwitchPreference) findPreference(getString(R.string.notification_on_status_bar));
+        notificationOnStatusBar.setIcon(notificationOnStatusBar.isChecked() ? R.drawable.ic_notifications_active : R.drawable.ic_notifications_off);
+        notificationOnStatusBar.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                Boolean showNotification = Boolean.parseBoolean(String.valueOf(newValue));
+
+                preference.setIcon(showNotification ? R.drawable.ic_notifications_active : R.drawable.ic_notifications_off);
+
+                return true;
+            }
+        });
+
         Preference fontSettings = findPreference(getString(R.string.font_settings));
         fontSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -91,6 +145,48 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 Navigator.with(getActivity()).build().goTo(WallpaperSettingsActivity.class).animation().commit();
+                return false;
+            }
+        });
+
+        Preference openSourceLic = findPreference(getString(R.string.open_source_lic));
+        openSourceLic.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Navigator.with(getActivity()).build().goTo(LicensesActivity.class).animation().commit();
+                return false;
+            }
+        });
+
+        Preference sendBugReport = findPreference(getString(R.string.send_bug_report));
+        sendBugReport.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                EmailIntentBuilder.from(getActivity())
+                        .to(getString(R.string.support_email))
+                        .subject(String.format(getString(R.string.bug_report_subject), getString(R.string.app_name), PackageUtils.getAppVersionName((getActivity()))))
+                        .start();
+                return false;
+            }
+        });
+
+        Preference aboutMe = findPreference(getString(R.string.about_me));
+        aboutMe.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Uri webPage = Uri.parse("https://plus.google.com/u/0/108168960305991028461/posts");
+                Intent webIntent = new Intent(Intent.ACTION_VIEW, webPage);
+                startActivity(webIntent);
+                getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+                return false;
+            }
+        });
+
+        Preference checkForUpdate = findPreference(getString(R.string.check_for_update));
+        checkForUpdate.setSummary("v" + PackageUtils.getAppVersionName(getActivity()));
+        checkForUpdate.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
                 return false;
             }
         });
@@ -166,7 +262,7 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
     }
 
     public String userPin() {
-        return PreferencesManager.getString(getString(R.string.user_pin), "");
+        return PreferencesManager.getString(getString(R.string.user_pin));
     }
 
     public Boolean patternWasConfigured() {
@@ -174,7 +270,7 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers {
     }
 
     public String userPattern() {
-        return PreferencesManager.getString(getString(R.string.user_pattern), "");
+        return PreferencesManager.getString(getString(R.string.user_pattern));
     }
 
     public Boolean isFingerPrintActivated() {

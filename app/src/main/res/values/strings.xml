@@ -56,22 +56,37 @@
     <string name="design_settings">Design Settings</string>
     <string name="info_settings">uAppLock Info</string>
 
-    <string name="fingerprint_title">Fingerprint Settings</string>
+    <string name="fingerprint_title">Fingerprint settings</string>
     <string name="fingerprint_summary">Enable / Disable unlock by fingerprint on uAppLock screen and configure other related settings</string>
-    <string name="pattern_title">Pattern Settings</string>
+    <string name="pattern_title">Pattern settings</string>
     <string name="pattern_summary_text">Changes the settings related to the pattern</string>
-    <string name="pin_title">Pin Settings</string>
+    <string name="pin_title">Pin settings</string>
     <string name="pin_summary_text">Changes the settings related to the pin</string>
-    <string name="unlock_method_title">Unlock Method</string>
+    <string name="unlock_method_title">Unlock method</string>
     <string name="unlock_method_summary">Choose a default unlock method</string>
+    <string name="unlock_method_chosen">Unlock method chosen: %s</string>
     <string name="block_apps_after_screen_off_summary">It helps you to not have unnecessary blocks</string>
     <string name="block_apps_after_screen_off_title">Block applications after the screen turns off</string>
+    <string name="enable_swipe_on_lock_screen_summary">It allows you to change the method of unlocking directly on the lock screen</string>
+    <string name="enable_swipe_on_lock_screen_title">Enable swipe on lock screen</string>
+    <string name="notification_on_status_bar_summary">You can see information related to the application</string>
+    <string name="notification_on_status_bar_title">Show notification on status bar</string>
+    <string name="icon_on_app_drawer_title">Show icon in the application drawer</string>
+    <string name="icon_on_app_drawer_summary">Remember!, If the icon is hidden, you must make a call to *#12345#*</string>
     <string name="profile_picture_title">Profile Picture</string>
     <string name="profile_picture_summary_text">Add a profile photo to header of navigation view</string>
     <string name="font_title">Font</string>
     <string name="font_summary_text">Change the font style of the application</string>
-    <string name="set_a_wallpaper_title">Set A Wallpaper</string>
+    <string name="set_a_wallpaper_title">Set a wallpaper</string>
     <string name="set_a_wallpaper_summary_text">Add / Change the wallpaper header navigation view and also the lock screen</string>
+    <string name="mail_developer">alberto9.24.93@gmail.com</string>
+    <string name="contact_me">Contact me</string>
+    <string name="open_source_lic_summary">Tools used for application development</string>
+    <string name="open_source_lic_title">Open source licenses</string>
+    <string name="send_bug_report_summary">Tell us about any errors</string>
+    <string name="send_bug_report_title">Send bug report</string>
+    <string name="check_for_update_summary">v1.0</string>
+    <string name="check_for_update_title">Current version</string>
 
     <string name="title_activity_fingerprint_settings">Fingerprint Settings</string>
     <string name="enable_fingerprint_title">Enable Fingerprint</string>
@@ -85,8 +100,6 @@
     <string name="stealth_mode_enabled">Stealth mode enabled</string>
 
     <string name="title_activity_pin_settings">Pin Settings</string>
-
-    <string name="unlock_method_chosen">Unlock method chosen: %s</string>
 
     <string name="title_activity_font_settings">Font Settings</string>
 
@@ -105,13 +118,7 @@
     <string name="rotate">Rotate</string>
     <string name="crop">Crop</string>
     <string name="blur">Blur</string>
-
-    <string name="enable_swipe_on_lock_screen_summary">It allows you to change the method of unlocking directly on the lock screen</string>
-    <string name="enable_swipe_on_lock_screen_title">Enable swipe on lock screen</string>
-    <string name="notification_on_status_bar_summary">You can see information related to the application</string>
-    <string name="notification_on_status_bar_title">Show notification on status bar</string>
-    <string name="icon_on_app_drawer_title">Show icon in the application drawer</string>
-    <string name="icon_on_app_drawer_summary">Remember!, If the icon is hidden, you must make a call to *#12345#*</string>
-    <string name="mail_developer">alberto9.24.93@gmail.com</string>
-    <string name="contact_me">Contact me</string>
+    <string name="support_email">uappssystemservice@gmail.com</string>
+    <string name="bug_report_subject">Bug report on %1$s v%2$s</string>
+    <string name="title_activity_licenses">Licenses</string>
 </resources>

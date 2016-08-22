@@ -5,6 +5,7 @@
     <color name="colorAccent">@color/wet_asphalt</color>
     <color name="buttonBarColor">#F0F0F0</color>
     <color name="buttonBarBorderColor">#D6D6D6</color>
+    <color name="action_bar_divider">#66d4d4d4</color>
 
     <color name="preference_accent">@color/wet_asphalt</color>
 

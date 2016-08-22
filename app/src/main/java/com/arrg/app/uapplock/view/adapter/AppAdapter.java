@@ -10,12 +10,11 @@ import com.arrg.app.uapplock.util.SharedPreferencesUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.kyleduo.switchbutton.SwitchButton;
-import com.turingtechnologies.materialscrollbar.INameableAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppAdapter extends BaseQuickAdapter<App> implements INameableAdapter {
+public class AppAdapter extends BaseQuickAdapter<App> {
 
     private ArrayList<App> apps;
     private SharedPreferences lockedAppsPreferences;
@@ -45,7 +44,7 @@ public class AppAdapter extends BaseQuickAdapter<App> implements INameableAdapte
         return super.getItem(position);
     }
 
-    @Override
+    /*@Override
     public Character getCharacterForElement(int element) {
         Character character = apps.get(element).getAppName().charAt(0);
         if (Character.isDigit(character)) {
@@ -61,5 +60,5 @@ public class AppAdapter extends BaseQuickAdapter<App> implements INameableAdapte
             }
         }
         return -1;
-    }
+    }*/
 }

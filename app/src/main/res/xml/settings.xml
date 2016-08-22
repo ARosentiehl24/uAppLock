@@ -71,16 +71,24 @@
 
     <PreferenceCategory app:title="@string/info_settings">
         <Preference
+            app:icon="@drawable/ic_code"
             app:key="@string/open_source_lic"
-            app:summary="Tools used for application development"
-            app:title="Open source licenses" />
+            app:summary="@string/open_source_lic_summary"
+            app:title="@string/open_source_lic_title" />
         <Preference
+            app:icon="@drawable/ic_bug_report"
+            app:key="@string/send_bug_report"
+            app:summary="@string/send_bug_report_summary"
+            app:title="@string/send_bug_report_title" />
+        <Preference
+            app:icon="@drawable/ic_account_circle"
             app:key="@string/about_me"
             app:summary="@string/mail_developer"
             app:title="@string/contact_me" />
         <Preference
+            app:icon="@drawable/ic_system_update"
             app:key="@string/check_for_update"
-            app:summary="v1.0"
-            app:title="Current version" />
+            app:summary="@string/check_for_update_summary"
+            app:title="@string/check_for_update_title" />
     </PreferenceCategory>
 </PreferenceScreen>

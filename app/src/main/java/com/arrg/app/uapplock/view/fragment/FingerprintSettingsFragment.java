@@ -10,15 +10,12 @@ import android.widget.Toast;
 
 import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.UAppLock;
-import com.arrg.app.uapplock.util.kisstools.utils.StringUtil;
 import com.shawnlin.preferencesmanager.PreferencesManager;
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompatDividers;
 
 public class FingerprintSettingsFragment extends PreferenceFragmentCompatDividers {
 
     private FingerprintManagerCompat fingerprintManagerCompat;
-    private Integer initialUnlockMethod;
-    private SwitchPreference switchPreferenceCompat;
 
     @Override
     public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey) {
@@ -26,28 +23,24 @@ public class FingerprintSettingsFragment extends PreferenceFragmentCompatDivider
         setDividerPreferences(DIVIDER_PADDING_PARENT);
 
         fingerprintManagerCompat = FingerprintManagerCompat.from(getContext());
-        initialUnlockMethod = PreferencesManager.getInt(getString(R.string.unlock_method));
 
-        switchPreferenceCompat = (SwitchPreference) findPreference(getString(R.string.enable_fingerprint));
-        switchPreferenceCompat.setChecked(isFingerPrintActivated());
+        SwitchPreference switchPreferenceCompat = (SwitchPreference) findPreference(getString(R.string.enable_fingerprint));
         switchPreferenceCompat.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object o) {
-                Boolean sw = Boolean.parseBoolean(String.valueOf(o));
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                Boolean sw = Boolean.parseBoolean(String.valueOf(newValue));
 
-                if (sw) {
-                    if (fingerprintManagerCompat.hasEnrolledFingerprints()) {
-                        PreferencesManager.putInt(getString(R.string.unlock_method), UAppLock.FINGERPRINT);
-                    } else {
-                        ((SwitchPreference) preference).setChecked(false);
+                if (fingerprintManagerCompat.hasEnrolledFingerprints()) {
+                    PreferencesManager.putInt(getString(R.string.unlock_method), UAppLock.FINGERPRINT);
 
-                        Toast.makeText(getActivity(), R.string.add_fingerprint_message, Toast.LENGTH_SHORT).show();
+                    PreferencesManager.putBoolean(getString(R.string.fingerprint_recognition_activated), sw);
+                } else {
+                    ((SwitchPreference) preference).setChecked(false);
 
-                        lunchSecuritySettings();
-                    }
+                    Toast.makeText(getActivity(), R.string.add_fingerprint_message, Toast.LENGTH_SHORT).show();
+
+                    lunchSecuritySettings();
                 }
-
-                PreferencesManager.putBoolean(getString(R.string.fingerprint_recognition_activated), sw);
 
                 return true;
             }
@@ -59,19 +52,9 @@ public class FingerprintSettingsFragment extends PreferenceFragmentCompatDivider
             public boolean onPreferenceClick(Preference preference) {
                 lunchSecuritySettings();
 
-                return false;
+                return true;
             }
         });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        switchPreferenceCompat.setChecked(fingerprintManagerCompat.hasEnrolledFingerprints());
-    }
-
-    public Boolean isFingerPrintActivated() {
-        return PreferencesManager.getBoolean(getString(R.string.fingerprint_recognition_activated));
     }
 
     public void lunchSecuritySettings() {

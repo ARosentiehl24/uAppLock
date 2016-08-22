@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <SwitchPreference
-        android:enabled="true"
-        android:key="@string/enable_fingerprint"
-        android:summary="@string/enable_fingerprint_summary"
-        android:title="@string/enable_fingerprint_title" />
+        app:key="@string/enable_fingerprint"
+        app:summary="@string/enable_fingerprint_summary"
+        app:title="@string/enable_fingerprint_title" />
     <Preference
-        android:enabled="true"
-        android:key="@string/security_settings"
-        android:summary="@string/security_settings_summary"
-        android:title="@string/security_settings_title" />
+        app:key="@string/security_settings"
+        app:summary="@string/security_settings_summary"
+        app:title="@string/security_settings_title" />
 </PreferenceScreen>
