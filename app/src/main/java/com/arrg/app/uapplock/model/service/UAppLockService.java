@@ -48,6 +48,8 @@ public class UAppLockService extends Service implements UAppLockServiceView {
         Log.i(getClass().getName(), "OnLowMemory()");
 
         super.onLowMemory();
+
+        iuAppLockServicePresenter.restartServiceIfNeeded();
     }
 
     @Override
@@ -55,6 +57,8 @@ public class UAppLockService extends Service implements UAppLockServiceView {
         Log.i(getClass().getName(), "onTaskRemoved()");
 
         super.onTaskRemoved(rootIntent);
+
+        iuAppLockServicePresenter.restartServiceIfNeeded();
     }
 
     @Override
@@ -62,6 +66,8 @@ public class UAppLockService extends Service implements UAppLockServiceView {
         Log.i(getClass().getName(), "onDestroy()");
 
         super.onDestroy();
+
+        iuAppLockServicePresenter.restartServiceIfNeeded();
     }
 
     public static boolean isRunning(Context context, Class<?> serviceClass) {

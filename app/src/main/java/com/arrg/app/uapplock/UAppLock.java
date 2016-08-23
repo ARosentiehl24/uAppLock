@@ -29,6 +29,7 @@ public class UAppLock extends Application {
     public static String ACTION_HIDE_APPLICATION;
     public static String ACTION_SHOW_NOTIFICATION;
     public static String ACTION_HIDE_NOTIFICATION;
+    public static String ACTION_RESTART_SERVICE;
 
     public static Integer FINGERPRINT = 0;
     public static Integer PATTERN = 1;
@@ -54,6 +55,7 @@ public class UAppLock extends Application {
         ACTION_HIDE_APPLICATION = PACKAGE_NAME + ".HIDE_APPLICATION";
         ACTION_SHOW_NOTIFICATION = PACKAGE_NAME + ".SHOW_NOTIFICATION";
         ACTION_HIDE_NOTIFICATION = PACKAGE_NAME + ".HIDE_NOTIFICATION";
+        ACTION_RESTART_SERVICE = PACKAGE_NAME + ".RESTART_SERVICE";
 
         preferencesManager = new PreferencesManager(this);
         setPreferencesManager(SETTINGS_PREFERENCES);

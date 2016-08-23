@@ -179,6 +179,14 @@
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".model.receiver.RestartServiceReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="COM.ARRG.APP.UAPPLOCK.RESTART_SERVICE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

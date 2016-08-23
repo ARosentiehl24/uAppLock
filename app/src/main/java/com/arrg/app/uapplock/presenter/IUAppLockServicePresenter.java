@@ -2,11 +2,13 @@ package com.arrg.app.uapplock.presenter;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.util.Log;
 
 import com.arrg.app.uapplock.UAppLock;
 import com.arrg.app.uapplock.interfaces.UAppLockServicePresenter;
 import com.arrg.app.uapplock.interfaces.UAppLockServiceView;
 import com.arrg.app.uapplock.model.receiver.IconOnAppDrawerReceiver;
+import com.arrg.app.uapplock.model.receiver.RestartServiceReceiver;
 import com.arrg.app.uapplock.model.receiver.ScreenReceiver;
 import com.arrg.app.uapplock.model.service.UAppLockService;
 
@@ -47,5 +49,10 @@ public class IUAppLockServicePresenter implements UAppLockServicePresenter{
         applicationFilter.addAction(UAppLock.ACTION_SHOW_APPLICATION);
 
         uAppLockService.registerReceiver(iconOnAppDrawerReceiver, applicationFilter);
+    }
+
+    @Override
+    public void restartServiceIfNeeded() {
+        uAppLockService.sendBroadcast(new Intent(UAppLock.ACTION_RESTART_SERVICE));
     }
 }

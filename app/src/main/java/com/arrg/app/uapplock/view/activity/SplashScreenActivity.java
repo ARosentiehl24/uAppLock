@@ -50,10 +50,7 @@ public class SplashScreenActivity extends UAppLockActivity implements SplashScre
         setContentView(R.layout.activity_splash_screen);
         ButterKnife.bind(this);
 
-        if (!UAppLockService.isRunning(this, UAppLockService.class)) {
-            Intent uAppLockService = new Intent(this, UAppLockService.class);
-            startService(uAppLockService);
-        }
+        sendBroadcast(new Intent(UAppLock.ACTION_RESTART_SERVICE));
 
         splashScreenActivity = this;
 
