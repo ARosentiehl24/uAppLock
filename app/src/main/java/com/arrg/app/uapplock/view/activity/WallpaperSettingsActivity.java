@@ -188,17 +188,6 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Color
 
     @Override
     public void setupViews() {
-/*
-        if (!haveNavigationBar()) {
-            buttonBarContainer.post(new Runnable() {
-                @Override
-                public void run() {
-                    buttonBarContainer.removeViewAt(6);
-                }
-            });
-        }
-*/
-
         btnUndo.setEnabled(false);
 
         hideSeekBar();
@@ -221,6 +210,7 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Color
 
         bottomSheet = new BottomSheet.Builder(this, R.style.BottomSheetStyle)
                 .setSheet(R.menu.bottom_sheet_background_picker)
+                .grid()
                 .setTitle(R.string.select_source)
                 .setListener(new BottomSheetListener() {
                     @Override

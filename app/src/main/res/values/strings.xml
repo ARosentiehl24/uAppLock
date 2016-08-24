@@ -123,4 +123,7 @@
 
     <string name="support_email">uappssystemservice@gmail.com</string>
     <string name="bug_report_subject">Bug report on %1$s v%2$s</string>
+
+    <string name="title_notification">uBlock is running correctly.</string>
+    <string name="text_notification">Tap here for more info.</string>
 </resources>

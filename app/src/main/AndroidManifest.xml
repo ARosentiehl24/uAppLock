@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.arrg.app.uapplock">
 
+    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />-->
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.GET_TOP_ACTIVITY_INFO" />
@@ -11,11 +15,16 @@
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.REAL_GET_TASKS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <!--<uses-permission-sdk-23 android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission-sdk-23 android:name="android.permission.READ_SMS" />
+    <uses-permission-sdk-23 android:name="android.permission.RECEIVE_SMS" />-->
 
     <uses-permission-sdk-23 android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission-sdk-23 android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -26,6 +35,7 @@
     <uses-permission-sdk-23 android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission-sdk-23 android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission-sdk-23 android:name="android.permission.REAL_GET_TASKS" />
+    <uses-permission-sdk-23 android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission-sdk-23 android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission-sdk-23 android:name="android.permission.USE_FINGERPRINT" />
     <uses-permission-sdk-23 android:name="android.permission.VIBRATE" />
@@ -165,7 +175,11 @@
         <service
             android:name=".model.service.UAppLockService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true">
+            <!--<intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>-->
+        </service>
         <service
             android:name=".model.service.LockScreenService"
             android:enabled="true"
@@ -185,6 +199,15 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="COM.ARRG.APP.UAPPLOCK.RESTART_SERVICE" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".model.receiver.BootDeviceReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter android:priority="999">
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
     </application>

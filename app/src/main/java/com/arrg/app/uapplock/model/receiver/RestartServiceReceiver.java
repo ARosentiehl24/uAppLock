@@ -15,10 +15,9 @@ public class RestartServiceReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.e("RestartServiceReceiver", "Restarting");
-
         if (intent.getAction().equals(UAppLock.ACTION_RESTART_SERVICE)){
             if (!UAppLockService.isRunning(context, UAppLockService.class)) {
+                Log.e("RestartServiceReceiver", "Restarting");
 
                 context.startService(new Intent(context, UAppLockService.class));
             }
