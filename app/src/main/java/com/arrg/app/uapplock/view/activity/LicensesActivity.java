@@ -38,7 +38,7 @@ public class LicensesActivity extends UAppLockActivity {
         List<LicenseEntry> licenses = new ArrayList<>();
 
         licenses.add(Licenses.noContent("Android SDK", "Google Inc.", "https://developer.android.com/sdk/terms.html"));
-        licenses.add(Licenses.fromGitHub("oktayayr/advancedtextview", Licenses.LICENSE_APACHE_V2));
+        //licenses.add(Licenses.fromGitHub("oktayayr/advancedtextview", Licenses.LICENSE_APACHE_V2));
         licenses.add(Licenses.fromGitHub("afollestad/assent", Licenses.NAME_APACHE_V2, Licenses.FILE_MD));
         licenses.add(Licenses.fromGitHub("afollestad/material-dialogs", Licenses.NAME_MIT, Licenses.FILE_TXT));
         licenses.add(Licenses.fromGitHub("aritraroy/PinLockView", Licenses.LICENSE_APACHE_V2));
@@ -52,6 +52,7 @@ public class LicensesActivity extends UAppLockActivity {
         licenses.add(Licenses.fromGitHub("jkwiecien/EasyImage", Licenses.LICENSE_APACHE_V2));
         licenses.add(Licenses.fromGitHub("Kennyc1012/BottomSheet", Licenses.LICENSE_APACHE_V2));
         licenses.add(Licenses.fromGitHub("JakeWharton/butterknife", Licenses.LICENSE_APACHE_V2));
+        licenses.add(Licenses.fromGitHub("JakeWharton/timber", Licenses.NAME_APACHE_V2, Licenses.FILE_TXT));
         licenses.add(Licenses.fromGitHub("kyleduo/SwitchButton", Licenses.LICENSE_APACHE_V2));
         licenses.add(Licenses.fromGitHub("mukeshsolanki/App-Runtime-Permissions-Android", Licenses.LICENSE_APACHE_V2));
         licenses.add(Licenses.fromGitHub("nvanbenschoten/motion", Licenses.NAME_APACHE_V2, Licenses.FILE_TXT));

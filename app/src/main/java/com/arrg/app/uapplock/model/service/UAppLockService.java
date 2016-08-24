@@ -1,5 +1,7 @@
 package com.arrg.app.uapplock.model.service;
 
+import android.accessibilityservice.AccessibilityService;
+import android.accessibilityservice.AccessibilityServiceInfo;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -19,6 +21,7 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
+import android.view.accessibility.AccessibilityEvent;
 
 import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.UAppLock;
@@ -35,7 +38,7 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-public class UAppLockService extends Service implements UAppLockServiceView {
+public class UAppLockService extends AccessibilityService implements UAppLockServiceView {
 
     public static UAppLockService SERVICE;
     public static final Integer NOTIFICATION_ID = 150;
@@ -54,6 +57,26 @@ public class UAppLockService extends Service implements UAppLockServiceView {
 
     public UAppLockService() {
 
+    }
+
+    @Override
+    public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
+        Log.e("AccessibilityEvent", String.valueOf(accessibilityEvent.getPackageName()));
+    }
+
+    @Override
+    public void onInterrupt() {
+
+    }
+
+    @Override
+    protected void onServiceConnected() {
+        AccessibilityServiceInfo accessibilityServiceInfo = new AccessibilityServiceInfo();
+        accessibilityServiceInfo.feedbackType = 1;
+        accessibilityServiceInfo.eventTypes = AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED;
+        accessibilityServiceInfo.notificationTimeout = 100;
+
+        setServiceInfo(accessibilityServiceInfo);
     }
 
     @Override
@@ -82,12 +105,6 @@ public class UAppLockService extends Service implements UAppLockServiceView {
 
         //iuAppLockServicePresenter.unregisterReceivers();
         iuAppLockServicePresenter.restartServiceIfNeeded();
-    }
-
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
     }
 
     @Override

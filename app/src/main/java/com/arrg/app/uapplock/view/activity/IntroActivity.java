@@ -7,6 +7,7 @@ import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.UAppLock;
 import com.arrg.app.uapplock.interfaces.IntroActivityView;
+import com.arrg.app.uapplock.model.service.UAppLockService;
 import com.arrg.app.uapplock.presenter.IIntroActivityPresenter;
 import com.arrg.app.uapplock.util.UsageStatsUtil;
 import com.arrg.app.uapplock.view.adapter.SectionsPagerAdapter;
@@ -35,6 +37,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class IntroActivity extends UAppLockActivity implements IntroActivityView, ViewPager.OnPageChangeListener {
@@ -42,6 +45,7 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
     public static final int USAGE_STATS_RC = 100;
     public static final int OVERLAY_PERMISSION_RC = 101;
     public static final int WRITE_SETTINGS_RC = 102;
+    public static final int ACCESSIBILITY_SERVICES_RC = 103;
 
     @BindView(R.id.viewPager)
     LockableViewPager viewPager;
@@ -108,6 +112,10 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
 
             if (!writeSettingsPermissionGranted()) {
                 fragments.add(RequestPermissionsFragment.newInstance(R.string.write_settings_permission, R.drawable.ic_picture_write_settings_permission, R.string.write_settings_permission_description, WRITE_SETTINGS_RC));
+            }
+
+            if (!isAccessibilitySettingsOn(this)) {
+                fragments.add(RequestPermissionsFragment.newInstance(R.string.accessibility_service, R.drawable.ic_picture_accessibility_service, R.string.accessibility_service_description, ACCESSIBILITY_SERVICES_RC));
             }
         } else {
             if (isHardwareDetected()) {
@@ -292,6 +300,42 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
         } else {
             return true;
         }
+    }
+
+    private boolean isAccessibilitySettingsOn(Context context) {
+        Integer accessibilityEnabled = 0;
+        String service = String.format("%s/%s", getPackageName(), UAppLockService.class.getCanonicalName());
+
+        try {
+            accessibilityEnabled = Settings.Secure.getInt(context.getApplicationContext().getContentResolver(), android.provider.Settings.Secure.ACCESSIBILITY_ENABLED);
+            Timber.v("accessibilityEnabled = " + accessibilityEnabled);
+        } catch (Settings.SettingNotFoundException e) {
+            Timber.e("Error finding setting, default accessibility to not found: " + e.getMessage());
+        }
+
+        TextUtils.SimpleStringSplitter simpleStringSplitter = new TextUtils.SimpleStringSplitter(':');
+
+        if (accessibilityEnabled == 1) {
+            Timber.v("***ACCESSIBILITY IS ENABLED*** -----------------");
+            String settingValue = Settings.Secure.getString(context.getApplicationContext().getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+            if (settingValue != null) {
+                simpleStringSplitter.setString(settingValue);
+
+                while (simpleStringSplitter.hasNext()) {
+                    String accessibilityService = simpleStringSplitter.next();
+
+                    Timber.v("-------------- > accessibilityService :: " + accessibilityService);
+                    if (accessibilityService.equalsIgnoreCase(service)) {
+                        Timber.v("We've found the correct setting - accessibility is switched on!");
+                        return true;
+                    }
+                }
+            }
+        } else {
+            Timber.v("***ACCESSIBILITY IS DISABLED***");
+        }
+
+        return false;
     }
 
     public Boolean allSettingsAndPermissionsAreReady() {

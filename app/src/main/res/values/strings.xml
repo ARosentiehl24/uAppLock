@@ -126,4 +126,6 @@
 
     <string name="title_notification">uBlock is running correctly.</string>
     <string name="text_notification">Tap here for more info.</string>
+    <string name="accessibility_service">Enable Accessibility Services</string>
+    <string name="accessibility_service_description">It is necessary to prevent errors and handle block the notifications</string>
 </resources>

@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.arrg.app.uapplock">
 
-    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />-->
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -22,11 +22,12 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
-    <!--<uses-permission-sdk-23 android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission-sdk-23 android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission-sdk-23 android:name="android.permission.READ_SMS" />
-    <uses-permission-sdk-23 android:name="android.permission.RECEIVE_SMS" />-->
+    <uses-permission-sdk-23 android:name="android.permission.RECEIVE_SMS" />
 
     <uses-permission-sdk-23 android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <uses-permission-sdk-23 android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission-sdk-23 android:name="android.permission.GET_TOP_ACTIVITY_INFO" />
     <uses-permission-sdk-23 android:name="android.permission.INTERNET" />
@@ -175,10 +176,11 @@
         <service
             android:name=".model.service.UAppLockService"
             android:enabled="true"
-            android:exported="true">
-            <!--<intent-filter>
+            android:exported="true"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
-            </intent-filter>-->
+            </intent-filter>
         </service>
         <service
             android:name=".model.service.LockScreenService"
