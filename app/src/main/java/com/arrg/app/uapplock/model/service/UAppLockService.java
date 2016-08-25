@@ -70,16 +70,6 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
     }
 
     @Override
-    protected void onServiceConnected() {
-        AccessibilityServiceInfo accessibilityServiceInfo = new AccessibilityServiceInfo();
-        accessibilityServiceInfo.feedbackType = 1;
-        accessibilityServiceInfo.eventTypes = AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED;
-        accessibilityServiceInfo.notificationTimeout = 100;
-
-        setServiceInfo(accessibilityServiceInfo);
-    }
-
-    @Override
     public void onCreate() {
         super.onCreate();
         Log.i(getClass().getCanonicalName(), "onCreate()");
