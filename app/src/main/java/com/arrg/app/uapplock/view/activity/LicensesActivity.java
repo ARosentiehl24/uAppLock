@@ -56,6 +56,7 @@ public class LicensesActivity extends UAppLockActivity {
         licenses.add(Licenses.fromGitHub("kyleduo/SwitchButton", Licenses.LICENSE_APACHE_V2));
         licenses.add(Licenses.fromGitHub("mukeshsolanki/App-Runtime-Permissions-Android", Licenses.LICENSE_APACHE_V2));
         licenses.add(Licenses.fromGitHub("nvanbenschoten/motion", Licenses.NAME_APACHE_V2, Licenses.FILE_TXT));
+        licenses.add(Licenses.fromGitHub("Rogero0o/MissView", Licenses.NAME_MIT));
         licenses.add(Licenses.fromGitHub("sbrukhanda/fragmentviewpager", Licenses.NAME_APACHE_V2, Licenses.FILE_TXT));
         licenses.add(Licenses.fromGitHub("ShawnLin013/PreferencesManager", Licenses.LICENSE_APACHE_V2));
         licenses.add(Licenses.fromGitHub("square/picasso", Licenses.LICENSE_APACHE_V2));

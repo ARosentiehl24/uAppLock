@@ -15,6 +15,9 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class UAppLock extends Application {
 
 
+    public static final String EXTRA_PACKAGE_NAME = "package_name";
+    public static final String ACTION_COMPARE = "action_compare";
+
     public static UAppLock uAppLock;
     public static Integer DURATIONS_OF_ANIMATIONS = 250;
 
@@ -95,11 +98,11 @@ public class UAppLock extends Application {
         return Typeface.createFromAsset(uAppLock.getAssets(), fontPath());
     }
 
-    public void startService(){
+    public void startService() {
         sendBroadcast(new Intent(UAppLock.ACTION_RESTART_SERVICE));
     }
 
-    public static void startService(Context context){
+    public static void startService(Context context) {
         context.sendBroadcast(new Intent(UAppLock.ACTION_RESTART_SERVICE));
     }
 }

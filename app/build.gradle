@@ -66,6 +66,7 @@ dependencies {
     compile 'com.kyleduo.switchbutton:library:1.4.4'
     compile 'com.mukesh:permissions:1.0.3'
     compile 'com.nvanbenschoten.motion:library:1.1.2'
+    compile 'com.roger.missview.library:library:1.0.0'
     compile 'com.sbrukhanda.fragmentviewpager:fragmentviewpager:1.0.0'
     compile 'com.shawnlin:PreferencesManager:1.0.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
