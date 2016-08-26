@@ -3,10 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.arrg.app.uapplock">
 
-    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />-->
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -22,10 +18,6 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-
-    <!--<uses-permission-sdk-23 android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission-sdk-23 android:name="android.permission.READ_SMS" />
-    <uses-permission-sdk-23 android:name="android.permission.RECEIVE_SMS" />-->
 
     <uses-permission-sdk-23 android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission-sdk-23 android:name="android.permission.BIND_ACCESSIBILITY_SERVICE" />
@@ -43,6 +35,7 @@
     <uses-permission-sdk-23 android:name="android.permission.VIBRATE" />
     <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission-sdk-23 android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission-sdk-23 android:name="android.permission.WRITE_SECURE_SETTINGS" />
 
     <application
         android:name=".UAppLock"

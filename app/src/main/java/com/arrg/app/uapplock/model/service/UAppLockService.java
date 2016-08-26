@@ -58,14 +58,17 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
+
         if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
+            stopMonitor();
             Log.e("AccessibilityEvent", String.valueOf(accessibilityEvent.getPackageName()));
+            startMonitor();
         }
 
         if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
-            //if (accessibilityEvent.getPackageName().equals("com.facebook.orca")) {
+            if (accessibilityEvent.getPackageName().equals("com.facebook.orca")) {
                 Log.e("AccessibilityEvent", String.valueOf(accessibilityEvent.getPackageName()));
-            //}
+            }
         }
     }
 
@@ -81,7 +84,7 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
         AccessibilityServiceInfo accessibilityServiceInfo = new AccessibilityServiceInfo();
         accessibilityServiceInfo.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;
         accessibilityServiceInfo.feedbackType = AccessibilityServiceInfo.FEEDBACK_ALL_MASK;
-        accessibilityServiceInfo.notificationTimeout = 100;
+        accessibilityServiceInfo.notificationTimeout = 50;
         setServiceInfo(accessibilityServiceInfo);
     }
 

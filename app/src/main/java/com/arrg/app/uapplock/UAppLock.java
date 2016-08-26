@@ -2,6 +2,7 @@ package com.arrg.app.uapplock;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 
 import com.arrg.app.uapplock.util.kisstools.KissTools;
@@ -64,6 +65,8 @@ public class UAppLock extends Application {
         setAppFontTo(fontPath);
 
         KissTools.setContext(getApplicationContext());
+
+        startService();
     }
 
     /*@Override
@@ -90,5 +93,13 @@ public class UAppLock extends Application {
 
     public static Typeface typeface() {
         return Typeface.createFromAsset(uAppLock.getAssets(), fontPath());
+    }
+
+    public void startService(){
+        sendBroadcast(new Intent(UAppLock.ACTION_RESTART_SERVICE));
+    }
+
+    public static void startService(Context context){
+        context.sendBroadcast(new Intent(UAppLock.ACTION_RESTART_SERVICE));
     }
 }

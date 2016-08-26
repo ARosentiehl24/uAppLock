@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.arrg.app.uapplock.UAppLock;
 import com.arrg.app.uapplock.interfaces.UAppLockServiceView;
 
 public class ScreenReceiver extends BroadcastReceiver {
@@ -19,6 +20,7 @@ public class ScreenReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
             Log.d("Screen", "ON");
+            UAppLock.startService(context);
 
             uAppLockServiceView.startMonitor();
         }
