@@ -5,7 +5,6 @@ import android.accessibilityservice.AccessibilityServiceInfo;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
@@ -14,9 +13,7 @@ import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Handler;
-import android.os.IBinder;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.NotificationCompat;
@@ -61,12 +58,31 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
-        Log.e("AccessibilityEvent", String.valueOf(accessibilityEvent.getPackageName()));
+        if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
+            Log.e("AccessibilityEvent", String.valueOf(accessibilityEvent.getPackageName()));
+        }
+
+        if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+            //if (accessibilityEvent.getPackageName().equals("com.facebook.orca")) {
+                Log.e("AccessibilityEvent", String.valueOf(accessibilityEvent.getPackageName()));
+            //}
+        }
     }
 
     @Override
     public void onInterrupt() {
 
+    }
+
+    @Override
+    protected void onServiceConnected() {
+        super.onServiceConnected();
+
+        AccessibilityServiceInfo accessibilityServiceInfo = new AccessibilityServiceInfo();
+        accessibilityServiceInfo.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;
+        accessibilityServiceInfo.feedbackType = AccessibilityServiceInfo.FEEDBACK_ALL_MASK;
+        accessibilityServiceInfo.notificationTimeout = 100;
+        setServiceInfo(accessibilityServiceInfo);
     }
 
     @Override

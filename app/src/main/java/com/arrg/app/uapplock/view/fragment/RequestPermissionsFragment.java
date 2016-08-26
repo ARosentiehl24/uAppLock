@@ -114,6 +114,7 @@ public class RequestPermissionsFragment extends Fragment {
                     startActivity(new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, Uri.parse("package:" + getActivity().getPackageName())));
                     getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
                 }
+                break;
             case ACCESSIBILITY_SERVICES_RC:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
