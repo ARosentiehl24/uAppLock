@@ -217,6 +217,10 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
             if (!lastPackageOnTop.equals(packageOnTop)) {
                 Log.d("packageOnTop", packageOnTop);
 
+                if (appIsLocked(packageOnTop)) {
+                    startService(LockScreenService.lockPackage(this, packageOnTop));
+                }
+
                 lastPackageOnTop = packageOnTop;
             }
         }
@@ -242,6 +246,10 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
         }
 
         return "";
+    }
+
+    public boolean appIsLocked(String appPackage) {
+        return preferencesUtil.getBoolean(lockedAppsPreferences, appPackage, false);
     }
 
     public static boolean isRunning(Context context, Class<?> serviceClass) {

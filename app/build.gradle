@@ -69,7 +69,6 @@ dependencies {
     compile 'com.roger.missview.library:library:1.0.0'
     compile 'com.sbrukhanda.fragmentviewpager:fragmentviewpager:1.0.0'
     compile 'com.shawnlin:PreferencesManager:1.0.2'
-    compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.takisoft.fix:preference-v7:24.2.0.0'
     compile 'com.theartofdev.edmodo:android-image-cropper:2.2.5'
     compile 'de.cketti.mailto:email-intent-builder:1.0.0'
