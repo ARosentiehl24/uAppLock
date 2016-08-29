@@ -131,4 +131,5 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="use_your_fingerprint_to_unlock">Use your fingerprint to unlock</string>
 </resources>

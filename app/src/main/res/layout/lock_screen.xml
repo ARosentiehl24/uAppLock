@@ -7,14 +7,20 @@
     <View
         android:id="@+id/initialView"
         android:layout_width="0dp"
-        android:layout_height="0dp" />
+        android:layout_height="0dp"
+        android:layout_gravity="bottom|center" />
 
     <FrameLayout
         android:id="@+id/revealView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorAccent"
-        android:visibility="invisible">
+        android:visibility="visible">
+
+        <!--<com.roger.missview.library.MissView
+            android:id="@+id/missView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />-->
 
         <com.nvanbenschoten.motion.ParallaxImageView
             android:id="@+id/parallaxImageView"
@@ -27,42 +33,37 @@
             android:layout_margin="@dimen/activity_vertical_margin"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/appIcon"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:contentDescription="@null"
+                android:src="@mipmap/ic_launcher" />
 
-                <ImageView
-                    android:id="@+id/appIcon"
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="@dimen/activity_vertical_margin"
-                    android:contentDescription="@null"
-                    android:src="@mipmap/ic_launcher" />
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@id/appName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/app_name"
+                android:textColor="@color/white_glass75"
+                android:textSize="50sp" />
 
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@id/appName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/appIcon"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:text="@string/app_name"
-                    android:textColor="@color/white_glass75"
-                    android:textSize="50sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
+            <ViewFlipper
+                android:id="@+id/unlockingMethods"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1">
 
-                <com.arrg.app.uapplock.view.ui.LockableViewPager
-                    android:id="@+id/unlockingMethods"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </RelativeLayout>
+                <include layout="@layout/fingerprint_lock_screen" />
+
+                <include layout="@layout/pattern_lock_screen" />
+
+                <include layout="@layout/pin_lock_screen" />
+            </ViewFlipper>
         </LinearLayout>
     </FrameLayout>
 </io.codetail.widget.RevealFrameLayout>

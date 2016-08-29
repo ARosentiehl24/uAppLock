@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    tools:showIn="@layout/lock_screen">
+
+    <net.steamcrafted.materialiconlib.MaterialIconView
+        android:layout_width="@dimen/icon_size_splash_screen"
+        android:layout_height="@dimen/icon_size_splash_screen"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:scaleType="center"
+        app:materialIcon="fingerprint"
+        app:materialIconColor="@color/white_glass75"
+        app:materialIconSize="@dimen/icon_size_splash_screen" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tvFingerprintMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:gravity="center"
+        android:text="@string/use_your_fingerprint_to_unlock"
+        android:textColor="@color/white_glass75" />
+</LinearLayout>
