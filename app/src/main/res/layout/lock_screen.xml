@@ -1,69 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<io.codetail.widget.RevealFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <io.codetail.widget.RevealFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/revealView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent"
+            android:visibility="visible">
+
+            <!--<com.roger.missview.library.MissView
+                android:id="@+id/missView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />-->
+
+            <com.nvanbenschoten.motion.ParallaxImageView
+                android:id="@+id/parallaxImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/appIcon"
+                    android:layout_width="@dimen/lock_screen_icon_size"
+                    android:layout_height="@dimen/lock_screen_icon_size"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:contentDescription="@null"
+                    android:src="@mipmap/ic_launcher" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@id/appName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/app_name"
+                    android:textColor="@color/white_glass75"
+                    android:textSize="50sp" />
+
+                <ViewFlipper
+                    android:id="@+id/unlockingMethods"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                    <include layout="@layout/fingerprint_lock_screen" />
+
+                    <include layout="@layout/pattern_lock_screen" />
+
+                    <include layout="@layout/pin_lock_screen" />
+                </ViewFlipper>
+            </LinearLayout>
+        </FrameLayout>
+    </io.codetail.widget.RevealFrameLayout>
 
     <View
         android:id="@+id/initialView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_gravity="bottom|center" />
-
-    <FrameLayout
-        android:id="@+id/revealView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorAccent"
-        android:visibility="visible">
-
-        <!--<com.roger.missview.library.MissView
-            android:id="@+id/missView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />-->
-
-        <com.nvanbenschoten.motion.ParallaxImageView
-            android:id="@+id/parallaxImageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/activity_vertical_margin"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/appIcon"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/activity_vertical_margin"
-                android:contentDescription="@null"
-                android:src="@mipmap/ic_launcher" />
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@id/appName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="@string/app_name"
-                android:textColor="@color/white_glass75"
-                android:textSize="50sp" />
-
-            <ViewFlipper
-                android:id="@+id/unlockingMethods"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <include layout="@layout/fingerprint_lock_screen" />
-
-                <include layout="@layout/pattern_lock_screen" />
-
-                <include layout="@layout/pin_lock_screen" />
-            </ViewFlipper>
-        </LinearLayout>
-    </FrameLayout>
-</io.codetail.widget.RevealFrameLayout>
+</FrameLayout>

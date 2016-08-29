@@ -9,15 +9,25 @@ public interface LockScreenServiceView {
 
     View inflateRootView(Intent intent);
 
+    void configViews();
+
+    void configLockScreen(String packageOnTop);
+
+    void setListener();
+
     void showLockScreen();
 
     void hideLockScreen();
 
     void launchHomeScreen();
 
+    void playUnlockSound();
+
     void finish();
 
     void showPrevious();
 
     void showNext();
+
+    void handlePosition(int id);
 }

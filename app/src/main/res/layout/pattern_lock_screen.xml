@@ -1,15 +1,16 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/patternLockScreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:showIn="@layout/lock_screen">
 
     <com.arrg.app.uapplock.view.ui.MaterialLockView
-        android:layout_gravity="bottom"
         android:id="@+id/materialLockView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="bottom"
         app:correct_color="@color/material_teal_500"
         app:lock_color="@color/white_glass75"
         app:wrong_color="@color/material_red_500" />

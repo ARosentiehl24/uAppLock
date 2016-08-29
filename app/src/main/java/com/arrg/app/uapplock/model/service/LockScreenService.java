@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Vibrator;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v7.graphics.Palette;
@@ -26,19 +29,33 @@ import android.widget.ImageView;
 import android.widget.ViewFlipper;
 
 import com.andrognito.pinlockview.IndicatorDots;
+import com.andrognito.pinlockview.PinLockListener;
 import com.andrognito.pinlockview.PinLockView;
 import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.UAppLock;
 import com.arrg.app.uapplock.interfaces.LockScreenServiceView;
 import com.arrg.app.uapplock.model.listener.SwipeGestureDetector;
 import com.arrg.app.uapplock.view.ui.MaterialLockView;
+import com.easyandroidanimations.library.Animation;
+import com.easyandroidanimations.library.AnimationListener;
+import com.easyandroidanimations.library.ShakeAnimation;
+import com.github.ajalt.reprint.core.AuthenticationFailureReason;
+import com.github.ajalt.reprint.core.AuthenticationListener;
+import com.github.ajalt.reprint.core.Reprint;
 import com.jaouan.revealator.Revealator;
 import com.nvanbenschoten.motion.ParallaxImageView;
+import com.shawnlin.preferencesmanager.PreferencesManager;
+
+import java.io.IOException;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Subscription;
 
-public class LockScreenService extends Service implements View.OnKeyListener, LockScreenServiceView {
+import static com.arrg.app.uapplock.UAppLock.DURATIONS_OF_ANIMATIONS;
+
+public class LockScreenService extends Service implements LockScreenServiceView, PinLockListener, View.OnKeyListener {
 
     @BindView(R.id.revealView)
     FrameLayout revealView;
@@ -63,7 +80,22 @@ public class LockScreenService extends Service implements View.OnKeyListener, Lo
     @BindView(R.id.pinLockView)
     PinLockView pinLockView;
 
+    private FingerprintManagerCompat fingerprintManagerCompat;
     private GestureDetector gestureDetector;
+    private Runnable finish = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                windowManager.removeView(rootView);
+            } catch (IllegalArgumentException e) {
+                Log.e(getClass().getName(), e.getMessage());
+            }
+
+            stopSelf();
+        }
+    };
+    private Subscription subscription;
+    private Vibrator vibrator;
     private View rootView;
     private WindowManager.LayoutParams layoutParams;
     private WindowManager windowManager;
@@ -95,19 +127,19 @@ public class LockScreenService extends Service implements View.OnKeyListener, Lo
     }
 
     @Override
+    public void onDestroy() {
+        Reprint.cancelAuthentication();
+
+        super.onDestroy();
+    }
+
+    @Override
     public boolean onKey(View view, int i, KeyEvent keyEvent) {
         switch (i) {
             case KeyEvent.KEYCODE_BACK:
                 launchHomeScreen();
+                finish();
 
-                hideLockScreen();
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        finish();
-                    }
-                }, UAppLock.DURATIONS_OF_ANIMATIONS);
                 return true;
         }
         return true;
@@ -140,6 +172,7 @@ public class LockScreenService extends Service implements View.OnKeyListener, Lo
 
     @Override
     public View inflateRootView(Intent intent) {
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
 
         LayoutInflater layoutInflater = LayoutInflater.from(this);
@@ -153,13 +186,42 @@ public class LockScreenService extends Service implements View.OnKeyListener, Lo
         lockScreen.setFocusable(true);
         lockScreen.setFocusableInTouchMode(true);
 
-        FingerprintManagerCompat fingerprintManagerCompat = FingerprintManagerCompat.from(this);
-        if (!fingerprintManagerCompat.isHardwareDetected()) {
+        configViews();
+
+        String packageOnTop = intent.getStringExtra(UAppLock.EXTRA_PACKAGE_NAME);
+
+        configLockScreen(packageOnTop);
+
+        handlePosition(unlockingMethods.getCurrentView().getId());
+
+        setListener();
+
+        return lockScreen;
+    }
+
+    @Override
+    public void configViews() {
+        fingerprintManagerCompat = FingerprintManagerCompat.from(this);
+
+        Boolean isPatternConfigured = PreferencesManager.getString(getString(R.string.user_pattern)).length() != 0;
+        Boolean isPinConfigured = PreferencesManager.getString(getString(R.string.user_pin)).length() != 0;
+        Boolean stealthMode = PreferencesManager.getBoolean(getString(R.string.stealth_mode_key));
+
+        Integer lastUnlockingMethod = PreferencesManager.getInt(getString(R.string.unlock_method));
+
+        if (fingerprintManagerCompat.isHardwareDetected()) {
+            unlockingMethods.setDisplayedChild(lastUnlockingMethod);
+        } else {
             unlockingMethods.removeViewAt(0);
+            unlockingMethods.setDisplayedChild(lastUnlockingMethod - 1);
         }
 
         appName.setTypeface(UAppLock.typeface());
-        pinLockView.attachIndicatorDots(indicatorDots);
+        materialLockView.setEnabled(isPatternConfigured);
+        materialLockView.setInStealthMode(stealthMode);
+        pinLockView.attachIndicatorDots(isPinConfigured ? indicatorDots : null);
+        pinLockView.setEnabled(isPinConfigured);
+        pinLockView.setShowDeleteButton(true);
         tvFingerprintMessage.setTypeface(UAppLock.typeface());
         unlockingMethods.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -167,9 +229,10 @@ public class LockScreenService extends Service implements View.OnKeyListener, Lo
                 return !gestureDetector.onTouchEvent(event);
             }
         });
+    }
 
-        String packageOnTop = intent.getStringExtra(UAppLock.EXTRA_PACKAGE_NAME);
-
+    @Override
+    public void configLockScreen(String packageOnTop) {
         try {
             ApplicationInfo applicationInfo = getPackageManager().getApplicationInfo(packageOnTop, 0);
             appIcon.setImageDrawable(applicationInfo.loadIcon(getPackageManager()));
@@ -184,8 +247,47 @@ public class LockScreenService extends Service implements View.OnKeyListener, Lo
                 revealView.setBackgroundColor(iconColor);
             }
         });
+    }
 
-        return lockScreen;
+    @Override
+    public void setListener() {
+        materialLockView.setOnPatternListener(new MaterialLockView.OnPatternListener() {
+            @Override
+            public void onPatternDetected(List<MaterialLockView.Cell> pattern, String SimplePattern) {
+                String storedPattern = PreferencesManager.getString(getString(R.string.user_pattern));
+
+                if (SimplePattern.equals(storedPattern)) {
+                    playUnlockSound();
+                    finish();
+                } else {
+                    new ShakeAnimation(materialLockView).setNumOfShakes(2).setDuration(Animation.DURATION_SHORT).animate();
+
+                    materialLockView.setDisplayMode(MaterialLockView.DisplayMode.Wrong);
+
+                    vibrator.vibrate(DURATIONS_OF_ANIMATIONS);
+                }
+            }
+        });
+
+        pinLockView.setPinLockListener(this);
+
+        tvFingerprintMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Reprint.authenticate(new AuthenticationListener() {
+                    @Override
+                    public void onSuccess(int moduleTag) {
+                        playUnlockSound();
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(AuthenticationFailureReason failureReason, boolean fatal, CharSequence errorMessage, int moduleTag, int errorCode) {
+                        tvFingerprintMessage.setText(errorMessage);
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -193,14 +295,24 @@ public class LockScreenService extends Service implements View.OnKeyListener, Lo
         rootView.post(new Runnable() {
             @Override
             public void run() {
-                Revealator.reveal(revealView).from(initialView).withRevealDuration(UAppLock.DURATIONS_OF_ANIMATIONS).withChildsAnimation().start();
+                Revealator
+                        .reveal(revealView)
+                        .from(initialView)
+                        .withRevealDuration(UAppLock.DURATIONS_OF_ANIMATIONS)
+                        .withChildsAnimation()
+                        .withChildAnimationDuration(UAppLock.DURATIONS_OF_ANIMATIONS)
+                        .start();
             }
         });
     }
 
     @Override
     public void hideLockScreen() {
-        Revealator.unreveal(revealView).to(initialView).withUnrevealDuration(UAppLock.DURATIONS_OF_ANIMATIONS).start();
+        Revealator
+                .unreveal(revealView)
+                .to(initialView)
+                .withUnrevealDuration(UAppLock.DURATIONS_OF_ANIMATIONS)
+                .start();
     }
 
     @Override
@@ -208,6 +320,8 @@ public class LockScreenService extends Service implements View.OnKeyListener, Lo
         unlockingMethods.setInAnimation(this, R.anim.view_flipper_transition_in_right);
         unlockingMethods.setOutAnimation(this, R.anim.view_flipper_transition_out_right);
         unlockingMethods.showPrevious();
+
+        handlePosition(unlockingMethods.getCurrentView().getId());
     }
 
     @Override
@@ -215,6 +329,36 @@ public class LockScreenService extends Service implements View.OnKeyListener, Lo
         unlockingMethods.setInAnimation(this, R.anim.view_flipper_transition_in_left);
         unlockingMethods.setOutAnimation(this, R.anim.view_flipper_transition_out_left);
         unlockingMethods.showNext();
+
+        handlePosition(unlockingMethods.getCurrentView().getId());
+    }
+
+    @Override
+    public void handlePosition(int id) {
+        Reprint.cancelAuthentication();
+
+        Reprint.initialize(UAppLock.uAppLock);
+
+        materialLockView.clearPattern();
+        pinLockView.resetPinLockView();
+        tvFingerprintMessage.setText(R.string.use_your_fingerprint_to_unlock);
+
+        switch (id) {
+            case R.id.fingerprintLockScreen:
+                Reprint.authenticate(new AuthenticationListener() {
+                    @Override
+                    public void onSuccess(int moduleTag) {
+                        playUnlockSound();
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(AuthenticationFailureReason failureReason, boolean fatal, CharSequence errorMessage, int moduleTag, int errorCode) {
+                        tvFingerprintMessage.setText(errorMessage);
+                    }
+                });
+                break;
+        }
     }
 
     @Override
@@ -226,13 +370,67 @@ public class LockScreenService extends Service implements View.OnKeyListener, Lo
     }
 
     @Override
-    public void finish() {
+    public void playUnlockSound() {
         try {
-            windowManager.removeView(rootView);
-        } catch (IllegalArgumentException e) {
-            Log.e(getClass().getName(), e.getMessage());
+            AssetFileDescriptor assetFileDescriptor = getAssets().openFd("sounds/unlock.ogg");
+            MediaPlayer player = new MediaPlayer();
+            player.setDataSource(assetFileDescriptor.getFileDescriptor(), assetFileDescriptor.getStartOffset(), assetFileDescriptor.getLength());
+            player.prepare();
+            player.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void finish() {
+        Reprint.cancelAuthentication();
+
+        int id = unlockingMethods.getCurrentView().getId();
+
+        switch (id) {
+            case R.id.fingerprintLockScreen:
+                PreferencesManager.putInt(getString(R.string.unlock_method), UAppLock.FINGERPRINT);
+                break;
+            case R.id.patternLockScreen:
+                PreferencesManager.putInt(getString(R.string.unlock_method), UAppLock.PATTERN);
+                break;
+            case R.id.pinLockScreen:
+                PreferencesManager.putInt(getString(R.string.unlock_method), UAppLock.PIN);
+                break;
         }
 
-        stopSelf();
+        hideLockScreen();
+
+        new Handler().postDelayed(finish, 500);
+    }
+
+    @Override
+    public void onComplete(String pin) {
+        String storedPin = PreferencesManager.getString(getString(R.string.user_pin));
+
+        if (pin.equals(storedPin)) {
+            playUnlockSound();
+            finish();
+        } else {
+            new ShakeAnimation(indicatorDots).setNumOfShakes(2).setDuration(Animation.DURATION_SHORT).setListener(new AnimationListener() {
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    pinLockView.resetPinLockView();
+                }
+            }).animate();
+
+            vibrator.vibrate(DURATIONS_OF_ANIMATIONS);
+        }
+    }
+
+    @Override
+    public void onEmpty() {
+
+    }
+
+    @Override
+    public void onPinChange(int pinLength, String intermediatePin) {
+
     }
 }

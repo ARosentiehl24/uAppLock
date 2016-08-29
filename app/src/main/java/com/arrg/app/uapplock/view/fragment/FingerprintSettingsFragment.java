@@ -25,6 +25,7 @@ public class FingerprintSettingsFragment extends PreferenceFragmentCompatDivider
         fingerprintManagerCompat = FingerprintManagerCompat.from(getContext());
 
         SwitchPreference switchPreferenceCompat = (SwitchPreference) findPreference(getString(R.string.enable_fingerprint));
+        switchPreferenceCompat.setChecked(PreferencesManager.getBoolean(getString(R.string.fingerprint_recognition_activated)));
         switchPreferenceCompat.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {

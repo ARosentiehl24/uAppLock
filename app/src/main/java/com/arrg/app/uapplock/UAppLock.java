@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 
 import com.arrg.app.uapplock.util.kisstools.KissTools;
 import com.arrg.app.uapplock.util.kisstools.utils.ResourceUtil;
+import com.github.ajalt.reprint.core.Reprint;
 import com.shawnlin.preferencesmanager.PreferencesManager;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -67,7 +68,7 @@ public class UAppLock extends Application {
         String fontPath = PreferencesManager.getString(getString(R.string.font_path), "fonts/Raleway.ttf");
         setAppFontTo(fontPath);
 
-        KissTools.setContext(getApplicationContext());
+        KissTools.setContext(this);
 
         startService();
     }

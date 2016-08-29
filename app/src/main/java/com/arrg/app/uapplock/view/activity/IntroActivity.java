@@ -110,9 +110,9 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
                 fragments.add(RequestPermissionsFragment.newInstance(R.string.overlay_permission, R.drawable.ic_picture_overlay_permission, R.string.overlay_permission_description, OVERLAY_PERMISSION_RC));
             }
 
-            if (!writeSettingsPermissionGranted()) {
+            /*if (!writeSettingsPermissionGranted()) {
                 fragments.add(RequestPermissionsFragment.newInstance(R.string.write_settings_permission, R.drawable.ic_picture_write_settings_permission, R.string.write_settings_permission_description, WRITE_SETTINGS_RC));
-            }
+            }*/
 
             if (!isAccessibilitySettingsOn(this)) {
                 fragments.add(RequestPermissionsFragment.newInstance(R.string.accessibility_service, R.drawable.ic_picture_accessibility_service, R.string.accessibility_service_description, ACCESSIBILITY_SERVICES_RC));
@@ -152,17 +152,23 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
                                 viewPager.setCurrentItem(2);
                             } else if (!overlayPermissionGranted()) {
                                 viewPager.setCurrentItem(3);
-                            } else if (!writeSettingsPermissionGranted()) {
+                            } else if (!isAccessibilitySettingsOn(this)) {
                                 viewPager.setCurrentItem(4);
                             }
+                                /*else if (!writeSettingsPermissionGranted()) {
+                                viewPager.setCurrentItem(4);
+                            }*/
                         } else {
                             if (!usageStatsIsNotEmpty()) {
                                 viewPager.setCurrentItem(1);
                             } else if (!overlayPermissionGranted()) {
                                 viewPager.setCurrentItem(2);
-                            } else if (!writeSettingsPermissionGranted()) {
+                            } else if (!isAccessibilitySettingsOn(this)) {
                                 viewPager.setCurrentItem(3);
                             }
+                                /*else if (!writeSettingsPermissionGranted()) {
+                                viewPager.setCurrentItem(4);
+                            }*/
                         }
                     }
                 }
@@ -255,8 +261,12 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
             list.add(overlayPermissionGranted());
             Log.e("Values", "overlayPermissionGranted: " + overlayPermissionGranted());
 
-            list.add(writeSettingsPermissionGranted());
-            Log.e("Values", "writeSettingsPermissionGranted: " + writeSettingsPermissionGranted());
+            /*list.add(writeSettingsPermissionGranted());
+            Log.e("Values", "writeSettingsPermissionGranted: " + writeSettingsPermissionGranted());*/
+
+            list.add(isAccessibilitySettingsOn(this));
+            Log.e("Values", "isAccessibilitySettingsOn: " + isAccessibilitySettingsOn(this));
+
         } else {
             if (fingerprintManagerCompat.isHardwareDetected()) {
                 if (!hasEnrolledFingerprints()) {
