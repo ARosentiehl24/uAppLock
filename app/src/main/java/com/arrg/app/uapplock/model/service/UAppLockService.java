@@ -59,17 +59,25 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
     @Override
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
 
-        if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
-            stopMonitor();
+        switch (accessibilityEvent.getEventType()) {
+            case AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED:
+                break;
+            case AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED:
+                handlePackageOnTop(accessibilityEvent.getPackageName().toString());
+                break;
+        }
+        /*if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+
+            /*stopMonitor();
             Log.e("AccessibilityEvent", String.valueOf(accessibilityEvent.getPackageName()));
             startMonitor();
-        }
+        }*/
 
-        if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+        /*if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
             if (accessibilityEvent.getPackageName().equals("com.facebook.orca")) {
                 Log.e("AccessibilityEvent", String.valueOf(accessibilityEvent.getPackageName()));
             }
-        }
+        }*/
     }
 
     @Override
@@ -84,7 +92,7 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
         AccessibilityServiceInfo accessibilityServiceInfo = new AccessibilityServiceInfo();
         accessibilityServiceInfo.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;
         accessibilityServiceInfo.feedbackType = AccessibilityServiceInfo.FEEDBACK_ALL_MASK;
-        accessibilityServiceInfo.notificationTimeout = 50;
+        accessibilityServiceInfo.notificationTimeout = 0;
         setServiceInfo(accessibilityServiceInfo);
     }
 
@@ -147,11 +155,11 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
 
         packagesHandler = new Handler();
         packagesMonitor = new PackagesMonitor(this);
-        packagesMonitor.run();
+        //packagesMonitor.run();
 
         updatesHandler = new Handler();
         updatesMonitor = new UpdatesMonitor(this);
-        updatesMonitor.run();
+        //updatesMonitor.run();
     }
 
     @Override
