@@ -126,10 +126,9 @@
 
     <string name="title_notification">uBlock is running correctly.</string>
     <string name="text_notification">Tap here for more info.</string>
-    <string name="accessibility_service">Enable Accessibility Services</string>
-    <string name="accessibility_service_description">It is necessary to prevent errors and handle block the notifications</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="accessibility_service">Enable Accessibility Services</string>
+    <string name="accessibility_service_description">Enable to protect Facebook Messenger\'s privacy and other apps like that</string>
+    <string name="accessibility_service_activation_description">Enable to protect Facebook Messenger\'s privacy and other apps like that, you may receive privacy warnings, this is a standard procedure on all Android OS when enabling Accessibility Services. (uAppLock will NOT collect any personal data)</string>
     <string name="use_your_fingerprint_to_unlock">Use your fingerprint to unlock</string>
 </resources>

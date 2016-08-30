@@ -1,7 +1,6 @@
 package com.arrg.app.uapplock.view.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.AppCompatTextView;
@@ -10,10 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.arrg.app.uapplock.R;
-import com.arrg.app.uapplock.UAppLock;
 import com.arrg.app.uapplock.interfaces.SplashScreenView;
-import com.arrg.app.uapplock.model.service.LockScreenService;
-import com.arrg.app.uapplock.model.service.UAppLockService;
 import com.arrg.app.uapplock.presenter.ISplashScreenPresenter;
 import com.easyandroidanimations.library.Animation;
 import com.easyandroidanimations.library.FadeInAnimation;
@@ -50,10 +46,6 @@ public class SplashScreenActivity extends UAppLockActivity implements SplashScre
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         ButterKnife.bind(this);
-
-        if (allSettingsAreComplete()) {
-            startService(LockScreenService.lockPackage(this, getPackageName()));
-        }
 
         splashScreenActivity = this;
 

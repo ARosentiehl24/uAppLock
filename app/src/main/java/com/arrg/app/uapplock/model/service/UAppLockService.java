@@ -7,9 +7,12 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Handler;
@@ -58,26 +61,22 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
+        if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+            ComponentName componentName = new ComponentName(
+                    accessibilityEvent.getPackageName().toString(),
+                    accessibilityEvent.getClassName().toString()
+            );
 
-        switch (accessibilityEvent.getEventType()) {
-            case AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED:
-                break;
-            case AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED:
-                handlePackageOnTop(accessibilityEvent.getPackageName().toString());
-                break;
-        }
-        /*if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+            ActivityInfo activityInfo = tryToGetActivity(componentName);
 
-            /*stopMonitor();
-            Log.e("AccessibilityEvent", String.valueOf(accessibilityEvent.getPackageName()));
-            startMonitor();
-        }*/
+            Boolean isActivity = activityInfo != null;
+            String packageOnTop = accessibilityEvent.getPackageName().toString();
 
-        /*if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
-            if (accessibilityEvent.getPackageName().equals("com.facebook.orca")) {
-                Log.e("AccessibilityEvent", String.valueOf(accessibilityEvent.getPackageName()));
+            if (isActivity) {
+                handlePackageOnTop(packageOnTop);
+                Log.i("CurrentActivity", componentName.flattenToShortString());
             }
-        }*/
+        }
     }
 
     @Override
@@ -92,8 +91,17 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
         AccessibilityServiceInfo accessibilityServiceInfo = new AccessibilityServiceInfo();
         accessibilityServiceInfo.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;
         accessibilityServiceInfo.feedbackType = AccessibilityServiceInfo.FEEDBACK_ALL_MASK;
+        accessibilityServiceInfo.flags = AccessibilityServiceInfo.FLAG_INCLUDE_NOT_IMPORTANT_VIEWS;
         accessibilityServiceInfo.notificationTimeout = 0;
         setServiceInfo(accessibilityServiceInfo);
+    }
+
+    private ActivityInfo tryToGetActivity(ComponentName componentName) {
+        try {
+            return getPackageManager().getActivityInfo(componentName, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            return null;
+        }
     }
 
     @Override
@@ -225,7 +233,7 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
             if (!lastPackageOnTop.equals(packageOnTop)) {
                 Log.d("packageOnTop", packageOnTop);
 
-                if (appIsLocked(packageOnTop)) {
+                if (appIsLocked(packageOnTop) || packageOnTop.equals(UAppLock.PACKAGE_NAME.toLowerCase())) {
                     startService(LockScreenService.lockPackage(this, packageOnTop));
                 }
 
