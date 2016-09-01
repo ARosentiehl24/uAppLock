@@ -11,7 +11,7 @@ import com.arrg.app.uapplock.model.receiver.IconOnAppDrawerReceiver;
 import com.arrg.app.uapplock.model.receiver.NotificationReceiver;
 import com.arrg.app.uapplock.model.service.UAppLockService;
 
-public class IUAppLockServicePresenter implements UAppLockServicePresenter{
+public class IUAppLockServicePresenter implements UAppLockServicePresenter {
 
     private IconOnAppDrawerReceiver iconOnAppDrawerReceiver;
     private NotificationReceiver notificationReceiver;
@@ -40,9 +40,15 @@ public class IUAppLockServicePresenter implements UAppLockServicePresenter{
         applicationFilter.addAction(UAppLock.ACTION_HIDE_APPLICATION);
         applicationFilter.addAction(UAppLock.ACTION_SHOW_APPLICATION);
 
-        uAppLockService.registerReceiver(iconOnAppDrawerReceiver, applicationFilter);
+        try {
+            uAppLockService.registerReceiver(iconOnAppDrawerReceiver, applicationFilter);
 
-        Log.e("registerIconReceiver", "Done");
+            Log.e("registerIconReceiver", "Done");
+        } catch (Exception e) {
+            Log.e(getClass().getSimpleName(), e.getMessage() + " - Unregister Receiver");
+
+            uAppLockService.unregisterReceiver(iconOnAppDrawerReceiver);
+        }
     }
 
     @Override
@@ -53,11 +59,16 @@ public class IUAppLockServicePresenter implements UAppLockServicePresenter{
         notificationFilter.addAction(UAppLock.ACTION_SHOW_NOTIFICATION);
         notificationFilter.addAction(UAppLock.ACTION_HIDE_NOTIFICATION);
 
-        uAppLockService.registerReceiver(notificationReceiver, notificationFilter);
+        try {
+            uAppLockService.registerReceiver(notificationReceiver, notificationFilter);
+            uAppLockServiceView.notificationHandler();
 
-        uAppLockServiceView.notificationHandler();
+            Log.e("registerNotReceiver", "Done");
+        } catch (Exception e) {
+            Log.e(getClass().getSimpleName(), e.getMessage() + " -  Unregister Receiver");
 
-        Log.e("registerNotReceiver", "Done");
+            uAppLockService.unregisterReceiver(iconOnAppDrawerReceiver);
+        }
     }
 
     @Override
@@ -70,7 +81,7 @@ public class IUAppLockServicePresenter implements UAppLockServicePresenter{
         try {
             uAppLockService.unregisterReceiver(iconOnAppDrawerReceiver);
             uAppLockService.unregisterReceiver(notificationReceiver);
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             Log.e("Exception", e.getMessage());
         }
     }

@@ -32,6 +32,7 @@ import com.arrg.app.uapplock.view.activity.SplashScreenActivity;
 import com.shawnlin.preferencesmanager.PreferencesManager;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class UAppLockService extends AccessibilityService implements UAppLockServiceView {
 
@@ -76,7 +77,7 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
 
     @Override
     public void onInterrupt() {
-        Log.i(getClass().getCanonicalName(), "onInterrupt()");
+        Log.i(getClass().getSimpleName(), "onInterrupt()");
     }
 
     @Override
@@ -102,7 +103,7 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i(getClass().getCanonicalName(), "onCreate()");
+        Log.i(getClass().getSimpleName(), "onCreate()");
 
         SERVICE = this;
 
@@ -114,12 +115,14 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i(getClass().getName(), "onStartCommand()");
 
+        loopPreferences();
+
         return START_STICKY /*super.onStartCommand(intent, flags, startId)*/;
     }
 
     @Override
     public void onLowMemory() {
-        Log.i(getClass().getName(), "OnLowMemory()");
+        Log.i(getClass().getSimpleName(), "OnLowMemory()");
 
         super.onLowMemory();
 
@@ -129,7 +132,7 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
 
     @Override
     public void onTaskRemoved(Intent rootIntent) {
-        Log.i(getClass().getName(), "onTaskRemoved()");
+        Log.i(getClass().getSimpleName(), "onTaskRemoved()");
 
         super.onTaskRemoved(rootIntent);
 
@@ -139,7 +142,7 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
 
     @Override
     public void onDestroy() {
-        Log.i(getClass().getName(), "onDestroy()");
+        Log.i(getClass().getSimpleName(), "onDestroy()");
 
         super.onDestroy();
 
@@ -212,13 +215,24 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
         if (packageOnTop.length() != 0) {
             if (!lastPackageOnTop.equals(packageOnTop)) {
                 Log.d("packageOnTop", packageOnTop);
+                Log.d("packageOnTop", "Close: " + lastPackageOnTop + " to Open: " + packageOnTop);
 
-                if (appIsLocked(packageOnTop) || packageOnTop.equals(UAppLock.PACKAGE_NAME.toLowerCase())) {
+                if (appIsLocked(packageOnTop) || packageOnTop.equals(getPackageName())) {
                     startService(LockScreenService.lockPackage(this, packageOnTop));
+                } else {
+
                 }
 
                 lastPackageOnTop = packageOnTop;
             }
+        }
+    }
+
+    public void loopPreferences(){
+        Map<String, ?> keys = lockedAppsPreferences.getAll();
+
+        for (Map.Entry<String, ?> entry : keys.entrySet()) {
+            Log.d(getClass().getSimpleName(), entry.getKey() + " : " + entry.getValue().toString());
         }
     }
 

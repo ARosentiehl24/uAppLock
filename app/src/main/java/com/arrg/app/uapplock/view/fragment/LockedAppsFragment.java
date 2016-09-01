@@ -37,6 +37,8 @@ import com.kyleduo.switchbutton.SwitchButton;
 import com.sbrukhanda.fragmentviewpager.FragmentVisibilityListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -142,6 +144,15 @@ public class LockedAppsFragment extends Fragment implements AppListFragmentView,
     @Override
     public void add(App app, Integer position) {
         appAdapter.add(position, app);
+
+        Collections.sort(appAdapter.getData(), new Comparator<App>() {
+            @Override
+            public int compare(App lhs, App rhs) {
+                return lhs.getAppName().compareToIgnoreCase(rhs.getAppName());
+            }
+        });
+
+        appAdapter.notifyDataSetChanged();
     }
 
     @Override

@@ -14,7 +14,6 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,14 +27,12 @@ import com.arrg.app.uapplock.UAppLock;
 import com.arrg.app.uapplock.interfaces.AppListView;
 import com.arrg.app.uapplock.model.entity.App;
 import com.arrg.app.uapplock.presenter.IAppListPresenter;
-import com.arrg.app.uapplock.util.kisstools.utils.LogUtil;
 import com.arrg.app.uapplock.util.kisstools.utils.ToastUtil;
 import com.arrg.app.uapplock.view.fragment.AppListFragment;
 import com.arrg.app.uapplock.view.fragment.LockedAppsFragment;
 import com.arrg.app.uapplock.view.fragment.UnlockedAppsFragment;
 import com.jaouan.revealator.Revealator;
 import com.sbrukhanda.fragmentviewpager.FragmentViewPager;
-import com.sbrukhanda.fragmentviewpager.FragmentVisibilityListener;
 import com.sbrukhanda.fragmentviewpager.adapters.FragmentStatePagerAdapter;
 
 import org.fingerlinks.mobile.android.navigator.Navigator;
@@ -229,6 +226,7 @@ public class ApplicationListActivity extends AppCompatActivity implements AppLis
     @Override
     public void hideSearch() {
         Revealator.unreveal(revealView)
+                .to(initialView)
                 .withUnrevealDuration(DURATIONS_OF_ANIMATIONS)
                 .withEndAction(new TimerTask() {
                     @Override

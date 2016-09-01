@@ -88,7 +88,7 @@ public class LockScreenService extends Service implements LockScreenServiceView,
             try {
                 windowManager.removeView(rootView);
             } catch (IllegalArgumentException e) {
-                Log.e(getClass().getName(), e.getMessage());
+                Log.e(getClass().getSimpleName(), e.getMessage());
             }
 
             stopSelf();
@@ -365,7 +365,7 @@ public class LockScreenService extends Service implements LockScreenServiceView,
     @Override
     public void launchHomeScreen() {
         if (!packageOnTop.equals(getPackageName())) {
-            Log.i(getClass().getName(), "Killing: " + packageOnTop);
+            Log.i(getClass().getSimpleName(), "Killing: " + packageOnTop);
             activityManager.killBackgroundProcesses(packageOnTop);
         }
 
