@@ -5,8 +5,6 @@ import android.accessibilityservice.AccessibilityServiceInfo;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.PendingIntent;
-import android.app.usage.UsageStats;
-import android.app.usage.UsageStatsManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -34,9 +32,6 @@ import com.arrg.app.uapplock.view.activity.SplashScreenActivity;
 import com.shawnlin.preferencesmanager.PreferencesManager;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 public class UAppLockService extends AccessibilityService implements UAppLockServiceView {
 
@@ -81,7 +76,7 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
 
     @Override
     public void onInterrupt() {
-
+        Log.i(getClass().getCanonicalName(), "onInterrupt()");
     }
 
     @Override
@@ -161,13 +156,9 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
         lockedPackages = new HashMap<>();
         unlockMap = new HashMap<>();
 
-        packagesHandler = new Handler();
-        packagesMonitor = new PackagesMonitor(this);
-        //packagesMonitor.run();
-
         updatesHandler = new Handler();
         updatesMonitor = new UpdatesMonitor(this);
-        //updatesMonitor.run();
+        updatesMonitor.run();
     }
 
     @Override
@@ -212,19 +203,8 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
     }
 
     @Override
-    public void startMonitor() {
-        packagesHandler.post(packagesMonitor);
-    }
-
-    @Override
-    public void stopMonitor() {
-        packagesHandler.removeCallbacks(packagesMonitor);
-    }
-
-    @Override
     public void run() {
-        handlePackageOnTop(getTopPackageName());
-        packagesHandler.postDelayed(packagesMonitor, 100);
+
     }
 
     @Override
@@ -240,28 +220,6 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
                 lastPackageOnTop = packageOnTop;
             }
         }
-    }
-
-    @Override
-    public String getTopPackageName() {
-        UsageStatsManager usageStatsManager = (UsageStatsManager) getSystemService(Context.USAGE_STATS_SERVICE);
-
-        long time = System.currentTimeMillis();
-
-        List<UsageStats> statsList = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, (long) (time - 1000 * 2.5), time);
-
-        if (statsList != null) {
-            SortedMap<Long, UsageStats> usageStatsTreeMap = new TreeMap<>();
-            for (UsageStats usageStats : statsList) {
-                usageStatsTreeMap.put(usageStats.getLastTimeUsed(), usageStats);
-            }
-
-            if (!usageStatsTreeMap.isEmpty()) {
-                return usageStatsTreeMap.get(usageStatsTreeMap.lastKey()).getPackageName();
-            }
-        }
-
-        return "";
     }
 
     public boolean appIsLocked(String appPackage) {

@@ -9,14 +9,12 @@ import com.arrg.app.uapplock.interfaces.UAppLockServicePresenter;
 import com.arrg.app.uapplock.interfaces.UAppLockServiceView;
 import com.arrg.app.uapplock.model.receiver.IconOnAppDrawerReceiver;
 import com.arrg.app.uapplock.model.receiver.NotificationReceiver;
-import com.arrg.app.uapplock.model.receiver.ScreenReceiver;
 import com.arrg.app.uapplock.model.service.UAppLockService;
 
 public class IUAppLockServicePresenter implements UAppLockServicePresenter{
 
     private IconOnAppDrawerReceiver iconOnAppDrawerReceiver;
     private NotificationReceiver notificationReceiver;
-    private ScreenReceiver screenReceiver;
     private UAppLockService uAppLockService;
     private UAppLockServiceView uAppLockServiceView;
 
@@ -30,22 +28,8 @@ public class IUAppLockServicePresenter implements UAppLockServicePresenter{
 
         uAppLockServiceView.init();
 
-        registerScreenReceiver();
         registerIconOnAppDrawerReceiver();
         registerNotificationReceiver();
-    }
-
-    @Override
-    public void registerScreenReceiver() {
-        screenReceiver = new ScreenReceiver(uAppLockServiceView);
-        IntentFilter screenFilter = new IntentFilter();
-
-        screenFilter.addAction(Intent.ACTION_SCREEN_ON);
-        screenFilter.addAction(Intent.ACTION_SCREEN_OFF);
-
-        uAppLockService.registerReceiver(screenReceiver, screenFilter);
-
-        Log.e("registerScreenReceiver", "Done");
     }
 
     @Override
@@ -86,7 +70,6 @@ public class IUAppLockServicePresenter implements UAppLockServicePresenter{
         try {
             uAppLockService.unregisterReceiver(iconOnAppDrawerReceiver);
             uAppLockService.unregisterReceiver(notificationReceiver);
-            uAppLockService.unregisterReceiver(screenReceiver);
         } catch (IllegalArgumentException e){
             Log.e("Exception", e.getMessage());
         }

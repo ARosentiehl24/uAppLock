@@ -80,6 +80,5 @@ dependencies {
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
 
     compile 'com.github.ajalt.reprint:core:2.8.0@aar'
-    compile 'com.github.ajalt.reprint:reprint_spass:2.8.0@aar'
     compile 'com.mtramin:rxfingerprint:1.1.1'
 }

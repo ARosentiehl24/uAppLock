@@ -12,6 +12,6 @@ public class UpdatesMonitor implements Runnable {
 
     @Override
     public void run() {
-
+        uAppLockServiceView.run();
     }
 }

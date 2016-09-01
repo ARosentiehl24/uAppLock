@@ -7,13 +7,7 @@ public interface UAppLockServiceView {
 
     void startForeground();
 
-    void startMonitor();
-
-    void stopMonitor();
-
     void run();
 
     void handlePackageOnTop(String packageOnTop);
-
-    String getTopPackageName();
 }

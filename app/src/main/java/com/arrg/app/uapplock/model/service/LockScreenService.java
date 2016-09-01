@@ -1,5 +1,6 @@
 package com.arrg.app.uapplock.model.service;
 
+import android.app.ActivityManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -51,7 +52,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Subscription;
 
 import static com.arrg.app.uapplock.UAppLock.DURATIONS_OF_ANIMATIONS;
 
@@ -80,7 +80,7 @@ public class LockScreenService extends Service implements LockScreenServiceView,
     @BindView(R.id.pinLockView)
     PinLockView pinLockView;
 
-    private FingerprintManagerCompat fingerprintManagerCompat;
+    private ActivityManager activityManager;
     private GestureDetector gestureDetector;
     private Runnable finish = new Runnable() {
         @Override
@@ -94,7 +94,7 @@ public class LockScreenService extends Service implements LockScreenServiceView,
             stopSelf();
         }
     };
-    private Subscription subscription;
+    private String packageOnTop;
     private Vibrator vibrator;
     private View rootView;
     private WindowManager.LayoutParams layoutParams;
@@ -155,6 +155,8 @@ public class LockScreenService extends Service implements LockScreenServiceView,
 
     @Override
     public void beforeInflate() {
+        activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+
         layoutParams = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.MATCH_PARENT,
@@ -172,6 +174,7 @@ public class LockScreenService extends Service implements LockScreenServiceView,
 
     @Override
     public View inflateRootView(Intent intent) {
+        packageOnTop = intent.getStringExtra(UAppLock.EXTRA_PACKAGE_NAME);
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
 
@@ -188,8 +191,6 @@ public class LockScreenService extends Service implements LockScreenServiceView,
 
         configViews();
 
-        String packageOnTop = intent.getStringExtra(UAppLock.EXTRA_PACKAGE_NAME);
-
         configLockScreen(packageOnTop);
 
         handlePosition(unlockingMethods.getCurrentView().getId());
@@ -201,7 +202,7 @@ public class LockScreenService extends Service implements LockScreenServiceView,
 
     @Override
     public void configViews() {
-        fingerprintManagerCompat = FingerprintManagerCompat.from(this);
+        FingerprintManagerCompat fingerprintManagerCompat = FingerprintManagerCompat.from(this);
 
         Boolean isPatternConfigured = PreferencesManager.getString(getString(R.string.user_pattern)).length() != 0;
         Boolean isPinConfigured = PreferencesManager.getString(getString(R.string.user_pin)).length() != 0;
@@ -337,7 +338,7 @@ public class LockScreenService extends Service implements LockScreenServiceView,
     public void handlePosition(int id) {
         Reprint.cancelAuthentication();
 
-        Reprint.initialize(UAppLock.uAppLock);
+        Reprint.initialize(this);
 
         materialLockView.clearPattern();
         pinLockView.resetPinLockView();
@@ -363,6 +364,11 @@ public class LockScreenService extends Service implements LockScreenServiceView,
 
     @Override
     public void launchHomeScreen() {
+        if (!packageOnTop.equals(getPackageName())) {
+            Log.i(getClass().getName(), "Killing: " + packageOnTop);
+            activityManager.killBackgroundProcesses(packageOnTop);
+        }
+
         Intent startHomeScreen = new Intent(Intent.ACTION_MAIN);
         startHomeScreen.addCategory(Intent.CATEGORY_HOME);
         startHomeScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

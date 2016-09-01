@@ -4,40 +4,27 @@
     package="com.arrg.app.uapplock">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.GET_TOP_ACTIVITY_INFO" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.REAL_GET_TASKS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-
-    <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY"/>
 
     <uses-permission-sdk-23 android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission-sdk-23 android:name="android.permission.BIND_ACCESSIBILITY_SERVICE" />
-    <uses-permission-sdk-23 android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission-sdk-23 android:name="android.permission.GET_TOP_ACTIVITY_INFO" />
     <uses-permission-sdk-23 android:name="android.permission.INTERNET" />
     <uses-permission-sdk-23 android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission-sdk-23 android:name="android.permission.PACKAGE_USAGE_STATS" />
     <uses-permission-sdk-23 android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission-sdk-23 android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission-sdk-23 android:name="android.permission.REAL_GET_TASKS" />
     <uses-permission-sdk-23 android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission-sdk-23 android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission-sdk-23 android:name="android.permission.USE_FINGERPRINT" />
     <uses-permission-sdk-23 android:name="android.permission.VIBRATE" />
     <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission-sdk-23 android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission-sdk-23 android:name="android.permission.WRITE_SECURE_SETTINGS" />
 
     <application
         android:name=".UAppLock"
@@ -75,6 +62,14 @@
             android:excludeFromRecents="true"
             android:label="@string/app_name"
             android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".view.activity.ApplicationListActivity"
+            android:configChanges="orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_app_list"
+            android:theme="@style/AppTheme" />
+
         <activity
             android:name=".view.activity.SettingsActivity"
             android:configChanges="orientation|screenSize"
@@ -86,6 +81,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.arrg.app.uapplock.view.activity.ApplicationListActivity" />
         </activity>
+
         <activity
             android:name=".view.activity.FingerprintSettingsActivity"
             android:configChanges="orientation|screenSize"
@@ -97,6 +93,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.arrg.app.uapplock.view.activity.SettingsActivity" />
         </activity>
+
         <activity
             android:name=".view.activity.PatternSettingsActivity"
             android:configChanges="orientation|screenSize"
@@ -108,6 +105,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.arrg.app.uapplock.view.activity.SettingsActivity" />
         </activity>
+
         <activity
             android:name=".view.activity.PinSettingsActivity"
             android:configChanges="orientation|screenSize"
@@ -119,6 +117,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.arrg.app.uapplock.view.activity.SettingsActivity" />
         </activity>
+
         <activity
             android:name=".view.activity.FontSettingsActivity"
             android:configChanges="orientation|screenSize"
@@ -130,6 +129,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.arrg.app.uapplock.view.activity.SettingsActivity" />
         </activity>
+
         <activity
             android:name=".view.activity.ProfilePictureSettingsActivity"
             android:configChanges="orientation|screenSize"
@@ -141,6 +141,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.arrg.app.uapplock.view.activity.SettingsActivity" />
         </activity>
+
         <activity
             android:name=".view.activity.WallpaperSettingsActivity"
             android:configChanges="orientation|screenSize"
@@ -152,14 +153,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.arrg.app.uapplock.view.activity.SettingsActivity" />
         </activity>
-        <activity
-            android:name=".view.activity.ApplicationListActivity"
-            android:configChanges="orientation|screenSize"
-            android:excludeFromRecents="true"
-            android:label="@string/title_activity_app_list"
-            android:theme="@style/AppTheme" />
+
         <activity
             android:name=".view.activity.LicensesActivity"
+            android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_licenses"
             android:parentActivityName=".view.activity.SettingsActivity"
@@ -179,6 +176,7 @@
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibilityservice" />
         </service>
+
         <service
             android:name=".model.service.LockScreenService"
             android:enabled="true"
@@ -192,6 +190,7 @@
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
             </intent-filter>
         </receiver>
+
         <receiver
             android:name=".model.receiver.RestartServiceReceiver"
             android:enabled="true"
@@ -200,6 +199,7 @@
                 <action android:name="COM.ARRG.APP.UAPPLOCK.RESTART_SERVICE" />
             </intent-filter>
         </receiver>
+
         <receiver
             android:name=".model.receiver.BootDeviceReceiver"
             android:enabled="true"

@@ -12,10 +12,6 @@ public class PackagesMonitor implements Runnable {
 
     @Override
     public void run() {
-        try {
-            uAppLockServiceView.run();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 }

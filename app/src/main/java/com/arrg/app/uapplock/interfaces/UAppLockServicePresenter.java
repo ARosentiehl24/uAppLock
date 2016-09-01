@@ -6,8 +6,6 @@ public interface UAppLockServicePresenter {
 
     void onCreate(UAppLockService uAppLockService);
 
-    void registerScreenReceiver();
-
     void registerIconOnAppDrawerReceiver();
 
     void registerNotificationReceiver();
