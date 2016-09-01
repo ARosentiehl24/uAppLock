@@ -80,6 +80,8 @@ public class LockScreenService extends Service implements LockScreenServiceView,
     @BindView(R.id.pinLockView)
     PinLockView pinLockView;
 
+    public static LockScreenService LOCK_SCREEN;
+
     private ActivityManager activityManager;
     private GestureDetector gestureDetector;
     private Runnable finish = new Runnable() {
@@ -106,6 +108,8 @@ public class LockScreenService extends Service implements LockScreenServiceView,
     @Override
     public void onCreate() {
         super.onCreate();
+
+        LOCK_SCREEN = this;
     }
 
     @Override
