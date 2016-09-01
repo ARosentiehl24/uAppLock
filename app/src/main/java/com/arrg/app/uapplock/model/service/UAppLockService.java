@@ -57,6 +57,8 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
+        Log.d(getClass().getSimpleName(), "Value: " + accessibilityEvent.getEventType());
+
         if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
             ComponentName componentName = new ComponentName(
                     accessibilityEvent.getPackageName().toString(),
@@ -220,7 +222,7 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
                 if (appIsLocked(packageOnTop) || packageOnTop.equals(getPackageName())) {
                     startService(LockScreenService.lockPackage(this, packageOnTop));
                 } else {
-
+                    Log.d("packageOnTop", packageOnTop + " is not locked, hide the lock screen");
                 }
 
                 lastPackageOnTop = packageOnTop;
@@ -228,7 +230,7 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
         }
     }
 
-    public void loopPreferences(){
+    public void loopPreferences() {
         Map<String, ?> keys = lockedAppsPreferences.getAll();
 
         for (Map.Entry<String, ?> entry : keys.entrySet()) {
