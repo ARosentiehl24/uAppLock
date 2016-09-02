@@ -57,8 +57,27 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
+        Log.d(getClass().getSimpleName(), accessibilityEvent.getPackageName().toString() + " - " + accessibilityEvent.getEventType());
 
-        if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED || accessibilityEvent.getEventTime() == AccessibilityEvent.TYPE_ANNOUNCEMENT) {
+        if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+            ComponentName componentName = new ComponentName(
+                    accessibilityEvent.getPackageName().toString(),
+                    accessibilityEvent.getClassName().toString()
+            );
+
+            ActivityInfo activityInfo = tryToGetActivity(componentName);
+
+            Boolean isActivity = activityInfo != null;
+            String packageOnTop = accessibilityEvent.getPackageName().toString();
+
+            if (isActivity) {
+                handlePackageOnTop(packageOnTop);
+            } else {
+                Log.d(getClass().getSimpleName(), "Value: " + accessibilityEvent.getEventType());
+            }
+        }
+
+        if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) {
             ComponentName componentName = new ComponentName(
                     accessibilityEvent.getPackageName().toString(),
                     accessibilityEvent.getClassName().toString()
