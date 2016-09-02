@@ -29,6 +29,17 @@
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
+    <style name="LockScreenAppTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/background_dark</item>
+        <item name="colorPrimaryDark">@color/background_dark</item>
+        <item name="colorAccent">@color/clouds</item>
+        <item name="android:navigationBarColor">@color/background_dark</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
     <style name="BottomSheetStyle" parent="@style/BottomSheet">
         <item name="bottom_sheet_bg_color">@color/colorPrimary</item>
         <item name="bottom_sheet_title_text_appearance">@style/TitleAppearance</item>

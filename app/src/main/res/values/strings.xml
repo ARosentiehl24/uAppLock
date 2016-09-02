@@ -22,7 +22,7 @@
     <string name="add_fingerprint_message">Please add a fingerprint to activate this feature</string>
     <string name="enable_fingerprint_support">Enable Fingerprint</string>
     <string name="disable_fingerprint_support">Disable Fingerprint</string>
-    <string name="fingerprint_enabled_message">It\'s done!, now you can unlock the apps with your finger</string>
+    <string name="fingerprint_message">Press button below to add a new fingerprint to enable this feature</string>
 
     <string name="grant_permission">Grant permission</string>
 
@@ -131,4 +131,5 @@
     <string name="accessibility_service_description">Enable to protect Facebook Messenger\'s privacy and other apps like that</string>
     <string name="accessibility_service_activation_description">Enable to protect Facebook Messenger\'s privacy and other apps like that, you may receive privacy warnings, this is a standard procedure on all Android OS when enabling Accessibility Services. (uAppLock will NOT collect any personal data)</string>
     <string name="use_your_fingerprint_to_unlock">Use your fingerprint to unlock</string>
+    <string name="add_fingerprint">Add Fingerprint</string>
 </resources>

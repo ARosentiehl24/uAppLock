@@ -37,7 +37,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import timber.log.Timber;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class IntroActivity extends UAppLockActivity implements IntroActivityView, ViewPager.OnPageChangeListener {
@@ -91,14 +90,14 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
 
         unlockMethod = PreferencesManager.getInt(getString(R.string.unlock_method));
 
-        if (unlockMethod.equals(UAppLock.PATTERN)) {
+        if (unlockMethod.equals(UAppLock.PATTERN) && !patternWasConfigured()) {
             fragments.add(RequestPatternFragment.newInstance());
-        } else {
+        } else if (unlockMethod.equals(UAppLock.PIN) && !pinWasConfigured()){
             fragments.add(RequestPinFragment.newInstance());
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (isHardwareDetected()) {
+            if (!hasEnrolledFingerprints()) {
                 fragments.add(EnableFingerprintSupportFragment.newInstance());
             }
 
@@ -110,15 +109,11 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
                 fragments.add(RequestPermissionsFragment.newInstance(R.string.overlay_permission, R.drawable.ic_picture_overlay_permission, R.string.overlay_permission_description, OVERLAY_PERMISSION_RC));
             }
 
-            /*if (!writeSettingsPermissionGranted()) {
-                fragments.add(RequestPermissionsFragment.newInstance(R.string.write_settings_permission, R.drawable.ic_picture_write_settings_permission, R.string.write_settings_permission_description, WRITE_SETTINGS_RC));
-            }*/
-
             if (!isAccessibilitySettingsOn(this)) {
                 fragments.add(RequestPermissionsFragment.newInstance(R.string.accessibility_service, R.drawable.ic_picture_accessibility_service, R.string.accessibility_service_description, ACCESSIBILITY_SERVICES_RC));
             }
         } else {
-            if (isHardwareDetected()) {
+            if (!hasEnrolledFingerprints()) {
                 fragments.add(EnableFingerprintSupportFragment.newInstance());
             }
         }
@@ -147,29 +142,9 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
                     viewPager.setCurrentItem(0);
                 } else {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        if (isHardwareDetected()) {
-                            if (!usageStatsIsNotEmpty()) {
-                                viewPager.setCurrentItem(2);
-                            } else if (!overlayPermissionGranted()) {
-                                viewPager.setCurrentItem(3);
-                            } else if (!isAccessibilitySettingsOn(this)) {
-                                viewPager.setCurrentItem(4);
-                            }
-                                /*else if (!writeSettingsPermissionGranted()) {
-                                viewPager.setCurrentItem(4);
-                            }*/
-                        } else {
-                            if (!usageStatsIsNotEmpty()) {
-                                viewPager.setCurrentItem(1);
-                            } else if (!overlayPermissionGranted()) {
-                                viewPager.setCurrentItem(2);
-                            } else if (!isAccessibilitySettingsOn(this)) {
-                                viewPager.setCurrentItem(3);
-                            }
-                                /*else if (!writeSettingsPermissionGranted()) {
-                                viewPager.setCurrentItem(4);
-                            }*/
-                        }
+
+                    } else {
+
                     }
                 }
             }
@@ -261,12 +236,8 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
             list.add(overlayPermissionGranted());
             Log.e("Values", "overlayPermissionGranted: " + overlayPermissionGranted());
 
-            /*list.add(writeSettingsPermissionGranted());
-            Log.e("Values", "writeSettingsPermissionGranted: " + writeSettingsPermissionGranted());*/
-
             list.add(isAccessibilitySettingsOn(this));
             Log.e("Values", "isAccessibilitySettingsOn: " + isAccessibilitySettingsOn(this));
-
         } else {
             if (fingerprintManagerCompat.isHardwareDetected()) {
                 if (!hasEnrolledFingerprints()) {
@@ -304,29 +275,21 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
         }
     }
 
-    public Boolean writeSettingsPermissionGranted() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return Settings.System.canWrite(this);
-        } else {
-            return true;
-        }
-    }
-
     private boolean isAccessibilitySettingsOn(Context context) {
         Integer accessibilityEnabled = 0;
         String service = String.format("%s/%s", getPackageName(), UAppLockService.class.getCanonicalName());
 
         try {
             accessibilityEnabled = Settings.Secure.getInt(context.getApplicationContext().getContentResolver(), android.provider.Settings.Secure.ACCESSIBILITY_ENABLED);
-            Timber.v("accessibilityEnabled = " + accessibilityEnabled);
+            Log.v(getClass().getSimpleName(), "accessibilityEnabled = " + accessibilityEnabled);
         } catch (Settings.SettingNotFoundException e) {
-            Timber.e("Error finding setting, default accessibility to not found: " + e.getMessage());
+            Log.v(getClass().getSimpleName(), "Error finding setting, default accessibility to not found: " + e.getMessage());
         }
 
         TextUtils.SimpleStringSplitter simpleStringSplitter = new TextUtils.SimpleStringSplitter(':');
 
         if (accessibilityEnabled == 1) {
-            Timber.v("***ACCESSIBILITY IS ENABLED*** -----------------");
+            Log.v(getClass().getSimpleName(), "***ACCESSIBILITY IS ENABLED*** -----------------");
             String settingValue = Settings.Secure.getString(context.getApplicationContext().getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
             if (settingValue != null) {
                 simpleStringSplitter.setString(settingValue);
@@ -334,15 +297,15 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
                 while (simpleStringSplitter.hasNext()) {
                     String accessibilityService = simpleStringSplitter.next();
 
-                    Timber.v("-------------- > accessibilityService :: " + accessibilityService);
+                    Log.v(getClass().getSimpleName(), "-------------- > accessibilityService :: " + accessibilityService);
                     if (accessibilityService.equalsIgnoreCase(service)) {
-                        Timber.v("We've found the correct setting - accessibility is switched on!");
+                        Log.v(getClass().getSimpleName(), "We've found the correct setting - accessibility is switched on!");
                         return true;
                     }
                 }
             }
         } else {
-            Timber.v("***ACCESSIBILITY IS DISABLED***");
+            Log.v(getClass().getSimpleName(), "***ACCESSIBILITY IS DISABLED***");
         }
 
         return false;

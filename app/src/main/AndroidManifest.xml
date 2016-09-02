@@ -62,14 +62,12 @@
             android:excludeFromRecents="true"
             android:label="@string/app_name"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".view.activity.ApplicationListActivity"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_app_list"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".view.activity.SettingsActivity"
             android:configChanges="orientation|screenSize"
@@ -81,7 +79,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.arrg.app.uapplock.view.activity.ApplicationListActivity" />
         </activity>
-
         <activity
             android:name=".view.activity.FingerprintSettingsActivity"
             android:configChanges="orientation|screenSize"
@@ -93,7 +90,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.arrg.app.uapplock.view.activity.SettingsActivity" />
         </activity>
-
         <activity
             android:name=".view.activity.PatternSettingsActivity"
             android:configChanges="orientation|screenSize"
@@ -105,7 +101,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.arrg.app.uapplock.view.activity.SettingsActivity" />
         </activity>
-
         <activity
             android:name=".view.activity.PinSettingsActivity"
             android:configChanges="orientation|screenSize"
@@ -117,7 +112,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.arrg.app.uapplock.view.activity.SettingsActivity" />
         </activity>
-
         <activity
             android:name=".view.activity.FontSettingsActivity"
             android:configChanges="orientation|screenSize"
@@ -129,7 +123,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.arrg.app.uapplock.view.activity.SettingsActivity" />
         </activity>
-
         <activity
             android:name=".view.activity.ProfilePictureSettingsActivity"
             android:configChanges="orientation|screenSize"
@@ -141,7 +134,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.arrg.app.uapplock.view.activity.SettingsActivity" />
         </activity>
-
         <activity
             android:name=".view.activity.WallpaperSettingsActivity"
             android:configChanges="orientation|screenSize"
@@ -153,7 +145,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.arrg.app.uapplock.view.activity.SettingsActivity" />
         </activity>
-
         <activity
             android:name=".view.activity.LicensesActivity"
             android:configChanges="orientation|screenSize"
@@ -172,11 +163,11 @@
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
+
             <meta-data
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibilityservice" />
         </service>
-
         <service
             android:name=".model.service.LockScreenService"
             android:enabled="true"
@@ -190,7 +181,6 @@
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".model.receiver.RestartServiceReceiver"
             android:enabled="true"
@@ -199,7 +189,6 @@
                 <action android:name="COM.ARRG.APP.UAPPLOCK.RESTART_SERVICE" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".model.receiver.BootDeviceReceiver"
             android:enabled="true"
@@ -209,6 +198,8 @@
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".view.activity.LockScreenActivity"/>
     </application>
 
 </manifest>
