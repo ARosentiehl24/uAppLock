@@ -73,6 +73,8 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
             if (isActivity) {
                 handlePackageOnTop(packageOnTop);
                 Log.i("CurrentActivity", componentName.flattenToShortString());
+            } else {
+                Log.i("CurrentActivity", componentName.flattenToShortString());
             }
         }
     }
