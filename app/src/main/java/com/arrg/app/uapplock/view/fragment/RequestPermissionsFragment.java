@@ -24,7 +24,6 @@ import butterknife.OnClick;
 import static com.arrg.app.uapplock.view.activity.IntroActivity.ACCESSIBILITY_SERVICES_RC;
 import static com.arrg.app.uapplock.view.activity.IntroActivity.OVERLAY_PERMISSION_RC;
 import static com.arrg.app.uapplock.view.activity.IntroActivity.USAGE_STATS_RC;
-import static com.arrg.app.uapplock.view.activity.IntroActivity.WRITE_SETTINGS_RC;
 
 
 /**
@@ -38,6 +37,7 @@ public class RequestPermissionsFragment extends Fragment {
     AppCompatTextView header;
     @BindView(R.id.description)
     AppCompatTextView description;
+
     private int resIdHeader;
     private int resIdImage;
     private int resIdDescription;
@@ -109,17 +109,9 @@ public class RequestPermissionsFragment extends Fragment {
                     getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
                 }
                 break;
-            case WRITE_SETTINGS_RC:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    startActivity(new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, Uri.parse("package:" + getActivity().getPackageName())));
-                    getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
-                }
-                break;
             case ACCESSIBILITY_SERVICES_RC:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
-                    getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
-                }
+                startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
+                getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
                 break;
         }
     }

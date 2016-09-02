@@ -199,7 +199,15 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".view.activity.LockScreenActivity"/>
+        <activity
+            android:name=".view.activity.LockScreenActivity"
+            android:configChanges="screenSize|orientation"
+            android:excludeFromRecents="true"
+            android:finishOnTaskLaunch="true"
+            android:launchMode="singleInstance"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/LockScreenAppTheme" />
     </application>
 
 </manifest>

@@ -28,7 +28,6 @@ import com.arrg.app.uapplock.model.runnable.PackagesMonitor;
 import com.arrg.app.uapplock.model.runnable.UpdatesMonitor;
 import com.arrg.app.uapplock.presenter.IUAppLockServicePresenter;
 import com.arrg.app.uapplock.util.SharedPreferencesUtil;
-import com.arrg.app.uapplock.view.activity.LockScreenActivity;
 import com.arrg.app.uapplock.view.activity.SplashScreenActivity;
 import com.shawnlin.preferencesmanager.PreferencesManager;
 
@@ -58,9 +57,8 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
-        Log.d(getClass().getSimpleName(), "Value: " + accessibilityEvent.getEventType());
 
-        if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+        if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED || accessibilityEvent.getEventTime() == AccessibilityEvent.TYPE_ANNOUNCEMENT) {
             ComponentName componentName = new ComponentName(
                     accessibilityEvent.getPackageName().toString(),
                     accessibilityEvent.getClassName().toString()
@@ -73,9 +71,8 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
 
             if (isActivity) {
                 handlePackageOnTop(packageOnTop);
-                Log.i("CurrentActivity", componentName.flattenToShortString());
             } else {
-                Log.i("CurrentActivity", componentName.flattenToShortString());
+                Log.d(getClass().getSimpleName(), "Value: " + accessibilityEvent.getEventType());
             }
         }
     }
@@ -219,19 +216,23 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
     public void handlePackageOnTop(String packageOnTop) {
         if (packageOnTop.length() != 0) {
             if (!lastPackageOnTop.equals(packageOnTop)) {
+                Log.e("packageOnTop", "---------------------------------------------------------");
                 Log.d("packageOnTop", packageOnTop);
                 Log.d("packageOnTop", "Close: " + lastPackageOnTop + " to Open: " + packageOnTop);
 
+
                 if (appIsLocked(packageOnTop) || packageOnTop.equals(getPackageName())) {
-                    //startService(LockScreenService.lockPackage(this, packageOnTop));
-                    Intent lockScreenIntent = new Intent(this, LockScreenActivity.class);
-                    lockScreenIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    getApplicationContext().startActivity(lockScreenIntent);
+                    startService(LockScreenService.lockPackage(this, packageOnTop));
+                    /*Intent lockScreenIntent = new Intent(this, LockScreenActivity.class);
+                    lockScreenIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    getApplicationContext().startActivity(lockScreenIntent);*/
                 } else {
                     Log.d("packageOnTop", packageOnTop + " is not locked, hide the lock screen");
                 }
 
                 lastPackageOnTop = packageOnTop;
+
+                Log.e("packageOnTop", "---------------------------------------------------------");
             }
         }
     }

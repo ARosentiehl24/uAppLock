@@ -43,8 +43,7 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
 
     public static final int USAGE_STATS_RC = 100;
     public static final int OVERLAY_PERMISSION_RC = 101;
-    public static final int WRITE_SETTINGS_RC = 102;
-    public static final int ACCESSIBILITY_SERVICES_RC = 103;
+    public static final int ACCESSIBILITY_SERVICES_RC = 102;
 
     @BindView(R.id.viewPager)
     LockableViewPager viewPager;
@@ -97,7 +96,7 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!hasEnrolledFingerprints()) {
+            if (isHardwareDetected() && !hasEnrolledFingerprints()) {
                 fragments.add(EnableFingerprintSupportFragment.newInstance());
             }
 
@@ -108,22 +107,32 @@ public class IntroActivity extends UAppLockActivity implements IntroActivityView
             if (!overlayPermissionGranted()) {
                 fragments.add(RequestPermissionsFragment.newInstance(R.string.overlay_permission, R.drawable.ic_picture_overlay_permission, R.string.overlay_permission_description, OVERLAY_PERMISSION_RC));
             }
-
-            if (!isAccessibilitySettingsOn(this)) {
-                fragments.add(RequestPermissionsFragment.newInstance(R.string.accessibility_service, R.drawable.ic_picture_accessibility_service, R.string.accessibility_service_description, ACCESSIBILITY_SERVICES_RC));
-            }
         } else {
-            if (!hasEnrolledFingerprints()) {
+            if (isHardwareDetected() && !hasEnrolledFingerprints()) {
                 fragments.add(EnableFingerprintSupportFragment.newInstance());
             }
         }
 
-        smartFragmentStatePagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), fragments);
-        viewPager.addOnPageChangeListener(this);
-        viewPager.setAdapter(smartFragmentStatePagerAdapter);
-        viewPager.setSwipeable(false);
+        if (!isAccessibilitySettingsOn(this)) {
+            fragments.add(RequestPermissionsFragment.newInstance(R.string.accessibility_service, R.drawable.ic_picture_accessibility_service, R.string.accessibility_service_description, ACCESSIBILITY_SERVICES_RC));
+        }
 
-        inkPageIndicator.setViewPager(viewPager);
+        if (fragments.size() > 0) {
+            smartFragmentStatePagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), fragments);
+            viewPager.addOnPageChangeListener(this);
+            viewPager.setAdapter(smartFragmentStatePagerAdapter);
+            viewPager.setSwipeable(false);
+
+            inkPageIndicator.setViewPager(viewPager);
+        } else {
+            SplashScreenActivity.splashScreenActivity.finish();
+
+            PreferencesManager.putBoolean(getString(R.string.all_settings_are_complete), true);
+
+            Navigator.with(this).build().goTo(ApplicationListActivity.class).animation().commit();
+
+            finish();
+        }
     }
 
     @Override
