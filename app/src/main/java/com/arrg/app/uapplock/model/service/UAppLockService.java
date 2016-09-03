@@ -44,6 +44,7 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
     private IUAppLockServicePresenter iuAppLockServicePresenter;
     private HashMap<String, Boolean> lockedPackages;
     private HashMap<String, Runnable> unlockMap;
+    private Integer lastEventType = 0;
     private PackagesMonitor packagesMonitor;
     private UpdatesMonitor updatesMonitor;
     private SharedPreferences lockedAppsPreferences;
@@ -57,9 +58,9 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
-        Log.d(getClass().getSimpleName(), accessibilityEvent.getPackageName().toString() + " - " + accessibilityEvent.getEventType());
+        if (lastEventType != accessibilityEvent.getEventType()) {
+            Log.d(getClass().getSimpleName(), accessibilityEvent.getPackageName().toString() + " - " + accessibilityEvent.getEventType());
 
-        if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
             ComponentName componentName = new ComponentName(
                     accessibilityEvent.getPackageName().toString(),
                     accessibilityEvent.getClassName().toString()
@@ -68,31 +69,41 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
             ActivityInfo activityInfo = tryToGetActivity(componentName);
 
             Boolean isActivity = activityInfo != null;
-            String packageOnTop = accessibilityEvent.getPackageName().toString();
+            String packageName = (String) accessibilityEvent.getPackageName();
+            String className = (String) accessibilityEvent.getClassName();
 
-            if (isActivity) {
-                handlePackageOnTop(packageOnTop);
-            } else {
-                Log.d(getClass().getSimpleName(), "Value: " + accessibilityEvent.getEventType());
+            if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+                if (isActivity) {
+                    handlePackageOnTop(packageName);
+                    Log.i("packageOnTop32", componentName.flattenToShortString());
+                }
+            } else if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) {
+                if (isActivity) {
+                    //handlePackageOnTop(packageName);
+                    Log.i("packageOnTop2048", componentName.flattenToShortString());
+                } else {
+                    if (appIsLocked(packageName) && className.equalsIgnoreCase("android.widget.FrameLayout")) {
+                        if (isRunning(this, LockScreenService.class)) {
+                            if (!lastPackageOnTop.equals(packageName)) {
+                                lastPackageOnTop = packageName;
+
+                                LockScreenService.LOCK_SCREEN.configLockScreen(packageName);
+
+                                Log.i("packageOnTop2048", "Update View: " + componentName.flattenToShortString() + " Event: " + accessibilityEvent.getEventType());
+                            }
+                        }
+                    } else if (!appIsLocked(packageName) && !packageName.equalsIgnoreCase(getPackageName()) && !packageName.equalsIgnoreCase("com.android.systemui")) {
+                        if (isRunning(this, LockScreenService.class)) {
+
+                            LockScreenService.LOCK_SCREEN.finish();
+
+                            Log.i("packageOnTop2048", "Close View: " + componentName.flattenToShortString());
+                        }
+                    }
+                }
             }
-        }
 
-        if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) {
-            ComponentName componentName = new ComponentName(
-                    accessibilityEvent.getPackageName().toString(),
-                    accessibilityEvent.getClassName().toString()
-            );
-
-            ActivityInfo activityInfo = tryToGetActivity(componentName);
-
-            Boolean isActivity = activityInfo != null;
-            String packageOnTop = accessibilityEvent.getPackageName().toString();
-
-            if (isActivity) {
-                handlePackageOnTop(packageOnTop);
-            } else {
-                Log.d(getClass().getSimpleName(), "Value: " + accessibilityEvent.getEventType());
-            }
+            lastEventType = accessibilityEvent.getEventType();
         }
     }
 
@@ -108,7 +119,6 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
         AccessibilityServiceInfo accessibilityServiceInfo = new AccessibilityServiceInfo();
         accessibilityServiceInfo.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;
         accessibilityServiceInfo.feedbackType = AccessibilityServiceInfo.FEEDBACK_ALL_MASK;
-        accessibilityServiceInfo.flags = AccessibilityServiceInfo.FLAG_INCLUDE_NOT_IMPORTANT_VIEWS;
         accessibilityServiceInfo.notificationTimeout = 0;
         setServiceInfo(accessibilityServiceInfo);
     }
@@ -245,8 +255,6 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
                     /*Intent lockScreenIntent = new Intent(this, LockScreenActivity.class);
                     lockScreenIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     getApplicationContext().startActivity(lockScreenIntent);*/
-                } else {
-                    Log.d("packageOnTop", packageOnTop + " is not locked, hide the lock screen");
                 }
 
                 lastPackageOnTop = packageOnTop;

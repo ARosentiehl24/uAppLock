@@ -394,7 +394,9 @@ public class LockScreenService extends Service implements LockScreenServiceView,
 
     @Override
     public void finish() {
-        Reprint.cancelAuthentication();
+        if (Reprint.isHardwarePresent()) {
+            Reprint.cancelAuthentication();
+        }
 
         int id = unlockingMethods.getCurrentView().getId();
 
