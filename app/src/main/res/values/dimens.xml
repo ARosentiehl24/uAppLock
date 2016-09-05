@@ -16,5 +16,5 @@
     <dimen name="nav_header_height">210dp</dimen>
     <dimen name="secondary_icon_size_splash_screen">96dp</dimen>
     <dimen name="profile_picture_header_size">72dp</dimen>
-    <dimen name="lock_screen_icon_size">72dp</dimen>
+    <dimen name="lock_screen_icon_size">144dp</dimen>
 </resources>

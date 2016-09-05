@@ -208,6 +208,11 @@
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/LockScreenAppTheme" />
+
+        <receiver
+            android:name=".model.receiver.ScreenReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
     </application>
 
 </manifest>

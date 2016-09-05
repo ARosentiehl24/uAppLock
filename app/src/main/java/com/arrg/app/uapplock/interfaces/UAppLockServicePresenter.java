@@ -10,6 +10,8 @@ public interface UAppLockServicePresenter {
 
     void registerNotificationReceiver();
 
+    void registerScreenReceiver();
+
     void restartServiceIfNeeded();
 
     void unregisterReceivers();

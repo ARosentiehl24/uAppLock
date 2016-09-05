@@ -28,6 +28,7 @@ import com.arrg.app.uapplock.model.runnable.PackagesMonitor;
 import com.arrg.app.uapplock.model.runnable.UpdatesMonitor;
 import com.arrg.app.uapplock.presenter.IUAppLockServicePresenter;
 import com.arrg.app.uapplock.util.SharedPreferencesUtil;
+import com.arrg.app.uapplock.view.activity.LockScreenActivity;
 import com.arrg.app.uapplock.view.activity.SplashScreenActivity;
 import com.shawnlin.preferencesmanager.PreferencesManager;
 
@@ -39,6 +40,7 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
     public static UAppLockService SERVICE;
     public static final Integer NOTIFICATION_ID = 150;
 
+    private Boolean lockAppsAfterScreenOff;
     private Handler packagesHandler;
     private Handler updatesHandler;
     private IUAppLockServicePresenter iuAppLockServicePresenter;
@@ -59,8 +61,6 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
     @Override
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
         if (lastEventType != accessibilityEvent.getEventType()) {
-            Log.d(getClass().getSimpleName(), accessibilityEvent.getPackageName().toString() + " - " + accessibilityEvent.getEventType());
-
             ComponentName componentName = new ComponentName(
                     accessibilityEvent.getPackageName().toString(),
                     accessibilityEvent.getClassName().toString()
@@ -75,31 +75,7 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
             if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
                 if (isActivity) {
                     handlePackageOnTop(packageName);
-                    Log.i("packageOnTop32", componentName.flattenToShortString());
-                }
-            } else if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) {
-                if (isActivity) {
-                    //handlePackageOnTop(packageName);
-                    Log.i("packageOnTop2048", componentName.flattenToShortString());
-                } else {
-                    if (appIsLocked(packageName) && className.equalsIgnoreCase("android.widget.FrameLayout")) {
-                        if (isRunning(this, LockScreenService.class)) {
-                            if (!lastPackageOnTop.equals(packageName)) {
-                                lastPackageOnTop = packageName;
-
-                                LockScreenService.LOCK_SCREEN.configLockScreen(packageName);
-
-                                Log.i("packageOnTop2048", "Update View: " + componentName.flattenToShortString() + " Event: " + accessibilityEvent.getEventType());
-                            }
-                        }
-                    } else if (!appIsLocked(packageName) && !packageName.equalsIgnoreCase(getPackageName()) && !packageName.equalsIgnoreCase("com.android.systemui")) {
-                        if (isRunning(this, LockScreenService.class)) {
-
-                            LockScreenService.LOCK_SCREEN.finish();
-
-                            Log.i("packageOnTop2048", "Close View: " + componentName.flattenToShortString());
-                        }
-                    }
+                    Log.i("packageOnTop", componentName.flattenToShortString());
                 }
             }
 
@@ -144,7 +120,7 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i(getClass().getName(), "onStartCommand()");
+        Log.i(getClass().getSimpleName(), "onStartCommand()");
 
         loopPreferences();
 
@@ -186,6 +162,8 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
         preferencesUtil = new SharedPreferencesUtil(this);
         lockedAppsPreferences = getSharedPreferences(UAppLock.LOCKED_APPS_PREFERENCES, Context.MODE_PRIVATE);
         packagesAppsPreferences = getSharedPreferences(UAppLock.PACKAGES_APPS_PREFERENCES, Context.MODE_PRIVATE);
+
+        lockAppsAfterScreenOff = PreferencesManager.getBoolean(getString(R.string.block_apps_after_screen_off));
 
         lockedPackages = new HashMap<>();
         unlockMap = new HashMap<>();
@@ -249,12 +227,14 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
                 Log.d("packageOnTop", packageOnTop);
                 Log.d("packageOnTop", "Close: " + lastPackageOnTop + " to Open: " + packageOnTop);
 
+                lockApp(lastPackageOnTop);
 
-                if (appIsLocked(packageOnTop) || packageOnTop.equals(getPackageName())) {
-                    startService(LockScreenService.lockPackage(this, packageOnTop));
-                    /*Intent lockScreenIntent = new Intent(this, LockScreenActivity.class);
+                if (appIsLocked(packageOnTop)) {
+                    //startService(LockScreenService.lockPackage(this, packageOnTop));
+                    Intent lockScreenIntent = new Intent(this, LockScreenActivity.class);
                     lockScreenIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    getApplicationContext().startActivity(lockScreenIntent);*/
+                    lockScreenIntent.putExtra(UAppLock.EXTRA_PACKAGE_NAME, packageOnTop);
+                    getApplicationContext().startActivity(lockScreenIntent);
                 }
 
                 lastPackageOnTop = packageOnTop;
@@ -264,16 +244,49 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
         }
     }
 
+    @Override
+    public void unlockApp(String packageOnTop) {
+        if (lockedPackages.containsKey(packageOnTop)) {
+            lockedPackages.put(packageOnTop, false);
+        }
+    }
+
+    @Override
+    public void lockApp(String packageOnTop) {
+        if (!lockAppsAfterScreenOff) {
+            if (lockedPackages.containsKey(packageOnTop)) {
+                lockedPackages.put(packageOnTop, true);
+            }
+        }
+    }
+
+    @Override
+    public void lockAllApps() {
+        for (Map.Entry<String, Boolean> entry : lockedPackages.entrySet()) {
+            entry.setValue(true);
+
+            Log.d("packageOnTop", "Package: " + entry.getKey());
+        }
+    }
+
     public void loopPreferences() {
         Map<String, ?> keys = lockedAppsPreferences.getAll();
 
+        lockedPackages.clear();
+
         for (Map.Entry<String, ?> entry : keys.entrySet()) {
+            lockedPackages.put(entry.getKey(), (Boolean) entry.getValue());
+
             Log.d(getClass().getSimpleName(), entry.getKey() + " : " + entry.getValue().toString());
         }
     }
 
     public boolean appIsLocked(String appPackage) {
-        return preferencesUtil.getBoolean(lockedAppsPreferences, appPackage, false);
+        if (lockedPackages.containsKey(appPackage)) {
+            return lockedPackages.get(appPackage);
+        } else {
+            return false;
+        }
     }
 
     public static boolean isRunning(Context context, Class<?> serviceClass) {

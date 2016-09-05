@@ -69,8 +69,6 @@ public class LockScreenService extends Service implements LockScreenServiceView,
     ParallaxImageView parallaxImageView;
     @BindView(R.id.appIcon)
     ImageView appIcon;
-    @BindView(R.id.appName)
-    AppCompatTextView appName;
     @BindView(R.id.tvFingerprintMessage)
     AppCompatTextView tvFingerprintMessage;
     @BindView(R.id.materialLockView)
@@ -221,7 +219,6 @@ public class LockScreenService extends Service implements LockScreenServiceView,
             unlockingMethods.setDisplayedChild(lastUnlockingMethod - 1);
         }
 
-        appName.setTypeface(UAppLock.typeface());
         materialLockView.setEnabled(isPatternConfigured);
         materialLockView.setInStealthMode(stealthMode);
         pinLockView.attachIndicatorDots(isPinConfigured ? indicatorDots : null);
@@ -241,7 +238,6 @@ public class LockScreenService extends Service implements LockScreenServiceView,
         try {
             ApplicationInfo applicationInfo = getPackageManager().getApplicationInfo(packageOnTop, 0);
             appIcon.setImageDrawable(applicationInfo.loadIcon(getPackageManager()));
-            appName.setText(applicationInfo.loadLabel(getPackageManager()));
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -276,7 +272,7 @@ public class LockScreenService extends Service implements LockScreenServiceView,
 
         pinLockView.setPinLockListener(this);
 
-        tvFingerprintMessage.setOnClickListener(new View.OnClickListener() {
+        /*tvFingerprintMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Reprint.authenticate(new AuthenticationListener() {
@@ -292,7 +288,7 @@ public class LockScreenService extends Service implements LockScreenServiceView,
                     }
                 });
             }
-        });
+        });*/
     }
 
     @Override
@@ -390,6 +386,8 @@ public class LockScreenService extends Service implements LockScreenServiceView,
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        UAppLockService.SERVICE.unlockApp(packageOnTop);
     }
 
     @Override

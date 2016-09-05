@@ -10,4 +10,10 @@ public interface UAppLockServiceView {
     void run();
 
     void handlePackageOnTop(String packageOnTop);
+
+    void unlockApp(String packageOnTop);
+
+    void lockApp(String packageOnTop);
+
+    void lockAllApps();
 }
