@@ -33,7 +33,7 @@ public class LicensesActivity extends UAppLockActivity {
 
         setSupportActionBar(toolbar);
 
-        Util.modifyToolbar(this, R.string.title_activity_licenses, true);
+        Util.modifyToolbar(this, true);
 
         List<LicenseEntry> licenses = new ArrayList<>();
 

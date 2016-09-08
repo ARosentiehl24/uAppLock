@@ -2,18 +2,15 @@ package com.arrg.app.uapplock.view.fragment;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v13.app.FragmentCompat;
 import android.support.v14.preference.SwitchPreference;
-import android.support.v4.app.Fragment;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
-import android.util.Log;
 
 import com.afollestad.assent.Assent;
 import com.afollestad.assent.AssentCallback;
@@ -27,7 +24,6 @@ import com.arrg.app.uapplock.view.activity.FontSettingsActivity;
 import com.arrg.app.uapplock.view.activity.LicensesActivity;
 import com.arrg.app.uapplock.view.activity.PatternSettingsActivity;
 import com.arrg.app.uapplock.view.activity.PinSettingsActivity;
-import com.arrg.app.uapplock.view.activity.ProfilePictureSettingsActivity;
 import com.arrg.app.uapplock.view.activity.WallpaperSettingsActivity;
 import com.mukesh.permissions.AppPermissions;
 import com.shawnlin.preferencesmanager.PreferencesManager;
@@ -35,9 +31,6 @@ import com.takisoft.fix.support.v7.preference.PreferenceCategory;
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompatDividers;
 
 import org.fingerlinks.mobile.android.navigator.Navigator;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import de.cketti.mailto.EmailIntentBuilder;
 import me.a7madev.androidglobalutils.GlobalUtils;
@@ -239,9 +232,7 @@ public class SettingsFragment extends PreferenceFragmentCompatDividers implement
         checkForUpdate.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-                startActivity(intent);
-                getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+
                 return false;
             }
         });

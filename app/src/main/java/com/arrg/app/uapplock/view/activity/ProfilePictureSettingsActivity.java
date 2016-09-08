@@ -79,7 +79,7 @@ public class ProfilePictureSettingsActivity extends UAppLockActivity implements 
         setContentView(R.layout.activity_profile_picture_settings);
         ButterKnife.bind(this);
 
-        Util.modifyToolbar(this, R.string.title_activity_profile_picture_settings, true);
+        Util.modifyToolbar(this, true);
 
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);

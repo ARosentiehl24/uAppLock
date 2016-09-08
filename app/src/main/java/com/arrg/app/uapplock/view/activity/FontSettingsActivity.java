@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
 import com.arrg.app.uapplock.R;
@@ -41,7 +40,7 @@ public class FontSettingsActivity extends UAppLockActivity implements BaseQuickA
 
         setSupportActionBar(toolbar);
 
-        Util.modifyToolbar(this, R.string.title_activity_font_settings, true);
+        Util.modifyToolbar(this, true);
 
         ArrayList<Font> fonts = new ArrayList<>();
 

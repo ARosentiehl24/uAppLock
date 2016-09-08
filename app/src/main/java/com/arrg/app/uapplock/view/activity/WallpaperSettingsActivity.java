@@ -95,7 +95,7 @@ public class WallpaperSettingsActivity extends UAppLockActivity implements Color
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallpaper_settings);
         ButterKnife.bind(this);
-        Util.modifyToolbar(this, R.string.title_activity_wallpaper_settings, true);
+        Util.modifyToolbar(this, true);
 
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);

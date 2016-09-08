@@ -35,6 +35,7 @@ import com.andrognito.pinlockview.PinLockView;
 import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.UAppLock;
 import com.arrg.app.uapplock.interfaces.LockScreenServiceView;
+import com.arrg.app.uapplock.model.entity.KeyDetector;
 import com.arrg.app.uapplock.model.listener.SwipeGestureDetector;
 import com.arrg.app.uapplock.view.ui.MaterialLockView;
 import com.easyandroidanimations.library.Animation;
@@ -82,6 +83,7 @@ public class LockScreenService extends Service implements LockScreenServiceView,
 
     private ActivityManager activityManager;
     private GestureDetector gestureDetector;
+    private KeyDetector keyDetector;
     private Runnable finish = new Runnable() {
         @Override
         public void run() {
@@ -130,6 +132,8 @@ public class LockScreenService extends Service implements LockScreenServiceView,
 
     @Override
     public void onDestroy() {
+        keyDetector.stopWatch();
+
         Reprint.cancelAuthentication();
 
         super.onDestroy();
@@ -137,6 +141,7 @@ public class LockScreenService extends Service implements LockScreenServiceView,
 
     @Override
     public boolean onKey(View view, int i, KeyEvent keyEvent) {
+        Log.d(getClass().getSimpleName(), "Key: " + i);
         switch (i) {
             case KeyEvent.KEYCODE_BACK:
                 launchHomeScreen();
@@ -157,6 +162,22 @@ public class LockScreenService extends Service implements LockScreenServiceView,
 
     @Override
     public void beforeInflate() {
+        keyDetector = new KeyDetector(this);
+        keyDetector.setOnKeyPressedListener(new KeyDetector.OnKeyPressedListener() {
+            @Override
+            public void onHomePressed() {
+                launchHomeScreen();
+                finish();
+            }
+
+            @Override
+            public void onMenuPressed() {
+                //launchHomeScreen();
+                finish();
+            }
+        });
+        keyDetector.startWatch();
+
         activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
 
         layoutParams = new WindowManager.LayoutParams(

@@ -52,7 +52,7 @@ public class PinSettingsActivity extends UAppLockActivity {
 
         setSupportActionBar(toolbar);
 
-        Util.modifyToolbar(this, R.string.title_activity_pin_settings, true);
+        Util.modifyToolbar(this, true);
 
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 

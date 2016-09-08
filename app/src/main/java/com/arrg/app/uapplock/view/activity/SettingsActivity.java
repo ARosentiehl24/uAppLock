@@ -6,7 +6,6 @@ import android.support.v7.widget.Toolbar;
 
 import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.util.Util;
-import com.arrg.app.uapplock.view.fragment.PatternVisibleFragment;
 import com.arrg.app.uapplock.view.fragment.SettingsFragment;
 
 import butterknife.BindView;
@@ -26,7 +25,7 @@ public class SettingsActivity extends UAppLockActivity {
 
         setSupportActionBar(toolbar);
 
-        Util.modifyToolbar(this, R.string.title_activity_settings, true);
+        Util.modifyToolbar(this, true);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container, new SettingsFragment()).commit();
     }

@@ -11,7 +11,6 @@ import android.view.View;
 import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.util.Util;
 import com.arrg.app.uapplock.view.fragment.PatternVisibleFragment;
-import com.arrg.app.uapplock.view.fragment.SettingsFragment;
 import com.arrg.app.uapplock.view.ui.MaterialLockView;
 import com.easyandroidanimations.library.Animation;
 import com.easyandroidanimations.library.ShakeAnimation;
@@ -50,7 +49,7 @@ public class PatternSettingsActivity extends UAppLockActivity {
 
         setSupportActionBar(toolbar);
 
-        Util.modifyToolbar(this, R.string.title_activity_pattern_settings, true);
+        Util.modifyToolbar(this, true);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.switchCompat, new PatternVisibleFragment()).commit();
 

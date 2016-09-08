@@ -27,6 +27,7 @@ import com.arrg.app.uapplock.UAppLock;
 import com.arrg.app.uapplock.interfaces.AppListView;
 import com.arrg.app.uapplock.model.entity.App;
 import com.arrg.app.uapplock.presenter.IAppListPresenter;
+import com.arrg.app.uapplock.util.Util;
 import com.arrg.app.uapplock.util.kisstools.utils.ToastUtil;
 import com.arrg.app.uapplock.view.fragment.AppListFragment;
 import com.arrg.app.uapplock.view.fragment.LockedAppsFragment;
@@ -135,6 +136,8 @@ public class ApplicationListActivity extends AppCompatActivity implements AppLis
         apps = iAppListPresenter.getInstalledApplications(getPackageManager().getInstalledApplications(PackageManager.GET_META_DATA));
 
         setSupportActionBar(toolbar);
+
+        Util.modifyToolbar(this, false);
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
