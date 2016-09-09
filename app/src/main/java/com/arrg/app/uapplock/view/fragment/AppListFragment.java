@@ -24,6 +24,7 @@ import com.arrg.app.uapplock.R;
 import com.arrg.app.uapplock.UAppLock;
 import com.arrg.app.uapplock.interfaces.AppListFragmentView;
 import com.arrg.app.uapplock.model.entity.App;
+import com.arrg.app.uapplock.model.service.UAppLockService;
 import com.arrg.app.uapplock.presenter.IAppListFragmentPresenter;
 import com.arrg.app.uapplock.util.SharedPreferencesUtil;
 import com.arrg.app.uapplock.util.kisstools.utils.PackageUtil;
@@ -166,6 +167,10 @@ public class AppListFragment extends Fragment implements AppListFragmentView, Fr
         preferencesUtil.putValue(lockedAppsPreferences, app.getAppPackage(), switchCompat.isChecked());
 
         iAppListFragmentPresenter.updateListWith(app, switchCompat.isChecked(), getFragmentActivity());
+
+        if (!switchCompat.isChecked()) {
+            UAppLockService.SERVICE.unlockApp(app.getAppPackage());
+        }
     }
 
     @Override

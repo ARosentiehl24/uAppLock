@@ -40,11 +40,12 @@ import com.arrg.app.uapplock.model.listener.SwipeGestureDetector;
 import com.arrg.app.uapplock.view.ui.MaterialLockView;
 import com.easyandroidanimations.library.Animation;
 import com.easyandroidanimations.library.AnimationListener;
+import com.easyandroidanimations.library.FadeInAnimation;
+import com.easyandroidanimations.library.FadeOutAnimation;
 import com.easyandroidanimations.library.ShakeAnimation;
 import com.github.ajalt.reprint.core.AuthenticationFailureReason;
 import com.github.ajalt.reprint.core.AuthenticationListener;
 import com.github.ajalt.reprint.core.Reprint;
-import com.jaouan.revealator.Revealator;
 import com.nvanbenschoten.motion.ParallaxImageView;
 import com.shawnlin.preferencesmanager.PreferencesManager;
 
@@ -314,27 +315,30 @@ public class LockScreenService extends Service implements LockScreenServiceView,
 
     @Override
     public void showLockScreen() {
-        rootView.post(new Runnable() {
+        new FadeInAnimation(revealView).setDuration(250).animate();
+        //revealView.setVisibility(View.VISIBLE);
+        /*rootView.post(new Runnable() {
             @Override
             public void run() {
                 Revealator
                         .reveal(revealView)
                         .from(initialView)
-                        .withRevealDuration(UAppLock.DURATIONS_OF_ANIMATIONS)
+                        .withRevealDuration(100)
                         .withChildsAnimation()
-                        .withChildAnimationDuration(UAppLock.DURATIONS_OF_ANIMATIONS)
+                        .withChildAnimationDuration(100)
                         .start();
             }
-        });
+        });*/
     }
 
     @Override
     public void hideLockScreen() {
-        Revealator
+        new FadeOutAnimation(revealView).setDuration(500).animate();
+        /*Revealator
                 .unreveal(revealView)
                 .to(initialView)
-                .withUnrevealDuration(UAppLock.DURATIONS_OF_ANIMATIONS)
-                .start();
+                .withUnrevealDuration(500)
+                .start();*/
     }
 
     @Override

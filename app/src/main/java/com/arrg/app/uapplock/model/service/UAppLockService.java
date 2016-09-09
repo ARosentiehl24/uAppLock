@@ -74,7 +74,30 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
             if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
                 if (isActivity) {
                     handlePackageOnTop(packageName);
-                    Log.i("packageOnTop", componentName.flattenToShortString());
+                }
+            } else if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) {
+                if (appIsLocked(packageName) && !packageName.equals("com.android.systemui") && className.equals("android.widget.FrameLayout") && !packageName.equals(lastPackageOnTop)) {
+                    if (!isActivity) {
+                        if (isRunning(this, LockScreenService.class)) {
+                            handlePackageOnTop(packageName);
+                            /*lockApp(packageName);
+
+                            lastPackageOnTop = packageName;
+
+                            LockScreenService.LOCK_SCREEN.configLockScreen(packageName);*/
+                        }
+                    }
+                } else if (!appIsLocked(packageName) && !packageName.equals("com.android.systemui") && className.equals("android.widget.FrameLayout") && !packageName.equals(getPackageName()) && !packageName.equals(lastPackageOnTop)) {
+                    if (!isActivity) {
+                        if (isRunning(this, LockScreenService.class)) {
+                            handlePackageOnTop(packageName);
+                            /*lockApp(packageName);
+
+                            lastPackageOnTop = packageName;
+
+                            LockScreenService.LOCK_SCREEN.finish();*/
+                        }
+                    }
                 }
             }
 
@@ -285,14 +308,7 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
     }
 
     public boolean appIsLocked(String appPackage) {
-        if (lockedAppsPreferences.contains(appPackage)) {
-            if (!lockedPackages.containsKey(appPackage)) {
-                lockedPackages.put(appPackage, lockedAppsPreferences.getBoolean(appPackage, false));
-            }
-            return lockedPackages.get(appPackage);
-        } else {
-            return false;
-        }
+        return preferencesUtil.getBoolean(lockedAppsPreferences, appPackage, false);
     }
 
     public static boolean isRunning(Context context, Class<?> serviceClass) {

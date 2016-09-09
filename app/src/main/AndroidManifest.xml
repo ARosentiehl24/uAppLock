@@ -26,6 +26,14 @@
     <uses-permission-sdk-23 android:name="android.permission.VIBRATE" />
     <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+
     <application
         android:name=".UAppLock"
         android:allowBackup="true"
