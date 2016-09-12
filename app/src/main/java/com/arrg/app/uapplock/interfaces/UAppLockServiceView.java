@@ -9,7 +9,7 @@ public interface UAppLockServiceView {
 
     void run();
 
-    void handlePackageOnTop(String packageOnTop);
+    void handlePackageOnTop(String packageOnTop, Boolean update, Boolean close);
 
     void unlockApp(String packageOnTop);
 

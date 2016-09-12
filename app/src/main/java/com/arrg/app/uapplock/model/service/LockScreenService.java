@@ -143,13 +143,11 @@ public class LockScreenService extends Service implements LockScreenServiceView,
     @Override
     public boolean onKey(View view, int i, KeyEvent keyEvent) {
         Log.d(getClass().getSimpleName(), "Key: " + i);
-        switch (i) {
-            case KeyEvent.KEYCODE_BACK:
-                launchHomeScreen();
-                finish();
-
-                return true;
+        if (i == KeyEvent.KEYCODE_BACK) {
+            launchHomeScreen();
+            finish();
         }
+
         return true;
     }
 
