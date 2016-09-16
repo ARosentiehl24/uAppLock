@@ -5,6 +5,8 @@ import android.accessibilityservice.AccessibilityServiceInfo;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +15,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.app.TaskStackBuilder;
@@ -32,7 +35,10 @@ import com.arrg.app.uapplock.view.activity.SplashScreenActivity;
 import com.shawnlin.preferencesmanager.PreferencesManager;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class UAppLockService extends AccessibilityService implements UAppLockServiceView {
 
@@ -232,6 +238,41 @@ public class UAppLockService extends AccessibilityService implements UAppLockSer
     @Override
     public void run() {
 
+    }
+
+    @Override
+    public String getTopPackage() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            UsageStatsManager mUsageStatsManager = (UsageStatsManager) getSystemService(Context.USAGE_STATS_SERVICE);
+
+            long time = System.currentTimeMillis();
+
+            List<UsageStats> stats = mUsageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, (long) (time - 1000 * 2.5), time);
+
+            if (stats != null) {
+                SortedMap<Long, UsageStats> mySortedMap = new TreeMap<>();
+                for (UsageStats usageStats : stats) {
+                    mySortedMap.put(usageStats.getLastTimeUsed(), usageStats);
+                }
+
+                if (!mySortedMap.isEmpty()) {
+                    Log.e("TAG", mySortedMap.get(mySortedMap.lastKey()).getPackageName());
+
+                    return mySortedMap.get(mySortedMap.lastKey()).getPackageName();
+                }
+            }
+        } else {
+            ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+
+            List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
+            for (ActivityManager.RunningAppProcessInfo appProcessInfo : appProcesses) {
+                if (appProcessInfo.pkgList.length == 1) {
+                    return appProcessInfo.pkgList[0];
+                }
+            }
+        }
+
+        return "";
     }
 
     @Override
